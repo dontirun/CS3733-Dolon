@@ -1,17 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="de87eb3d-570e-4139-bc30-a790890d1d6c" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/.idea/compiler.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/.idea/copyright/profiles_settings.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/.idea/misc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/.idea/modules.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/.idea/vcs.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/.idea/workspace.xml" afterPath="" />
+    <list default="true" id="bff96abe-2df8-4ee4-baaf-77c0a87bd472" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DolonBuilder/DolonBuilder.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/DolonKabasuji/DolonKabasuji.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/DolonBuilder.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/1yellowstar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/2000px-All_35_free_hexominoes.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/2redstar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/3greenstar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/BackForwardArrows.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/EmptyStars.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/EmptyStarsFixed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/HomeIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/HourglassIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/LevelBuilderPlus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/NoSquare.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/PuzzleIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/PuzzleIcon2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/ReleaseIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/ReleaseStars.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/Square.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/SquareNoSquare.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/backarrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/board.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/forwardarrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/lightning.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/lightningLevel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/lightningLevel.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/piece.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/puzzleLevel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/puzzleLevel.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/redo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/release.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/releaseLevel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/releaseLevel.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/sampleLevelBuilderBoard.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice01_01.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice02_02.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice03_03.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice04_04.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice05_05.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice06_06.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice07_07.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice08_08.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice09_09.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice10_10.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice11_11.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice12_12.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice13_13.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice14_14.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice15_15.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice16_16.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice17_17.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice18_18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice19_19.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice20_20.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice21_21.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice22_22.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice23_23.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice24_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice25_25.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice26_26.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice27_27.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice28_28.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice29_29.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice30_30.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice31_31.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice32_32.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice33_33.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice34_34.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/slice35_35.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/undo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/images/undro redo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/views/levelbuilder.fxml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/views/startscreen.fxml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/LevelBuilderController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/StartScreenController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Main.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/DolonKabasuji.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/1yellowstar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/2000px-All_35_free_hexominoes.svg.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/2redstar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/3greenstar.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/BackForwardArrows.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/EmptyStars.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/EmptyStarsFixed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/HomeIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/HourglassIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/LevelBuilderPlus.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/NoSquare.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/PuzzleIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/PuzzleIcon2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/ReleaseIcon.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/ReleaseStars.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/Square.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/SquareNoSquare.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/backarrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/board.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/forwardarrow.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/lightning.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/lightningLevel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/lightningLevel.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/piece.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/puzzleLevel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/puzzleLevel.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/redo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/release.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/releaseLevel.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/releaseLevel.psd" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/sampleLevelBuilderBoard.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice01_01.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice02_02.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice03_03.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice04_04.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice05_05.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice06_06.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice07_07.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice08_08.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice09_09.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice10_10.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice11_11.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice12_12.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice13_13.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice14_14.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice15_15.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice16_16.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice17_17.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice18_18.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice19_19.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice20_20.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice21_21.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice22_22.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice23_23.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice24_24.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice25_25.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice26_26.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice27_27.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice28_28.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice29_29.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice30_30.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice31_31.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice32_32.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice33_33.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice34_34.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/slice35_35.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/undo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/images/undro redo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/puzzleLevel.fxml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/startscreen.fxml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BoardView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BullpenView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/LevelView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/MenuView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/TileView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/GeneralController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/menuToLevelController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/App.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Board.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Bullpen.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/GameMenu.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Level.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/LightningLevel.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/LightningTile.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Piece.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/PuzzleLevel.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/PuzzleTile.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/ReleaseLevel.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/ReleaseTile.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Square.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Tile.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="CS3733-Dolon.iws" />
     <ignored path=".idea/workspace.xml" />
-    <ignored path="$PROJECT_DIR$/out/" />
     <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -29,73 +196,14 @@
     <favorites_list name="CS3733-Dolon" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="GeneralController.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/GeneralController.java">
+    <leaf>
+      <file leaf-file-name="StartScreenController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/DolonBuilder/src/Controllers/StartScreenController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+            <state relative-caret-position="289">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BoardView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BoardView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BullpenView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BullpenView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MenuView.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/MenuView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="710">
-              <caret line="61" column="41" selection-start-line="61" selection-start-column="41" selection-end-line="61" selection-end-column="41" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="startscreen.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/startscreen.fxml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="JavaFX-Scene-Builder">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LevelView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/LevelView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="918">
-              <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1011#1012#0" expanded="true" />
-                <element signature="e#1067#1068#0" expanded="true" />
+                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -111,23 +219,6 @@
       <projects_view />
     </option>
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="C:/Program Files/Java/jdk1.7.0_79/jre/lib/jfxrt.jar!/javafx/fxml/FXMLLoader.class" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/view/levelbuilder.fxml" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/StartScreenController.java" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/LevelBuilderController.java" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Main.java" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/view/startscreen.fxml" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/view/puzzleLevel.fxml" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/GeneralController.java" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/App.java" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/LevelView.java" />
-        <option value="$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/MenuView.java" />
-      </list>
-    </option>
-  </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" />
   <component name="JsBuildToolPackageJson" detection-done="true" />
   <component name="JsGulpfileManager">
@@ -139,128 +230,7 @@
     <option name="width" value="2576" />
     <option name="height" value="1426" />
   </component>
-  <component name="ProjectInspectionProfilesVisibleTreeState">
-    <entry key="Project Default">
-      <profile-state>
-        <expanded-state>
-          <State>
-            <id />
-          </State>
-          <State>
-            <id>Android Lint</id>
-          </State>
-          <State>
-            <id>Ant inspections</id>
-          </State>
-          <State>
-            <id>Application Server Specific Inspections</id>
-          </State>
-          <State>
-            <id>Control flow issuesJava</id>
-          </State>
-          <State>
-            <id>Control flow issuesJavaScript</id>
-          </State>
-          <State>
-            <id>Declaration redundancyJava</id>
-          </State>
-          <State>
-            <id>Faces Model</id>
-          </State>
-          <State>
-            <id>General</id>
-          </State>
-          <State>
-            <id>GeneralJavaScript</id>
-          </State>
-          <State>
-            <id>Groovy</id>
-          </State>
-          <State>
-            <id>Hibernate Issues</id>
-          </State>
-          <State>
-            <id>Initialization issuesJava</id>
-          </State>
-          <State>
-            <id>Internationalization issuesJava</id>
-          </State>
-          <State>
-            <id>JBoss Seam issues</id>
-          </State>
-          <State>
-            <id>JPA issues</id>
-          </State>
-          <State>
-            <id>JSON</id>
-          </State>
-          <State>
-            <id>Java</id>
-          </State>
-          <State>
-            <id>Java EE issues</id>
-          </State>
-          <State>
-            <id>JavaScript</id>
-          </State>
-          <State>
-            <id>JavaScript validity issuesJavaScript</id>
-          </State>
-          <State>
-            <id>Maven</id>
-          </State>
-          <State>
-            <id>Plugin DevKit</id>
-          </State>
-          <State>
-            <id>Probable bugsJava</id>
-          </State>
-          <State>
-            <id>Properties Files</id>
-          </State>
-          <State>
-            <id>SQL</id>
-          </State>
-          <State>
-            <id>Spring</id>
-          </State>
-          <State>
-            <id>Spring CoreSpring</id>
-          </State>
-          <State>
-            <id>Struts</id>
-          </State>
-          <State>
-            <id>Struts 1Struts</id>
-          </State>
-          <State>
-            <id>TestNGJava</id>
-          </State>
-          <State>
-            <id>UI Form Problems</id>
-          </State>
-          <State>
-            <id>Validity issuesGroovy</id>
-          </State>
-          <State>
-            <id>XML</id>
-          </State>
-          <State>
-            <id>XMLSpring CoreSpring</id>
-          </State>
-          <State>
-            <id>XSLT</id>
-          </State>
-        </expanded-state>
-        <selected-state>
-          <State>
-            <id>Android</id>
-          </State>
-        </selected-state>
-      </profile-state>
-    </entry>
-  </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -285,32 +255,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="DolonKabasuji">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="DolonBuilder">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -335,63 +279,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DolonKabasuji" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CS3733-Dolon" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="DolonBuilder" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/DolonKabasuji" />
+    <property name="settings.editor.selected.configurable" value="settings.github" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\slafo\IdeaProjects\CS3733-Dolon\Kabasuji-Dolon\DolonKabasuji\resources\views" />
-      <recent name="C:\Users\slafo\IdeaProjects\CS3733-Dolon\Kabasuji-Dolon\DolonKabasuji\src\Boundaries" />
-      <recent name="C:\Users\slafo\IdeaProjects\CS3733-Dolon\Kabasuji-Dolon\DolonBuilder\resources\views" />
-      <recent name="C:\Users\slafo\IdeaProjects\CS3733-Dolon\Kabasuji-Dolon\DolonBuilder\src" />
-      <recent name="C:\Users\slafo\IdeaProjects\CS3733-Dolon\Kabasuji-Dolon\DolonBuilder\src\Controllers" />
-    </key>
-  </component>
-  <component name="RunManager" selected="Application.Builder">
-    <configuration default="false" name="Builder" type="Application" factoryName="Application" temporary="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <option name="MAIN_CLASS_NAME" value="Main" />
-      <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="DolonBuilder" />
-      <envs />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Application.DolonBuilder">
     <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
       <module name="" />
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
@@ -606,7 +515,6 @@
       <setting name="cmdLine" value="run-app" />
       <setting name="passParentEnv" value="true" />
       <setting name="launchBrowser" value="true" />
-      <setting name="depsClasspath" value="false" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method />
     </configuration>
@@ -685,7 +593,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="DolonBuilder" />
+      <module name="CS3733-Dolon" />
       <envs />
       <method />
     </configuration>
@@ -772,12 +680,6 @@
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-interpreter>project</node-interpreter>
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <arguments />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.npm" factoryName="npm">
@@ -793,7 +695,7 @@
     <configuration default="true" type="osgi.bnd.run" factoryName="Test Launcher (JUnit)">
       <method />
     </configuration>
-    <configuration default="false" name="Kabasuji" type="Application" factoryName="Application">
+    <configuration default="false" name="DolonKabasuji" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <option name="MAIN_CLASS_NAME" value="Game.App" />
       <option name="VM_PARAMETERS" value="" />
@@ -808,92 +710,76 @@
       <envs />
       <method />
     </configuration>
+    <configuration default="false" name="DolonBuilder" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="DolonBuilder" />
+      <envs />
+      <method />
+    </configuration>
     <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="Application.Kabasuji" />
-      <item index="1" class="java.lang.String" itemvalue="Application.Builder" />
+      <item index="0" class="java.lang.String" itemvalue="Application.DolonKabasuji" />
+      <item index="1" class="java.lang.String" itemvalue="Application.DolonBuilder" />
     </list>
-    <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="Application.Builder" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
   </component>
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\slafo\AppData\Roaming\Subversion</configuration>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="de87eb3d-570e-4139-bc30-a790890d1d6c" name="Default" comment="" />
-      <created>1460430002669</created>
+      <changelist id="bff96abe-2df8-4ee4-baaf-77c0a87bd472" name="Default" comment="" />
+      <created>1460488353473</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1460430002669</updated>
-      <workItem from="1460430004672" duration="2373000" />
-      <workItem from="1460432393259" duration="6265000" />
-      <workItem from="1460486352296" duration="363000" />
-      <workItem from="1460486728546" duration="106000" />
+      <updated>1460488353473</updated>
+      <workItem from="1460488354818" duration="1395000" />
     </task>
-    <task id="LOCAL-00001" summary="Got both Builder and Kabasuji views working along with images, needed to initiate them">
-      <created>1460437955978</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1460437955978</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9107000" />
+    <option name="totallyTimeSpent" value="1395000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2576" height="1426" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1859375" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32978722" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15585938" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
-  </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Got both Builder and Kabasuji views working along with images, needed to initiate them" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got both Builder and Kabasuji views working along with images, needed to initiate them" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -904,335 +790,12 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/GeneralController.java">
+    <entry file="file://$PROJECT_DIR$/DolonBuilder/src/Controllers/StartScreenController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
+        <state relative-caret-position="289">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BoardView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BullpenView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/MenuView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/startscreen.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/LevelView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1011#1012#0" expanded="true" />
-            <element signature="e#1067#1068#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/GeneralController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BoardView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BullpenView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/MenuView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/startscreen.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/LevelView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1011#1012#0" expanded="true" />
-            <element signature="e#1067#1068#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Level.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="14" column="5" selection-start-line="14" selection-start-column="5" selection-end-line="14" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_79/jre/lib/jfxrt.jar!/javafx/fxml/FXMLLoader.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37298">
-          <caret line="2327" column="0" selection-start-line="2327" selection-start-column="0" selection-end-line="2327" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/views/levelbuilder.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/views/startscreen.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/LevelBuilderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="24" column="66" selection-start-line="24" selection-start-column="66" selection-end-line="24" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/StartScreenController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Tile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Tile.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/Level.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_79/jre/lib/jfxrt.jar!/javafx/fxml/FXMLLoader.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="37298">
-          <caret line="2327" column="0" selection-start-line="2327" selection-start-column="0" selection-end-line="2327" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/views/levelbuilder.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/StartScreenController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/DolonKabasuji.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Game/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BoardView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/resources/views/startscreen.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/puzzleLevel.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="4" column="35" selection-start-line="4" selection-start-column="35" selection-end-line="4" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/BullpenView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="10" column="88" selection-start-line="10" selection-start-column="88" selection-end-line="10" selection-end-column="88" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonBuilder/src/Controllers/LevelBuilderController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/menuToLevelController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/resources/views/startscreen.fxml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Controllers/GeneralController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="15" column="13" selection-start-line="15" selection-start-column="13" selection-end-line="15" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/LevelView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="918">
-          <caret line="69" column="59" selection-start-line="69" selection-start-column="59" selection-end-line="69" selection-end-column="59" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1011#1012#0" expanded="true" />
-            <element signature="e#1067#1068#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Kabasuji-Dolon/DolonKabasuji/src/Boundaries/MenuView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="710">
-          <caret line="61" column="41" selection-start-line="61" selection-start-column="41" selection-end-line="61" selection-end-column="41" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1289,12 +852,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>DolonBuilder</last-edited>
+          <last-edited>DolonKabasuji</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
