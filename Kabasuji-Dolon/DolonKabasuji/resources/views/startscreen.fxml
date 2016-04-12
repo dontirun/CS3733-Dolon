@@ -29,18 +29,18 @@
       </Label>
       <Button fx:id="incrementLevel" layoutX="711.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleAction" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="rightArrow" fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Resources/forwardarrow.png" />
+                  <Image url="@../images/forwardarrow.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
       <Button fx:id="decrementLevel" layoutX="510.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleAction" style="-fx-background-color: transparent;">
          <graphic>
-            <ImageView fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="leftArrow" fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../Resources/backarrow.png" />
+                  <Image url="@../images/backarrow.png" />
                </image>
             </ImageView>
          </graphic>

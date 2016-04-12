@@ -1,15 +1,12 @@
 package Boundaries;
 
-import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.*;
+import javafx.scene.image.ImageView;
 import javafx.stage.*;
 import javafx.fxml.*;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -36,7 +33,12 @@ public class MenuView {
     @FXML
     Button about;
     @FXML
+    ImageView leftArrow;
+    @FXML
+    ImageView rightArrow;
+    @FXML
     public GameMenu menu;
+
 
     public MenuView(){
         //this.menu = menu;
@@ -58,7 +60,7 @@ public class MenuView {
             //get reference to the button's stage
             stage=(Stage) startButton.getScene().getWindow();
             //load up OTHER FXML document
-            root = FXMLLoader.load(getClass().getResource("../puzzleLevel.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();

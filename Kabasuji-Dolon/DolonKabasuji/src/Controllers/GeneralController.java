@@ -8,7 +8,6 @@ import javafx.fxml.*;
 import javafx.scene.control.Button;
 
 
-import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -26,11 +25,11 @@ public class GeneralController {
             //get reference to the button's stage
             stage=(Stage) menuStartButton.getScene().getWindow();
             //load up OTHER FXML document
-            root = FXMLLoader.load(getClass().getResource("../puzzleLevel.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
         }
         else{
             stage=(Stage) levelHomeButton.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../startScreen.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/views/startscreen.fxml"));
         }
         //create a new scene with root and set the stage
         Scene scene = new Scene(root);
