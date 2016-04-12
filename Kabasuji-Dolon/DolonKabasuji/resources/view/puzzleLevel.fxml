@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #E1F5FE;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="550.0" fitWidth="550.0" layoutX="645.0" layoutY="152.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Icons_Assets/puzzleLevel.png" />
+         </image>
+      </ImageView>
+      <FlowPane layoutX="95.0" layoutY="152.0" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 3; -fx-background-radius: 10 0 0 10; -fx-border-radius: 10 0 0 10;" />
+      <Pane layoutY="-1.0" prefHeight="130.0" prefWidth="1280.0" style="-fx-background-color: #03A9F4; -fx-background-radius: 0 0 70 70; -fx-border-width: 5;">
+         <children>
+            <Label layoutX="826.0" layoutY="73.0" prefWidth="25.0" text="#">
+               <font>
+                  <Font name="MV Boli" size="25.0" />
+               </font>
+            </Label>
+            <Label layoutX="694.0" layoutY="21.0" text="#">
+               <font>
+                  <Font name="MV Boli" size="23.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="50.0" fitWidth="41.0" layoutX="554.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../Icons_Assets/PuzzleIcon2.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="599.0" layoutY="7.0" text="Level">
+               <font>
+                  <Font name="MV Boli" size="35.0" />
+               </font>
+            </Label>
+            <Label layoutX="659.0" layoutY="71.0" text="Moves Left:">
+               <font>
+                  <Font name="MV Boli" size="27.0" />
+               </font>
+            </Label>
+            <Button layoutX="493.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Icons_Assets/backarrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="21.0" layoutY="11.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="45.0">
+                     <image>
+                        <Image url="@../../Resources/HomeIcon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button layoutX="731.0" layoutY="17.0" mnemonicParsing="false" style="-fx-background-color: transparent;">
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Resources/forwardarrow.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <ImageView fitHeight="53.0" fitWidth="55.0" layoutX="466.0" layoutY="69.0">
+               <image>
+                  <Image url="@../Icons_Assets/slice05_05.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="53.0" fitWidth="55.0" layoutX="585.0" layoutY="68.0">
+               <image>
+                  <Image url="@../Icons_Assets/slice05_05.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="53.0" fitWidth="55.0" layoutX="527.0" layoutY="69.0">
+               <image>
+                  <Image url="@../Icons_Assets/slice05_05.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
