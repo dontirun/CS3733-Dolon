@@ -1,4 +1,4 @@
-package Controllers;
+package BuilderControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by slafo on 4/10/2016.
  */
-public class BuilderStartScreenController {
+public class StartScreenController {
     @FXML
     public Button startButton;
     @FXML

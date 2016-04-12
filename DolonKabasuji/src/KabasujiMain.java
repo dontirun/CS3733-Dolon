@@ -1,15 +1,17 @@
-import javafx.application.Application;
+import KabasujiModel.GameMenu;
+import KabasujiModel.Level;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class Main extends Application {
+public class KabasujiMain extends javafx.application.Application {
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("views/startscreen.fxml"));
-        primaryStage.setTitle("(Dolon) Kabasuji Level Builder");
+        Parent root = FXMLLoader.load(getClass().getResource("/views/startscreen.fxml"));
+        primaryStage.setTitle("Dolon Kabasuji");
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }
@@ -17,5 +19,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
+        Level currentLevel;
+        GameMenu currentGameMenu;
     }
 }

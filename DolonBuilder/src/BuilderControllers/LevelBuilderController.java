@@ -1,4 +1,4 @@
-package Controllers;
+package BuilderControllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

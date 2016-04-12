@@ -1,4 +1,4 @@
-package Model;
+package KabasujiModel;
 
 /**
  * Created by Arthur on 4/11/2016.
