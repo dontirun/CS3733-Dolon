@@ -7,18 +7,18 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #03A9F4;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Boundaries.MenuView">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #03A9F4;" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.KabasujiStartScreenController">
    <children>
       <Label fx:id="name" layoutX="460.0" layoutY="147.0" text="Kabasuji">
          <font>
             <Font name="MV Boli" size="96.0" />
          </font>
       </Label>
-      <Button fx:id="startButton" layoutX="561.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleAction" prefHeight="68.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="Start">
+      <Button fx:id="startButton" layoutX="561.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="68.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="Start">
          <font>
             <Font name="MV Boli" size="34.0" />
          </font></Button>
-      <Button fx:id="about" layoutX="1181.0" layoutY="656.0" mnemonicParsing="false" text="About">
+      <Button fx:id="aboutButton" layoutX="1181.0" layoutY="656.0" mnemonicParsing="false" onAction="#handleButtonAction" text="About">
          <font>
             <Font name="MV Boli" size="20.0" />
          </font></Button>
@@ -27,7 +27,7 @@
             <Font name="MV Boli" size="33.0" />
          </font>
       </Label>
-      <Button fx:id="incrementLevel" layoutX="711.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleAction" style="-fx-background-color: transparent;">
+      <Button fx:id="incrementLevel" layoutX="711.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: transparent;">
          <graphic>
             <ImageView fx:id="rightArrow" fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -36,7 +36,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="decrementLevel" layoutX="510.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleAction" style="-fx-background-color: transparent;">
+      <Button fx:id="decrementLevel" layoutX="510.0" layoutY="459.0" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: transparent;">
          <graphic>
             <ImageView fx:id="leftArrow" fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                <image>

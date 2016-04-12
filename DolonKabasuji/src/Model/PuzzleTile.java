@@ -1,12 +1,9 @@
-package Game;
+package Model;
 
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class ReleaseTile extends Tile {
-    int number;
-    int color;
-
+public class PuzzleTile extends Tile {
     /** returns the square covering it if it has one, null otherwise
      *
      * @return
@@ -15,4 +12,3 @@ public class ReleaseTile extends Tile {
         return super.square;
     }
 }
-

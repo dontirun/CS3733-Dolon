@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 /**
  * Created by Arthur on 4/11/2016.

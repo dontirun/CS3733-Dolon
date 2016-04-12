@@ -1,4 +1,4 @@
-package Boundaries;
+package Model;
 
 /**
  * Created by Arthur on 4/10/2016.
@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import Game.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;

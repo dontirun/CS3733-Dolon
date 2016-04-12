@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class GeneralController {
+public class LevelViewController {
     Button menuStartButton;
     Button levelHomeButton;
 

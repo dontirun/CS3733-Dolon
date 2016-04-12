@@ -1,6 +1,4 @@
-package Boundaries;
-
-import Game.*;
+package Model;
 
 /**
  * Created by Arthur on 4/10/2016.

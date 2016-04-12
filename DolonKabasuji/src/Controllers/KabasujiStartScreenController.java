@@ -1,5 +1,6 @@
-package Boundaries;
+package Controllers;
 
+import Model.GameMenu;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.*;
@@ -13,13 +14,11 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 
-import Game.*;
-
 
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class MenuView {
+public class KabasujiStartScreenController {
     @FXML
     Button startButton;
     @FXML
@@ -31,7 +30,7 @@ public class MenuView {
     @FXML
     Button incrementLevel;
     @FXML
-    Button about;
+    Button aboutButton;
     @FXML
     ImageView leftArrow;
     @FXML
@@ -40,17 +39,13 @@ public class MenuView {
     public GameMenu menu;
 
 
-    public MenuView(){
+    public KabasujiStartScreenController(){
         //this.menu = menu;
        //levelNumber.setText(Integer.toString(5));
 
     }
 
-    public void initialize() {
-        levelNumber.setText(Integer.toString(1));
-    }
-
-    public void handleAction(ActionEvent event) throws IOException {
+    public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
 
@@ -73,10 +68,15 @@ public class MenuView {
         else  if (event.getSource() == decrementLevel){
             //decrementLevelController(levelNumber);
 
-
         }
-        else  if (event.getSource() == about){
-
+        else  if (event.getSource() == aboutButton){
+            stage = new Stage();
+            root = FXMLLoader.load(getClass().getResource("/views/about.fxml")); // Get other FXML document
+            stage.setScene(new Scene(root));
+            stage.setTitle("About Kabasuji Builder");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(aboutButton.getScene().getWindow());
+            stage.showAndWait();
         }
         else{
 

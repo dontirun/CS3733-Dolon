@@ -1,4 +1,4 @@
-package Game;
+package Model;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
