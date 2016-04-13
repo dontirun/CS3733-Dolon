@@ -22,10 +22,11 @@ import java.util.ResourceBundle;
  */
 public class LevelBuilderController implements Initializable{
     @FXML
-    public Button homeButton;
+    public Button homeButton; // Return to menu
     @FXML
-    public GridPane boardView;
+    public GridPane boardView; // Pane for board
 
+    // Max row and column size
     int rows = 12;
     int columns = 12;
 
@@ -47,15 +48,18 @@ public class LevelBuilderController implements Initializable{
         boardView.getStyleClass().add("board");
 
         for(int i = 0; i < columns; i++) {
+            // Set constraints
             ColumnConstraints column = new ColumnConstraints(45.8333333);
             boardView.getColumnConstraints().add(column);
         }
 
         for(int i = 0; i < rows; i++) {
+            // Set constraints
             RowConstraints row = new RowConstraints(45.8333333);
             boardView.getRowConstraints().add(row);
         }
 
+        // Draw grid on board
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 Pane pane = new Pane();

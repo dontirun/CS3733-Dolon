@@ -24,6 +24,7 @@ public class StartScreenController {
         Stage stage;
         Parent root;
 
+        // Start the level builder
         if(event.getSource() == startButton){
             stage = (Stage) startButton.getScene().getWindow(); // Gets button stage reference
             root = FXMLLoader.load(getClass().getResource("/views/levelbuilder.fxml")); // Get other FXML document
@@ -33,7 +34,7 @@ public class StartScreenController {
             stage.setScene(scene);
             stage.show();
         }
-        else{
+        else{ // Open about window
             stage = new Stage();
             root = FXMLLoader.load(getClass().getResource("/views/about.fxml")); // Get other FXML document
             stage.setScene(new Scene(root));

@@ -14,11 +14,11 @@
             <Font name="MV Boli" size="96.0" />
          </font>
       </Label>
-      <Button fx:id="startButton" layoutX="561.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="68.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="Start">
+      <Button fx:id="startKButton" layoutX="561.0" layoutY="360.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="68.0" prefWidth="150.0" style="-fx-background-color: transparent;" text="Start">
          <font>
             <Font name="MV Boli" size="34.0" />
          </font></Button>
-      <Button fx:id="aboutButton" layoutX="1181.0" layoutY="656.0" mnemonicParsing="false" onAction="#handleButtonAction" text="About">
+      <Button fx:id="aboutKButton" layoutX="1181.0" layoutY="656.0" mnemonicParsing="false" onAction="#handleButtonAction" text="About">
          <font>
             <Font name="MV Boli" size="20.0" />
          </font></Button>
@@ -47,7 +47,7 @@
       </Button>
       <ImageView fx:id="lockIcon" fitHeight="50.0" fitWidth="73.0" layoutX="614.0" layoutY="505.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/NoSquare.png" />
+            <Image url="@../images/LockIcon.png" />
          </image>
       </ImageView>
    </children>

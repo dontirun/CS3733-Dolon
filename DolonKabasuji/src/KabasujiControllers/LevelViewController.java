@@ -45,8 +45,9 @@ public class LevelViewController implements Initializable{
     @FXML
     ImageView homeIcon;
 
-    int rows;
-    int columns;
+    // max rows and columns, might need to be changed
+    int rows = 12;
+    int columns = 12;
 
     public LevelViewController(){
     }
@@ -55,6 +56,7 @@ public class LevelViewController implements Initializable{
         Stage stage;
         Parent root;
 
+        // Return to home menu
         if(event.getSource() == homeButton){
 
             //menuToLevelController(levelNumber);
@@ -74,9 +76,12 @@ public class LevelViewController implements Initializable{
 
     }
 
+    // gets called every time the view is loaded
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         boardView.getStyleClass().add("board");
+
+        // Set constraints (size of the cells)
         for(int i = 0; i < columns; i++) {
             ColumnConstraints column = new ColumnConstraints(45.8333333);
             boardView.getColumnConstraints().add(column);
@@ -87,6 +92,7 @@ public class LevelViewController implements Initializable{
             boardView.getRowConstraints().add(row);
         }
 
+        // Set grid (will later look at the grid for the level and set it that way)
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 Pane pane = new Pane();

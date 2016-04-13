@@ -18,9 +18,9 @@ import java.io.IOException;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class StartScreenController {
+public class StartScreenController{
     @FXML
-    Button startButton;
+    Button startKButton;
     @FXML
     Label name;
     @FXML
@@ -30,7 +30,7 @@ public class StartScreenController {
     @FXML
     Button incrementLevel;
     @FXML
-    Button aboutButton;
+    Button aboutKButton;
     @FXML
     ImageView leftArrow;
     @FXML
@@ -45,34 +45,37 @@ public class StartScreenController {
 
 
 
-
+    // Constructor
     public StartScreenController() {
     }
 
+    // run every time this view loads
     @FXML
-    public void initialize(){
+    public void initialize() {
         if (this.menu == null) {
             this.menu = new GameMenu();
         }
 
+        // Initializes level accessibility on load
         if(menu.getLevelNumber() > menu.getUnlocked()){
-            lockIcon.setVisible(true);
+           lockIcon.setVisible(true);
         }
         else{
-            lockIcon.setVisible(false);
+           lockIcon.setVisible(false);
         }
 
         levelNumberLabel.setText(Integer.toString(menu.getLevelNumber()));
     }
 
+    // checks the event sent out by a certain button
     public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
 
-
-        if (event.getSource() == startButton) {
+        // Start selected level
+        if (event.getSource() == startKButton) {
             //get reference to the button's stage
-            stage = (Stage) startButton.getScene().getWindow();
+            stage = (Stage) startKButton.getScene().getWindow();
             //load up OTHER FXML document
             if(lockIcon.isVisible() == false) {
                 root = null;
@@ -96,11 +99,10 @@ public class StartScreenController {
                 stage.show();
             }
         }
+        // Select previous level (or loop to max level)
         else if (event.getSource() == decrementLevel) {
-            //System.out.println(menu.getLevelNumber());
             menu.decrementLevelNumber();
-            stage = (Stage) decrementLevel.getScene().getWindow();
-            //System.out.println(menu.getLevelNumber());
+            //stage = (Stage) decrementLevel.getScene().getWindow();
             levelNumberLabel.setText(Integer.toString(menu.getLevelNumber()));
 
             if(menu.getLevelNumber() > menu.getUnlocked()){
@@ -111,11 +113,10 @@ public class StartScreenController {
             }
 
         }
+        // Select next level (or loop to first level)
         else if (event.getSource() == incrementLevel) {
-         //   System.out.println(menu.getLevelNumber());
             menu.incrementLevelNumber();
-            stage = (Stage) incrementLevel.getScene().getWindow();
-          //  System.out.println(menu.getLevelNumber());
+            //stage = (Stage) incrementLevel.getScene().getWindow();
             levelNumberLabel.setText(Integer.toString(menu.getLevelNumber()));
 
             if(menu.getLevelNumber() > menu.getUnlocked()){
@@ -125,17 +126,18 @@ public class StartScreenController {
                 lockIcon.setVisible(false);
             }
         }
-        else if (event.getSource() == aboutButton) {
+        // Open about window
+        else if (event.getSource() == aboutKButton) {
             stage = new Stage();
             root = FXMLLoader.load(getClass().getResource("/views/about.fxml")); // Get other FXML document
             stage.setScene(new Scene(root));
             stage.setTitle("About Kabasuji");
             stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(aboutButton.getScene().getWindow());
+            stage.initOwner(aboutKButton.getScene().getWindow());
             stage.showAndWait();
         }
         else {
-
+            //
         }
         //create a new scene with root and set the stage
 
