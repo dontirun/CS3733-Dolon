@@ -103,6 +103,8 @@ public class LevelViewController implements Initializable{
                 boardView.add(pane, i, j);
             }
         }
+        // Initiallize tiles
+
     }
 
 
