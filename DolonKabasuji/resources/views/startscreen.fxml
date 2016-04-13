@@ -22,7 +22,7 @@
          <font>
             <Font name="MV Boli" size="20.0" />
          </font></Button>
-      <Label fx:id="levelNumberLabel" layoutX="629.0" layoutY="453.0">
+      <Label fx:id="levelNumberLabel" layoutX="629.0" layoutY="453.0" text="1">
          <font>
             <Font name="MV Boli" size="33.0" />
          </font>
@@ -45,5 +45,10 @@
             </ImageView>
          </graphic>
       </Button>
+      <ImageView fx:id="lockIcon" fitHeight="50.0" fitWidth="73.0" layoutX="614.0" layoutY="505.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/NoSquare.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -77,7 +77,6 @@ public class LevelViewController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         boardView.getStyleClass().add("board");
-
         for(int i = 0; i < columns; i++) {
             ColumnConstraints column = new ColumnConstraints(45.8333333);
             boardView.getColumnConstraints().add(column);

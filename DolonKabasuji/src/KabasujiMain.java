@@ -7,7 +7,12 @@ import javafx.stage.Stage;
 
 public class KabasujiMain extends javafx.application.Application {
 
+    Level currentLevel;
+    GameMenu currentGameMenu;
 
+    public KabasujiMain(){
+        this.currentGameMenu = new GameMenu();
+    }
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("/views/startscreen.fxml"));
@@ -19,7 +24,5 @@ public class KabasujiMain extends javafx.application.Application {
 
     public static void main(String[] args) {
         launch(args);
-        Level currentLevel;
-        GameMenu currentGameMenu;
     }
 }
