@@ -1,15 +1,18 @@
 package KabasujiModel;
 
+import java.util.ArrayList;
+
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class Piece {
-    Square anchor;
-    Square [] squares;
-    int pieceID;
+public abstract class Piece {
+    public Square anchor;
+    public ArrayList<Square> squares;
+    public int pieceID;
+    public int DEBUG = 1;
 
     public Piece(int pieceID){
-
+        this.pieceID = pieceID;
     }
 
     /** rotates piece 90 degrees, returns true if successful, false otherwise
@@ -27,4 +30,11 @@ public class Piece {
     public boolean flipPiece(){
         return false;
     }
+
+    public int getPieceID() {
+        return pieceID;
+    }
+
+    protected abstract void construct();
+
 }

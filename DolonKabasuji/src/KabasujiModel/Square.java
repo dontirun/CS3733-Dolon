@@ -11,4 +11,20 @@ public class Square {
         this.relCol=relCol;
         this.relRow=relRow;
     }
+
+    public int getRelCol() {
+        return relCol;
+    }
+
+    public void setRelCol(int relCol) {
+        this.relCol = relCol;
+    }
+
+    public int getRelRow() {
+        return relRow;
+    }
+
+    public void setRelRow(int relRow) {
+        this.relRow = relRow;
+    }
 }
