@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
@@ -8,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
@@ -67,17 +69,28 @@
                </font>
             </Button>
          </children></FlowPane>
-      <Label layoutX="728.0" layoutY="678.0" text="Rows">
-         <font>
-            <Font name="MV Boli" size="24.0" />
-         </font>
-      </Label>
-      <Label layoutX="978.0" layoutY="682.0" text="Columns">
-         <font>
-            <Font name="MV Boli" size="20.0" />
-         </font>
-      </Label>
-      <TextField layoutX="1068.0" layoutY="687.0" prefHeight="25.0" prefWidth="51.0" />
+      <HBox alignment="CENTER_LEFT" layoutX="735.0" layoutY="680.0" spacing="16.0" AnchorPane.leftAnchor="735.0" AnchorPane.topAnchor="680.0">
+         <children>
+            <Label text="Rows">
+               <font>
+                  <Font name="MV Boli" size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="rowsTextField" prefHeight="25.0" prefWidth="51.0" text="12" />
+            <Label text="Columns">
+               <font>
+                  <Font name="MV Boli" size="20.0" />
+               </font>
+            </Label>
+            <TextField fx:id="colsTextField" prefHeight="25.0" prefWidth="51.0" text="12" />
+            <Button mnemonicParsing="false" onAction="#handleResizeButton" text="Resize Board">
+               <HBox.margin>
+                  <Insets left="32.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+
       <FlowPane layoutX="224.0" layoutY="130.0" prefHeight="550.0" prefWidth="437.0" style="-fx-border-color: black; -fx-border-radius: 10 0 0 10; -fx-border-width: 3; -fx-background-color: white; -fx-background-radius: 10 0 0 10;">
          <children>
             <Button mnemonicParsing="false" prefHeight="79.0" prefWidth="79.0">
@@ -93,7 +106,7 @@
                </graphic>
             </Button>
          </children></FlowPane>
-      <TextField layoutX="799.0" layoutY="687.0" prefHeight="25.0" prefWidth="51.0" />
+
       <Pane prefHeight="102.0" prefWidth="1280.0" style="-fx-background-color: #03A9F4; -fx-background-radius: 0 0 50 50; -fx-border-width: 5;">
          <children>
             <ImageView fitHeight="50.0" fitWidth="41.0" layoutX="547.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
@@ -120,7 +133,7 @@
             <TextField layoutX="113.0" layoutY="16.0" prefHeight="25.0" prefWidth="70.0" />
             <Button layoutX="113.0" layoutY="56.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Save" />
             <Button layoutX="24.0" layoutY="56.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Load" />
-            <Button fx:id="homeButton" layoutX="1148.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="50.0" prefWidth="59.0" style="-fx-background-color: transparent;">
+            <Button fx:id="homeButton" layoutX="1148.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleHomeButtonAction" prefHeight="50.0" prefWidth="59.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="46.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -130,7 +143,7 @@
                </graphic></Button>
          </children>
       </Pane>
-      <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
+      <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" onMouseClicked="#handleBoardClicked" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
       </GridPane>
    </children>
 </AnchorPane>
