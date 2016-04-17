@@ -35,7 +35,7 @@ public class LevelBuilderController implements Initializable {
     public TextField rowsTextField;
     @FXML
     public TextField colsTextField;
-
+    //contains references to all the panes added to boardView
     Pane[][] tilePanes;
     // Max row and column size
     int rows = 12;
@@ -54,14 +54,20 @@ public class LevelBuilderController implements Initializable {
         stage.show();
     }
 
+    /** called when mouse clicks on board, inverts the validity of the tile clicked and updates view
+     *
+     * @param event
+     */
     public void handleBoardClicked(MouseEvent event) {
+        //get x and y mouse coordinates
         double x = event.getX();
         double y = event.getY();
-        System.out.println(x + ", " + y);
         //find column and row of tile clicked
         int col = (int) (x / 45.8333333);
         int row = (int) (y / 45.8333333);
+        //invert the validity of it
         level.flipValid(col, row);
+        //redraw it correctly
         if (level.getValid(col, row) == true) {
             tilePanes[col][row].setStyle("-fx-background-color: white");
             tilePanes[col][row].setStyle("-fx-border-color: black");
@@ -71,6 +77,10 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    /** Checks if rows input is valid and changes border color to reflect it
+     *
+     * @return true if rows has integer input between 1 and 12, false otherwise
+     */
     public boolean handleRowsChanged() {
         try {
             int inputRows = Integer.parseInt(rowsTextField.getText().trim());
@@ -87,6 +97,10 @@ public class LevelBuilderController implements Initializable {
         return true;
     }
 
+    /** Checks if cols input is valid and changes border color to reflect it
+     *
+     * @return true if cols has integer input between 1 and 12, false otherwise
+     */
     public boolean handleColsChanged() {
         try {
             int inputCols = Integer.parseInt(colsTextField.getText().trim());
@@ -103,6 +117,10 @@ public class LevelBuilderController implements Initializable {
         return true;
     }
 
+    /** makes a rectangular area of tiles valid according to user input into rows and cols textFields
+     *
+     * @param event
+     */
     public void handleResizeButton(ActionEvent event) {
         //check for valid entries just incase
         if (handleColsChanged() && handleRowsChanged()) {
