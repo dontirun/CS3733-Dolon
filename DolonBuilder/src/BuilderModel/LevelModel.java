@@ -46,6 +46,9 @@ Tile[][] boardTiles;
     public void flipValid(int col, int row){
         boardTiles[col][row].flipExists();
     }
+    public Tile getTile(int col, int row){
+        return boardTiles[col][row];
+    }
     public void assignRed(){
 
     }

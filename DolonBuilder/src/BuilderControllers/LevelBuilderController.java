@@ -1,6 +1,8 @@
 package BuilderControllers;
 
 import BuilderModel.LevelModel;
+import UndoActionManager.IAction;
+import UndoActionManager.TileAction;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -21,6 +23,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 /**
  * Created by slafo on 4/10/2016.
@@ -40,6 +43,9 @@ public class LevelBuilderController implements Initializable {
     // Max row and column size
     int rows = 12;
     int columns = 12;
+    Stack<IAction> undoHistory;
+    Stack<IAction> redoHistory;
+
 
     public void handleHomeButtonAction(ActionEvent event) throws IOException {
         Stage stage;
@@ -54,7 +60,8 @@ public class LevelBuilderController implements Initializable {
         stage.show();
     }
 
-    /** called when mouse clicks on board, inverts the validity of the tile clicked and updates view
+    /**
+     * called when mouse clicks on board, inverts the validity of the tile clicked and updates view
      *
      * @param event
      */
@@ -65,19 +72,17 @@ public class LevelBuilderController implements Initializable {
         //find column and row of tile clicked
         int col = (int) (x / 45.8333333);
         int row = (int) (y / 45.8333333);
-        //invert the validity of it
-        level.flipValid(col, row);
-        //redraw it correctly
-        if (level.getValid(col, row) == true) {
-            tilePanes[col][row].setStyle("-fx-background-color: white");
-            tilePanes[col][row].setStyle("-fx-border-color: black");
-        } else {
-            tilePanes[col][row].setStyle("-fx-background-color: black");
 
+        TileAction ta = new TileAction(level.getTile(col, row), tilePanes[col][row]);
+        if (ta.doAction()) {
+            System.out.println("board click action performed");
+            undoHistory.push(ta);
+            redoHistory.clear();
         }
     }
 
-    /** Checks if rows input is valid and changes border color to reflect it
+    /**
+     * Checks if rows input is valid and changes border color to reflect it
      *
      * @return true if rows has integer input between 1 and 12, false otherwise
      */
@@ -97,7 +102,8 @@ public class LevelBuilderController implements Initializable {
         return true;
     }
 
-    /** Checks if cols input is valid and changes border color to reflect it
+    /**
+     * Checks if cols input is valid and changes border color to reflect it
      *
      * @return true if cols has integer input between 1 and 12, false otherwise
      */
@@ -117,7 +123,8 @@ public class LevelBuilderController implements Initializable {
         return true;
     }
 
-    /** makes a rectangular area of tiles valid according to user input into rows and cols textFields
+    /**
+     * makes a rectangular area of tiles valid according to user input into rows and cols textFields
      *
      * @param event
      */
@@ -126,12 +133,12 @@ public class LevelBuilderController implements Initializable {
         if (handleColsChanged() && handleRowsChanged()) {
             int inputRows = Integer.parseInt(rowsTextField.getText().trim());
             int inputCols = Integer.parseInt(colsTextField.getText().trim());
-            int rshift = (int) ((12 - inputRows)/2);
-            int cshift = (int) ((12 - inputCols)/2);
-            System.out.println(cshift + " , " +rshift);
+            int rshift = (int) ((12 - inputRows) / 2);
+            int cshift = (int) ((12 - inputCols) / 2);
+            System.out.println(cshift + " , " + rshift);
             for (int i = 0; i < columns; i++) {
                 for (int j = 0; j < rows; j++) {
-                    if (i < inputCols +cshift && i>=cshift && j < inputRows+rshift && j>=rshift) {
+                    if (i < inputCols + cshift && i >= cshift && j < inputRows + rshift && j >= rshift) {
                         level.makeValid(i, j);
                         tilePanes[i][j].setStyle("-fx-background-color: white");
                         tilePanes[i][j].setStyle("-fx-border-color: black");
@@ -146,11 +153,21 @@ public class LevelBuilderController implements Initializable {
 
     }
 
+    public void handleUndo(){
+        System.out.println("undo button clicked");
+        IAction i = undoHistory.pop();
+        i.undoAction();
+        redoHistory.push(i);
+    }
+    public void handleRedo(){
+
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         level = new LevelModel();
         boardView.getStyleClass().add("board");
-
+        undoHistory = new Stack<IAction>();
+        redoHistory = new Stack<IAction>();
         rowsTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {

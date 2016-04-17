@@ -17,7 +17,7 @@
    <children>
       <FlowPane layoutX="21.0" layoutY="130.0" prefHeight="208.0" prefWidth="189.0" style="-fx-border-color: black; -fx-background-color: #81D4FA; -fx-border-radius: 10 10 10 10; -fx-background-radius: 10 10 10 10; -fx-border-width: 2;">
          <children>
-            <Button layoutX="88.0" layoutY="11.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
+            <Button fx:id="undoButton" layoutX="88.0" layoutY="11.0" mnemonicParsing="false" onAction="#handleUndo" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="46.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -26,7 +26,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button layoutX="11.0" layoutY="75.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
+            <Button fx:id="redoButton" layoutX="11.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleRedo" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="46.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
