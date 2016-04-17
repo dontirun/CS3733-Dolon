@@ -1,11 +1,12 @@
 package KabasujiModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Arthur on 4/10/2016.
  */
-public abstract class Piece {
+public abstract class Piece implements Serializable{
     public Square anchor;
     public ArrayList<Square> squares;
     public int pieceID;

@@ -1,9 +1,11 @@
 package KabasujiModel;
 
+import java.io.Serializable;
+
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class Square {
+public class Square implements Serializable {
     int relCol;
     int relRow;
 

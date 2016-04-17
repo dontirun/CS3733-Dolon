@@ -89,6 +89,7 @@ public class StartScreenController {
 
     }
 
+
     public void handleStartKButton() throws IOException {
         Stage stage;
         Parent root;
