@@ -8,8 +8,8 @@ public class Square {
     int relRow;
 
     public Square(int relCol, int relRow){
-        this.relCol=relCol;
-        this.relRow=relRow;
+        this.relCol = relCol;
+        this.relRow = relRow;
     }
 
     public int getRelCol() {

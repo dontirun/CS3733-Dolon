@@ -9,7 +9,7 @@ import KabasujiModel.Square;
 public class Hex32 extends Piece{
 
     public Hex32(){
-        super(1);
+        super(32);
         construct();
     }
 

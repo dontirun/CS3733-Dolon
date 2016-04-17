@@ -20,7 +20,6 @@ public class Hex1 extends Piece{
         Square  s4 = new Square(0,-1);
         Square  s5 = new Square(0,-2);
         Square  s6 = new Square(0,-3);
-
         this.anchor = s3;
         squares.add(s1);
         squares.add(s2);

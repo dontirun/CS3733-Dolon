@@ -1,20 +1,36 @@
 package KabasujiControllers;
 
 import KabasujiModel.Level;
+import PieceFactory.PieceFactory;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.*;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
+import javafx.scene.paint.Color;
+import java.lang.Math;
 
-
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import KabasujiModel.*;
+import PieceFactory.*;
+
+import static javafx.geometry.Pos.CENTER;
+import static javafx.geometry.Pos.TOP_RIGHT;
 
 /**
  * Created by Arthur on 4/10/2016.
@@ -30,6 +46,8 @@ public class LevelViewController implements Initializable{
     Label levelNumber;
     @FXML
     GridPane boardView;
+    @FXML
+    GridPane bullpenView;
     @FXML
     ImageView levelIcon;
     @FXML
@@ -49,7 +67,12 @@ public class LevelViewController implements Initializable{
     int rows = 12;
     int columns = 12;
 
+    int gridW = 2;
+    int gridH = 18;
+    double RectangleSize = 45.83333333;
+    int numberOfPiecesDrawn;
     public LevelViewController(){
+        numberOfPiecesDrawn = 0;
     }
 
     public void handleButtonAction(ActionEvent event) throws IOException {
@@ -103,9 +126,88 @@ public class LevelViewController implements Initializable{
                 boardView.add(pane, i, j);
             }
         }
+
+
+        // Set constraints (size of the cells)
+        for(int i = 0; i < gridW; i++) {
+            ColumnConstraints column = new ColumnConstraints(45.8333333*6);
+            bullpenView.getColumnConstraints().add(column);
+        }
+
+        for(int i = 0; i < gridH; i++) {
+            RowConstraints row = new RowConstraints(45.8333333*6);
+            bullpenView.getRowConstraints().add(row);
+        }
+
+
         // Initiallize tiles
 
+        /*
+        Group g = new Group();
+        Group g1 = new Group();
+        Rectangle r1 = new Rectangle();
+        r1.setY(0);
+        r1.setWidth(45.8333333);
+        r1.setHeight(45.8333333);
+        r1.setFill(Color.RED);
+        r1.setStroke(Color.BLACK);
+        g.getChildren().add(r1);
+        Rectangle r2 = new Rectangle();
+        r2.setY(45.8333333);
+        r2.setWidth(45.8333333);
+        r2.setHeight(45.8333333);
+        r2.setFill(Color.RED);
+        r2.setStroke(Color.BLACK);
+        g.getChildren().add(r2);
+        Rectangle r3 = new Rectangle();
+        r3.setX(45.8333333);
+        r3.setWidth(45.8333333);
+        r3.setHeight(45.8333333);
+        r3.setFill(Color.RED);
+        r3.setStroke(Color.BLACK);
+        g.getChildren().add(r3);
+        */
+        PieceFactory ourPieceFactory = new PieceFactory();
+
+        for (int i = 1; i < 36; i++) {
+            generateShapeFromPiece(ourPieceFactory.getPiece(i));
+        }
+
+
+        bullpenView.setGridLinesVisible(true);
+        // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
     }
 
 
+
+    //Draw a piece on the board given the information about the piece
+    void generateShapeFromPiece(Piece pieceToDraw){
+        Group pieceGroup = new Group();
+        for(Square selectedSquare : pieceToDraw.squares){ //Iterate over all of the squares in the piece
+            Rectangle selectedRectangle = new Rectangle();
+            selectedRectangle.setX((selectedSquare.getRelCol()) * RectangleSize); //Set Y position based on the Relative Column
+            selectedRectangle.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
+            selectedRectangle.setWidth(RectangleSize); //Set the width of each rectangle
+            selectedRectangle.setHeight(RectangleSize); //Set the height of each rectangle
+            selectedRectangle.setFill(Color.RED); //Color the fill
+            selectedRectangle.setStroke(Color.BLACK); //Color the outline
+            pieceGroup.getChildren().add(selectedRectangle);
+        }
+        bullpenView.add(pieceGroup, numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+        bullpenView.setHalignment(pieceGroup, HPos.CENTER);
+        bullpenView.setValignment(pieceGroup, VPos.CENTER);
+        numberOfPiecesDrawn++;
+    }
+
+    public Node getNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for(Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
+    }
 }

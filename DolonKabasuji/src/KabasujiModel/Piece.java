@@ -13,6 +13,7 @@ public abstract class Piece {
 
     public Piece(int pieceID){
         this.pieceID = pieceID;
+        squares = new ArrayList<>();
     }
 
     /** rotates piece 90 degrees, returns true if successful, false otherwise
