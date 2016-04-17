@@ -108,9 +108,12 @@ public class LevelBuilderController implements Initializable {
         if (handleColsChanged() && handleRowsChanged()) {
             int inputRows = Integer.parseInt(rowsTextField.getText().trim());
             int inputCols = Integer.parseInt(colsTextField.getText().trim());
+            int rshift = (int) ((12 - inputRows)/2);
+            int cshift = (int) ((12 - inputCols)/2);
+            System.out.println(cshift + " , " +rshift);
             for (int i = 0; i < columns; i++) {
                 for (int j = 0; j < rows; j++) {
-                    if (i < inputCols && j < inputRows) {
+                    if (i < inputCols +cshift && i>=cshift && j < inputRows+rshift && j>=rshift) {
                         level.makeValid(i, j);
                         tilePanes[i][j].setStyle("-fx-background-color: white");
                         tilePanes[i][j].setStyle("-fx-border-color: black");
