@@ -6,16 +6,14 @@ import javafx.scene.layout.Pane;
 /**
  * Created by Walter on 4/16/2016.
  */
-public class TileAction implements IAction{
-    boolean startExist;
-    boolean endExist;
+public class TileAction implements IAction {
 
     Tile tile;
     Pane pane;
 
-    public TileAction(Tile tile, Pane pane){
-        this.tile=tile;
-        this.pane=pane;
+    public TileAction(Tile tile, Pane pane) {
+        this.tile = tile;
+        this.pane = pane;
     }
 
     @Override
@@ -36,10 +34,16 @@ public class TileAction implements IAction{
     }
 
     @Override
+    public boolean redoAction() {
+        return doAction();
+    }
+
+    @Override
     public boolean isValid() {
         return true;
     }
-    public void redrawPane(){
+
+    public void redrawPane() {
         if (tile.getExists() == true) {
             pane.setStyle("-fx-background-color: white");
             pane.setStyle("-fx-border-color: black");

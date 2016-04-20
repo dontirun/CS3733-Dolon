@@ -6,5 +6,6 @@ package UndoActionManager;
 public interface IAction {
     public boolean doAction();
     public boolean undoAction();
+    public boolean redoAction();
     public boolean isValid();
 }

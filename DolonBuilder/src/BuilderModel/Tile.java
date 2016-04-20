@@ -11,6 +11,12 @@ public class Tile {
     public Tile() {
 exists=true;
     }
+    public Tile(boolean exists){
+        this.exists=exists;
+    }
+    public Tile clone() {
+        return new Tile(exists);
+    };
     public boolean getExists(){
         return exists;
     }

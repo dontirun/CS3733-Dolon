@@ -2,6 +2,7 @@ package BuilderControllers;
 
 import BuilderModel.LevelModel;
 import UndoActionManager.IAction;
+import UndoActionManager.ResizeAction;
 import UndoActionManager.TileAction;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -90,7 +91,7 @@ public class LevelBuilderController implements Initializable {
         try {
             int inputRows = Integer.parseInt(rowsTextField.getText().trim());
             rowsTextField.setStyle("-fx-border-color: black");
-            if (inputRows < 1 || inputRows > 12) {
+            if (inputRows < 0 || inputRows > 12) {
                 rowsTextField.setStyle("-fx-border-color: red");
                 return false;
             }
@@ -111,7 +112,7 @@ public class LevelBuilderController implements Initializable {
         try {
             int inputCols = Integer.parseInt(colsTextField.getText().trim());
             colsTextField.setStyle("-fx-border-color: black");
-            if (inputCols < 1 || inputCols > 12) {
+            if (inputCols < 0 || inputCols > 12) {
                 colsTextField.setStyle("-fx-border-color: red");
                 return false;
             }
@@ -129,27 +130,12 @@ public class LevelBuilderController implements Initializable {
      * @param event
      */
     public void handleResizeButton(ActionEvent event) {
-        //check for valid entries just incase
-        if (handleColsChanged() && handleRowsChanged()) {
-            int inputRows = Integer.parseInt(rowsTextField.getText().trim());
-            int inputCols = Integer.parseInt(colsTextField.getText().trim());
-            int rshift = (int) ((12 - inputRows) / 2);
-            int cshift = (int) ((12 - inputCols) / 2);
-            System.out.println(cshift + " , " + rshift);
-            for (int i = 0; i < columns; i++) {
-                for (int j = 0; j < rows; j++) {
-                    if (i < inputCols + cshift && i >= cshift && j < inputRows + rshift && j >= rshift) {
-                        level.makeValid(i, j);
-                        tilePanes[i][j].setStyle("-fx-background-color: white");
-                        tilePanes[i][j].setStyle("-fx-border-color: black");
-                    } else {
-                        level.makeInvalid(i, j);
-                        tilePanes[i][j].setStyle("-fx-background-color: black");
-                    }
-                }
-            }
+        ResizeAction ra = new ResizeAction(level.getBoardTiles(),tilePanes, colsTextField, rowsTextField);
+        if (ra.doAction()) {
+            System.out.println("resize action performed");
+            undoHistory.push(ra);
+            redoHistory.clear();
         }
-
 
     }
 
@@ -160,7 +146,10 @@ public class LevelBuilderController implements Initializable {
         redoHistory.push(i);
     }
     public void handleRedo(){
-
+        System.out.println("redo button clicked");
+        IAction i = redoHistory.pop();
+        i.redoAction();
+        undoHistory.push(i);
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
