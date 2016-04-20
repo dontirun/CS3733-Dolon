@@ -111,7 +111,7 @@ public class ResizeAction implements IAction {
 
                 if (boardTiles[col][row].getExists() == true) {
                     tilePanes[col][row].setStyle("-fx-background-color: white");
-                    tilePanes[col][row].setStyle("-fx-border-color: black");
+                 //   tilePanes[col][row].setStyle("-fx-border-color: black");
                 } else {
                     tilePanes[col][row].setStyle("-fx-background-color: black");
                 }

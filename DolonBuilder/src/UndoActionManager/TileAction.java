@@ -45,9 +45,11 @@ public class TileAction implements IAction {
 
     public void redrawPane() {
         if (tile.getExists() == true) {
+            System.out.println("white");
             pane.setStyle("-fx-background-color: white");
-            pane.setStyle("-fx-border-color: black");
+           // pane.setStyle("-fx-border-color: black");
         } else {
+            System.out.println("black");
             pane.setStyle("-fx-background-color: black");
         }
     }

@@ -68,7 +68,7 @@ public class LevelViewController implements Initializable{
 
     boolean placed = false;
 
-    final DataFormat pieceShape = new DataFormat("piece");
+    final static DataFormat pieceShape = new DataFormat("piece");
 
     // max rows and columns, might need to be changed
     int rows = 12;
