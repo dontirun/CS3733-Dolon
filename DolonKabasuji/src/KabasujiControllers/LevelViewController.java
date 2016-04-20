@@ -284,4 +284,9 @@ public class LevelViewController implements Initializable{
         }
         return result;
     }
+
+    // Sets the level number when loading a level
+    public void setLevelNumber(int level){
+        this.levelNumber.setText(Integer.toString(level));
+    }
 }

@@ -95,23 +95,43 @@ public class StartScreenController {
         Parent root;
         //get reference to the button's stage
         stage = (Stage) startKButton.getScene().getWindow();
+
         //load up OTHER FXML document
         if (lockIcon.isVisible() == false) {
             root = null;
             switch (menu.getLevelNumber() % 3) {
                 case 1:
-                    root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
+                    root = (Parent)fxmlLoader.load();
+                    //root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
+
+                    // Pass a value to the levelview
+                    LevelViewController lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController.setLevelNumber(menu.getLevelNumber());
                     break;
                 case 2:
                     // change to lightning later
-                    root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
+                    root = (Parent)fxmlLoader.load();
+                    //root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
+
+                    // Pass a value to the levelview
+                    lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController.setLevelNumber(menu.getLevelNumber());
                     break;
                 case 0:
                     // change to release later
-                    root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
+                    fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
+                    root = (Parent)fxmlLoader.load();
+                    //root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
+
+                    // Pass a value to the levelview
+                    lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController.setLevelNumber(menu.getLevelNumber());
                     break;
 
             }
+
             // Create new scene with root and set stage
             Scene scene = new Scene(root);
             stage.setScene(scene);
