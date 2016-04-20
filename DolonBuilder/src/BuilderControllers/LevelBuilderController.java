@@ -55,9 +55,11 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public TextField timerField;
     @FXML
+    public TextField movesRemainField;
+    @FXML
     public Label levelNumber;
     @FXML
-    public Label timerLabel;
+    public Label timerandmovesLabel;
     @FXML
     public ImageView typeImage;
     //contains references to all the panes added to boardView
@@ -106,7 +108,7 @@ public class LevelBuilderController implements Initializable {
                 // puzzle
                 // setting buttons we don't want to not visible and not managed
                 timerField.setVisible(false);
-                timerLabel.setVisible(false);
+                timerField.setManaged(false);
                 redButton.setVisible(false);
                 redButton.setManaged(false);
                 greenButton.setVisible(false);
@@ -114,15 +116,21 @@ public class LevelBuilderController implements Initializable {
                 yellowButton.setVisible(false);
                 yellowButton.setManaged(false);
 
-
+                movesRemainField.setVisible(true);
+                movesRemainField.setManaged(true);
+                movesRemainField.clear();
                 Image puz = new Image("/images/PuzzleIcon.png");
                 typeImage.setImage(puz);
+                timerandmovesLabel.setText("Moves");
+                timerandmovesLabel.setVisible(true);
                 typeImage.setVisible(true);
 
                 break;
             case 2:
                 //lightning
                 //setting buttons we don't want to not visible and not managed
+                movesRemainField.setVisible(false);
+                movesRemainField.setManaged(false);
                 redButton.setVisible(false);
                 redButton.setManaged(false);
                 greenButton.setVisible(false);
@@ -133,8 +141,10 @@ public class LevelBuilderController implements Initializable {
 
 
                 timerField.setVisible(true);
+                timerField.setManaged(true);
                 timerField.clear();
-                timerLabel.setVisible(true);
+                timerandmovesLabel.setText("Timer");
+                timerandmovesLabel.setVisible(true);
                 Image light = new Image("/images/lightning.png");
                 typeImage.setImage(light);
                 typeImage.setVisible(true);
@@ -144,7 +154,10 @@ public class LevelBuilderController implements Initializable {
             case 0:
                 //release
                 timerField.setVisible(false);
-                timerLabel.setVisible(false);
+                timerField.setManaged(false);
+                movesRemainField.setVisible(false);
+                movesRemainField.setManaged(false);
+                timerandmovesLabel.setVisible(false);
                 redButton.setVisible(true);
                 redButton.setManaged(true);
                 greenButton.setVisible(true);
@@ -268,6 +281,27 @@ public class LevelBuilderController implements Initializable {
     }
 
     /**
+     * Checks if moves input is valid and changes border color to reflect it
+     *
+     * @return true if cols has integer input between 1 and 12, false otherwise
+     */
+    public boolean handleMovesChanged() {
+        try {
+            int inputCols = Integer.parseInt(movesRemainField.getText().trim());
+            movesRemainField.setStyle("-fx-border-color: black");
+            if (inputCols < 0) {
+                movesRemainField.setStyle("-fx-border-color: red");
+                return false;
+            }
+        } catch (Exception e) {
+            movesRemainField.setStyle("-fx-border-color: red");
+            return false;
+        }
+        System.out.println("level changed to new value");
+        return true;
+    }
+
+    /**
      * makes a rectangular area of tiles valid according to user input into rows and cols textFields
      *
      * @param event
@@ -301,8 +335,11 @@ public class LevelBuilderController implements Initializable {
         undoHistory = new Stack<IAction>();
         redoHistory = new Stack<IAction>();
 
-        timerLabel.setVisible(false);
+        timerandmovesLabel.setVisible(false);
         timerField.setVisible(false);
+        timerField.setManaged(false);
+        movesRemainField.setVisible(false);
+        movesRemainField.setManaged(false);
         redButton.setVisible(false);
         redButton.setManaged(false);
         greenButton.setVisible(false);
@@ -333,6 +370,12 @@ public class LevelBuilderController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 handleTimerChanged();
+            }
+        });
+        movesRemainField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                handleMovesChanged();
             }
         });
         for (int i = 0; i < columns; i++) {

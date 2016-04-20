@@ -141,12 +141,13 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <Label fx:id="timerLabel" layoutX="571.0" layoutY="51.0" prefHeight="27.0" prefWidth="59.0" text="Timer">
+            <Label fx:id="timerandmovesLabel" layoutX="561.0" layoutY="51.0" prefHeight="37.0" prefWidth="79.0" text="Timer">
                <font>
                   <Font name="MV Boli" size="21.0" />
                </font>
             </Label>
             <TextField fx:id="timerField" layoutX="642.0" layoutY="57.0" prefHeight="25.0" prefWidth="70.0" />
+            <TextField fx:id="movesRemainField" layoutX="642.0" layoutY="57.0" prefHeight="25.0" prefWidth="70.0" />
          </children>
       </Pane>
       <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" onMouseClicked="#handleBoardClicked" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
