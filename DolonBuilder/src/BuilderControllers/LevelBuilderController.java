@@ -318,15 +318,19 @@ public class LevelBuilderController implements Initializable {
 
     public void handleUndo(){
         System.out.println("undo button clicked");
-        IAction i = undoHistory.pop();
-        i.undoAction();
-        redoHistory.push(i);
+        if(!undoHistory.empty()){
+            IAction i = undoHistory.pop();
+            i.undoAction();
+            redoHistory.push(i);
+        }
     }
     public void handleRedo(){
         System.out.println("redo button clicked");
-        IAction i = redoHistory.pop();
-        i.redoAction();
-        undoHistory.push(i);
+        if(!redoHistory.empty()){
+            IAction i = redoHistory.pop();
+            i.redoAction();
+            undoHistory.push(i);
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
