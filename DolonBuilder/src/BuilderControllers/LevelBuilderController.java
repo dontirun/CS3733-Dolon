@@ -1,6 +1,8 @@
 package BuilderControllers;
 
 import BuilderModel.LevelModel;
+import BuilderModel.ReleaseTile;
+import UndoActionManager.ColorAction;
 import UndoActionManager.IAction;
 import UndoActionManager.ResizeAction;
 import UndoActionManager.TileAction;
@@ -13,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,7 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.control.Label;
 import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
@@ -64,6 +66,8 @@ public class LevelBuilderController implements Initializable {
     public Label timerandmovesLabel;
     @FXML
     public ImageView typeImage;
+
+    public String color;
     //contains references to all the panes added to boardView
     Pane[][] tilePanes;
     // Max row and column size
@@ -109,10 +113,10 @@ public class LevelBuilderController implements Initializable {
 
     }
 
-    public void resetBoard(int levelType){
+    public void resetBoard(int levelType) {
 
-        for(int i = 0; i<rows; i++){
-            for(int j = 0; j<columns; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
                 // reset the visual aspect of the board
                 tilePanes[j][i].setMinSize(0, 0);
                 tilePanes[j][i].setStyle("-fx-background-color: white");
@@ -122,7 +126,7 @@ public class LevelBuilderController implements Initializable {
                 // reset the underlying tiles for tile actions
                 level.getTile(j, i).setExists(true);
 
-                if(levelType == 3){
+                if (levelType == 3) {
                     // for now nothing but when we add release specific stuff we need to reset it
                 }
 
@@ -140,22 +144,22 @@ public class LevelBuilderController implements Initializable {
 
     }
 
-    public void resetFields(int levelType){
+    public void resetFields(int levelType) {
         //set the text on rows and columns to reflect board
         rowsTextField.setText("12");
         colsTextField.setText("12");
 
-        switch (levelType){
-           case 1:
-               movesRemainField.clear();
-               break;
-           case 2:
-               timerField.clear();
-               break;
-       }
+        switch (levelType) {
+            case 1:
+                movesRemainField.clear();
+                break;
+            case 2:
+                timerField.clear();
+                break;
+        }
     }
 
-    public void resetPieces(){
+    public void resetPieces() {
         // add this functionality in later
     }
 
@@ -167,9 +171,9 @@ public class LevelBuilderController implements Initializable {
      */
 
     // need to add actually loading functionality
-    public void handleLoadButtonAction(ActionEvent event) throws IOException{
+    public void handleLoadButtonAction(ActionEvent event) throws IOException {
         // only do loading things if the textfield has a valid value
-        if(handleLevelChanged()){
+        if (handleLevelChanged()) {
             // change the elements to match the correct level type
             levelNumber.setText(levelTextField.getText());
 
@@ -248,6 +252,10 @@ public class LevelBuilderController implements Initializable {
                 break;
 
         }
+        switch (num % 3) {
+            case 0:
+                level = new LevelModel("release");
+        }
     }
 
     /**
@@ -257,7 +265,7 @@ public class LevelBuilderController implements Initializable {
      */
     public void handleBoardClicked(MouseEvent event) {
 
-        try{
+        try {
             // if its not an int don't change the board
             Integer.parseInt(levelNumber.getText());
             //get x and y mouse coordinates
@@ -266,18 +274,25 @@ public class LevelBuilderController implements Initializable {
             //find column and row of tile clicked
             int col = (int) (x / 45.8333333);
             int row = (int) (y / 45.8333333);
-
-            TileAction ta = new TileAction(level.getTile(col, row), tilePanes[col][row]);
-            if (ta.doAction()) {
-                System.out.println("board click action performed");
-                undoHistory.push(ta);
-                redoHistory.clear();
+            if (color == null) {
+                TileAction ta = new TileAction(level.getTile(col, row), tilePanes[col][row]);
+                if (ta.doAction()) {
+                    System.out.println("board click action performed");
+                    undoHistory.push(ta);
+                    redoHistory.clear();
+                }
+            }else{
+                System.out.println("SOV");
+                ColorAction ca = new ColorAction((ReleaseTile)level.getTile(col, row), tilePanes[col][row], color);
+                if(ca.doAction()){
+                    System.out.println("color action performed");
+                    undoHistory.push(ca);
+                    redoHistory.clear();
+                }
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             // do nothing
-            return ;
+            return;
         }
 
     }
@@ -393,7 +408,7 @@ public class LevelBuilderController implements Initializable {
      * @param event
      */
     public void handleResizeButton(ActionEvent event) {
-        ResizeAction ra = new ResizeAction(level.getBoardTiles(),tilePanes, colsTextField, rowsTextField);
+        ResizeAction ra = new ResizeAction(level.getBoardTiles(), tilePanes, colsTextField, rowsTextField);
         if (ra.doAction()) {
             System.out.println("resize action performed");
             undoHistory.push(ra);
@@ -402,22 +417,36 @@ public class LevelBuilderController implements Initializable {
 
     }
 
-    public void handleUndo(){
+    public void handleUndo() {
         System.out.println("undo button clicked");
-        if(!undoHistory.empty()){
+        if (!undoHistory.empty()) {
             IAction i = undoHistory.pop();
             i.undoAction();
             redoHistory.push(i);
         }
     }
-    public void handleRedo(){
+
+    public void handleRedo() {
         System.out.println("redo button clicked");
-        if(!redoHistory.empty()){
+        if (!redoHistory.empty()) {
             IAction i = redoHistory.pop();
             i.redoAction();
             undoHistory.push(i);
         }
     }
+
+    public void changeColor(ActionEvent ae) {
+        if (ae.getSource() == redButton) {
+            color = "red";
+        }
+        if (ae.getSource() == greenButton) {
+            color = "green";
+        }
+        if (ae.getSource() == yellowButton) {
+            color = "yellow";
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         level = new LevelModel();

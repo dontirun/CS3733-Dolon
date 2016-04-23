@@ -21,6 +21,17 @@ public class LevelModel {
         }
     }
 
+    public LevelModel(String mode){
+        if(mode.equals("release")){
+            boardTiles = new ReleaseTile[12][12];
+            for (int c = 0; c < 12; c++) {
+                for (int r = 0; r < 12; r++) {
+                    boardTiles[c][r] = new ReleaseTile();
+                }
+            }
+        }
+    }
+
     public void saveLevel() {
     }
 
