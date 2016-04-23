@@ -45,6 +45,8 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public Button loadButton; // Return to menu
     @FXML
+    public Button resetButton; // Return to menu
+    @FXML
     public GridPane boardView; // Pane for board
     @FXML
     public TextField rowsTextField;
@@ -82,6 +84,70 @@ public class LevelBuilderController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    /**
+     * called when reset button is clicked, resets all  elements on the levelbuilder based on type of level
+     *
+     * @param event
+     */
+    public void handleResetButtonAction(ActionEvent event) throws IOException {
+        // try getting the level number
+        int i;
+        try {
+            i = Integer.parseInt(levelNumber.getText());
+        }
+        // can't reset if in initial state
+        catch (Exception e) {
+            return;
+        }
+        // helper functions
+        resetBoard(i);
+        resetFields(i);
+        resetPieces();
+
+    }
+
+    public void resetBoard(int levelType){
+
+        for(int i = 0; i<rows; i++){
+            for(int j = 0; j<columns; j++){
+                // reset the visual aspect of the board
+                tilePanes[j][i].setMinSize(0, 0);
+                tilePanes[j][i].setStyle("-fx-background-color: white");
+                tilePanes[j][i].setStyle("-fx-border-color: black");
+                tilePanes[j][i].getStyleClass().add("board-cell");
+
+                // reset the underlying tiles for tile actions
+                level.getTile(j, i).setExists(true);
+
+                if(levelType == 3){
+                    // for now nothing but when we add release specific stuff we need to reset it
+                }
+
+
+            }
+        }
+
+        //clear the undo redo stacks
+        redoHistory.clear();
+        undoHistory.clear();
+
+    }
+
+    public void resetFields(int levelType){
+       switch (levelType){
+           case 1:
+               movesRemainField.clear();
+               break;
+           case 2:
+               timerField.clear();
+               break;
+       }
+    }
+
+    public void resetPieces(){
+        // add this functionality in later
     }
 
     /**
@@ -181,19 +247,30 @@ public class LevelBuilderController implements Initializable {
      * @param event
      */
     public void handleBoardClicked(MouseEvent event) {
-        //get x and y mouse coordinates
-        double x = event.getX();
-        double y = event.getY();
-        //find column and row of tile clicked
-        int col = (int) (x / 45.8333333);
-        int row = (int) (y / 45.8333333);
 
-        TileAction ta = new TileAction(level.getTile(col, row), tilePanes[col][row]);
-        if (ta.doAction()) {
-            System.out.println("board click action performed");
-            undoHistory.push(ta);
-            redoHistory.clear();
+        try{
+            // if its not an int don't change the board
+            Integer.parseInt(levelNumber.getText());
+            //get x and y mouse coordinates
+            double x = event.getX();
+            double y = event.getY();
+            //find column and row of tile clicked
+            int col = (int) (x / 45.8333333);
+            int row = (int) (y / 45.8333333);
+
+            TileAction ta = new TileAction(level.getTile(col, row), tilePanes[col][row]);
+            if (ta.doAction()) {
+                System.out.println("board click action performed");
+                undoHistory.push(ta);
+                redoHistory.clear();
+            }
         }
+
+        catch (Exception e) {
+            // do nothing
+            return ;
+        }
+
     }
 
     /**

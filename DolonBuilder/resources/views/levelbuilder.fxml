@@ -124,7 +124,7 @@
                   <Font name="MV Boli" size="28.0" />
                </font>
             </Label>
-            <Button layoutX="1144.0" layoutY="66.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Reset" />
+            <Button fx:id="resetButton" layoutX="1144.0" layoutY="66.0" mnemonicParsing="false" onAction="#handleResetButtonAction" prefHeight="27.0" prefWidth="70.0" text="Reset" />
             <Label layoutX="30.0" layoutY="10.0" prefHeight="27.0" prefWidth="59.0" text="Level">
                <font>
                   <Font name="MV Boli" size="21.0" />
