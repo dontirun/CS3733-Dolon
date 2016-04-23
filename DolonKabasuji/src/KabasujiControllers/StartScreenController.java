@@ -103,31 +103,28 @@ public class StartScreenController {
                 case 1:
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
                     root = (Parent)fxmlLoader.load();
-                    //root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
 
-                    // Pass a value to the levelview
+                    // Pass a value to the levelview and load level
                     LevelViewController lvController = fxmlLoader.<LevelViewController>getController();
-                    lvController.setLevelNumber(menu.getLevelNumber());
+                    lvController.loadLevel(menu.getLevelNumber());
                     break;
                 case 2:
                     // change to lightning later
                     fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
                     root = (Parent)fxmlLoader.load();
-                    //root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
 
-                    // Pass a value to the levelview
+                    // Pass a value to the levelview and load level
                     lvController = fxmlLoader.<LevelViewController>getController();
-                    lvController.setLevelNumber(menu.getLevelNumber());
+                    lvController.loadLevel(menu.getLevelNumber());
                     break;
                 case 0:
                     // change to release later
                     fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
                     root = (Parent)fxmlLoader.load();
-                    //root = FXMLLoader.load(getClass().getResource("/views/puzzleLevel.fxml"));
 
-                    // Pass a value to the levelview
+                    // Pass a value to the levelview and load level
                     lvController = fxmlLoader.<LevelViewController>getController();
-                    lvController.setLevelNumber(menu.getLevelNumber());
+                    lvController.loadLevel(menu.getLevelNumber());
                     break;
 
             }

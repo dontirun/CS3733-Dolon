@@ -21,11 +21,13 @@ import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+
+import java.io.*;
 import java.lang.Math;
 
 import java.awt.*;
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import KabasujiModel.*;
@@ -288,5 +290,68 @@ public class LevelViewController implements Initializable{
     // Sets the level number when loading a level
     public void setLevelNumber(int level){
         this.levelNumber.setText(Integer.toString(level));
+    }
+
+
+    // Level parsing function
+    // TODO: Use some set of globals or way to pass values into a level
+    public void loadLevel(int levelNum) throws IOException {
+
+        // Variables for level information
+        // NOTE: will most likely be moved to more global variables
+        int lvNum = 0;
+        int rows = 0;
+        int columns = 0;
+        int metric = 0;
+        ArrayList<Integer> pieces = new ArrayList<Integer>();
+        ArrayList<Integer> tiles = new ArrayList<Integer>();
+
+        // Starts at 0 because file begins with ### and will automatically increment
+        int readCount = 0; // Determines what part of the files is being parsed
+
+        try {
+            // Parsing objects
+            // Get filepath for the right level, and then load it in
+            String filepath = "DolonKabasuji/resources/levels/lvl" + levelNum + ".bdsm";
+            FileReader input = new FileReader(filepath); // Read in file
+            BufferedReader buf = new BufferedReader(input);
+            String dataLine;
+
+            // Parse file
+            while((dataLine = buf.readLine()) != null){
+                if(dataLine.contains("###")){ // Go to next section
+                    readCount++;
+                }
+                else{ // Information to parse
+                    switch(readCount){
+                        case 1: // Level Number
+                            lvNum = Integer.parseInt(dataLine);
+                            break;
+                        case 2: // Rows
+                            rows = Integer.parseInt(dataLine);
+                            break;
+                        case 3: // Columns
+                            columns = Integer.parseInt(dataLine);
+                            break;
+                        case 4: // Metric
+                            metric = Integer.parseInt(dataLine);
+                            break;
+                        case 5: // Pieces
+                            pieces.add(Integer.parseInt(dataLine));
+                            break;
+                        case 6: // Tiles
+                            tiles.add(Integer.parseInt(dataLine));
+                            break;
+                    }
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // NOTE: here we tie into the GUI
+        setLevelNumber(lvNum);
+
     }
 }
