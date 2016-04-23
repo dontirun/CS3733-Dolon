@@ -93,6 +93,7 @@ public class LevelBuilderController implements Initializable {
      */
     public void handleResetButtonAction(ActionEvent event) throws IOException {
         // try getting the level number
+        System.out.println("reseting level");
         int i;
         try {
             i = Integer.parseInt(levelNumber.getText());
@@ -115,7 +116,7 @@ public class LevelBuilderController implements Initializable {
                 // reset the visual aspect of the board
                 tilePanes[j][i].setMinSize(0, 0);
                 tilePanes[j][i].setStyle("-fx-background-color: white");
-                tilePanes[j][i].setStyle("-fx-border-color: black");
+                //tilePanes[j][i].setStyle("-fx-border-color: black");
                 tilePanes[j][i].getStyleClass().add("board-cell");
 
                 // reset the underlying tiles for tile actions
@@ -133,10 +134,18 @@ public class LevelBuilderController implements Initializable {
         redoHistory.clear();
         undoHistory.clear();
 
+        //set the text on rows and columns to reflect board
+        rowsTextField.setText("12");
+        rowsTextField.setText("12");
+
     }
 
     public void resetFields(int levelType){
-       switch (levelType){
+        //set the text on rows and columns to reflect board
+        rowsTextField.setText("12");
+        colsTextField.setText("12");
+
+        switch (levelType){
            case 1:
                movesRemainField.clear();
                break;
