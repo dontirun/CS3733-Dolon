@@ -1,6 +1,7 @@
 package BuilderModel;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 /**
  * Created by Walter on 4/16/2016.
@@ -11,6 +12,7 @@ public class LevelModel {
     int levelNum;
     int movesAllowed;
     int timeAllowed;
+
 
     public LevelModel() {
         boardTiles = new Tile[12][12];

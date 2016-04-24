@@ -6,12 +6,14 @@ import UndoActionManager.ColorAction;
 import UndoActionManager.IAction;
 import UndoActionManager.ResizeAction;
 import UndoActionManager.TileAction;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,6 +26,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -35,6 +39,7 @@ import java.util.Stack;
  * Created by slafo on 4/10/2016.
  */
 public class LevelBuilderController implements Initializable {
+    BoardController boardController;
     LevelModel level;
     @FXML
     public Button greenButton; // Return to menu
@@ -42,6 +47,10 @@ public class LevelBuilderController implements Initializable {
     public Button redButton; // Return to menu
     @FXML
     public Button yellowButton; // Return to menu
+    @FXML
+    public Button blackButton; // Return to menu
+    @FXML
+    public Button whiteButton; // Return to menu
     @FXML
     public Button homeButton; // Return to menu
     @FXML
@@ -67,7 +76,7 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public ImageView typeImage;
 
-    public String color;
+    public Color color;
     //contains references to all the panes added to boardView
     Pane[][] tilePanes;
     // Max row and column size
@@ -265,35 +274,8 @@ public class LevelBuilderController implements Initializable {
      */
     public void handleBoardClicked(MouseEvent event) {
 
-        try {
-            // if its not an int don't change the board
-            Integer.parseInt(levelNumber.getText());
-            //get x and y mouse coordinates
-            double x = event.getX();
-            double y = event.getY();
-            //find column and row of tile clicked
-            int col = (int) (x / 45.8333333);
-            int row = (int) (y / 45.8333333);
-            if (color == null) {
-                TileAction ta = new TileAction(level.getTile(col, row), tilePanes[col][row]);
-                if (ta.doAction()) {
-                    System.out.println("board click action performed");
-                    undoHistory.push(ta);
-                    redoHistory.clear();
-                }
-            }else{
-                System.out.println("SOV");
-                ColorAction ca = new ColorAction((ReleaseTile)level.getTile(col, row), tilePanes[col][row], color);
-                if(ca.doAction()){
-                    System.out.println("color action performed");
-                    undoHistory.push(ca);
-                    redoHistory.clear();
-                }
-            }
-        } catch (Exception e) {
-            // do nothing
-            return;
-        }
+
+        boardController.handleBoardClicked(event);
 
     }
 
@@ -436,19 +418,28 @@ public class LevelBuilderController implements Initializable {
     }
 
     public void changeColor(ActionEvent ae) {
+
         if (ae.getSource() == redButton) {
-            color = "red";
+            color = Color.RED;
         }
         if (ae.getSource() == greenButton) {
-            color = "green";
+            color = Color.GREEN;
         }
         if (ae.getSource() == yellowButton) {
-            color = "yellow";
+            color = Color.YELLOW;
         }
+        if (ae.getSource() == whiteButton) {
+            color = Color.WHITE;
+        }
+        if (ae.getSource() == blackButton) {
+            color = Color.BLACK;
+        }
+        System.out.println("color changed to " + color);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        boardController = new BoardController(this);
         level = new LevelModel();
         boardView.getStyleClass().add("board");
         undoHistory = new Stack<IAction>();
@@ -514,15 +505,18 @@ public class LevelBuilderController implements Initializable {
 
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                Pane pane = new Pane();
+                GridSquare pane = new GridSquare();
 
                 pane.setMinSize(0, 0);
                 pane.setStyle("-fx-background-color: white");
                 pane.setStyle("-fx-border-color: black");
                 pane.getStyleClass().add("board-cell");
                 boardView.add(pane, i, j);
+
                 tilePanes[i][j] = pane;
+
             }
         }
     }
 }
+
