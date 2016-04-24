@@ -35,7 +35,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="whiteButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
+            <Button fx:id="whiteButton" mnemonicParsing="false" onAction="#changeColor" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="46.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -44,7 +44,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="blackButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
+            <Button fx:id="blackButton" mnemonicParsing="false" onAction="#changeColor" prefHeight="64.0" prefWidth="77.0" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fitHeight="46.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                      <image>

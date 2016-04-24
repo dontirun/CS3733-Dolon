@@ -434,7 +434,7 @@ public class LevelBuilderController implements Initializable {
         if (ae.getSource() == blackButton) {
             color = Color.BLACK;
         }
-        System.out.println("color changed to " + color);
+        System.out.println("color changed to " + color.toString());
     }
 
     @Override

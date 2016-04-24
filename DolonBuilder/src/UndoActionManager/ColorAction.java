@@ -13,8 +13,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Queue;
 
-import static BuilderControllers.BoardController.redNumPanes;
-import static BuilderControllers.BoardController.redNumTiles;
+import static BuilderControllers.BoardController.*;
 
 
 /**
@@ -24,50 +23,56 @@ public class ColorAction implements IAction {
 
     ReleaseTile tile;
     GridSquare pane;
+    String startText;
+    String endText;
     Color startColor;
-    Color endColor;
+    Color endColor; //determines which arraylist to change
     ReleaseTile discardTile;
     GridSquare discardPane;
+    boolean discarded;
+    ArrayList<ReleaseTile> affectedColorTiles;
+    ArrayList<GridSquare> affectedColorPanes;
 
     public ColorAction(ReleaseTile tile, GridSquare pane, Color color) {
         this.tile = tile;
         this.pane = pane;
+        startColor = tile.getColor();
         this.endColor = color;
+        if(color == Color.RED){
+            affectedColorTiles = redNumTiles;
+            affectedColorPanes = redNumPanes;
+        }
+        if(color == Color.GREEN){
+            affectedColorTiles = greenNumTiles;
+            affectedColorPanes = greenNumPanes;
+        }
+        if(color == Color.YELLOW){
+            affectedColorTiles = yellowNumTiles;
+            affectedColorPanes = yellowNumPanes;
+        }
     }
 
     @Override
     public boolean doAction() {
         if (isValid()) {
-            //record starting style
+            //record starting color of tile clicked
             startColor=tile.getColor();
-
-
+            //record start number of tile clicked
+            this.startText = pane.getNumLabel().getText();
             tile.setColor(endColor);
-//            pane.getNumLabel().setText("1");
-//            pane.getNumLabel().setTextFill(endColor);
-
-            System.out.println(endColor);
-
-
-            redNumTiles.add(tile);
-            redNumPanes.add(pane);
-            System.out.println("array size : "+ redNumTiles.size());
-            if(redNumTiles.size()>6){
-
-                discardTile = redNumTiles.remove(0);
-                discardPane  = redNumPanes.remove(0);
+            affectedColorTiles.add(tile);
+            affectedColorPanes.add(pane);
+            if(affectedColorTiles.size()>6){
+                discarded = true;
+                discardTile = affectedColorTiles.remove(0);
+                discardPane  = affectedColorPanes.remove(0);
 
                 discardTile.setColor(Color.WHITE);
                 discardPane.getNumLabel().setText("");
 
-                for(int i = 0; i< redNumPanes.size(); i++){
-                    redNumPanes.get(i).getNumLabel().setText(Integer.toString(i));
-                    redNumPanes.get(i).getNumLabel().setTextFill(Color.RED);
-                }
-
             }
+            updateColorNums(affectedColorTiles, affectedColorPanes);
 
-           // pane.setNum(endColor);
             return true;
         }
         return false;
@@ -75,16 +80,52 @@ public class ColorAction implements IAction {
 
     @Override
     public boolean undoAction() {
-        tile.setColor(startColor);
-        pane.getNumLabel().setTextFill(startColor);
+        System.out.println("undoing color action...");
+        if(discarded) {
+            affectedColorTiles.add(0, discardTile);
+            affectedColorPanes.add(0, discardPane);
+            discardTile.setColor(endColor);
+
+            affectedColorTiles.remove(affectedColorTiles.size()-1);
+            affectedColorPanes.remove(affectedColorPanes.size()-1);
+
+            tile.setColor(startColor);
+            pane.getNumLabel().setText(startText);
+            pane.getNumLabel().setTextFill(startColor);
+        }
+        else{
+            affectedColorTiles.remove(affectedColorTiles.size()-1);
+            affectedColorPanes.remove(affectedColorPanes.size()-1);
+
+            tile.setColor(startColor);
+            pane.getNumLabel().setText(startText);
+            pane.getNumLabel().setTextFill(startColor);
+        }
+
+        updateColorNums(affectedColorTiles, affectedColorPanes);
 
         return true;
     }
 
     @Override
     public boolean redoAction() {
+        System.out.println("redoing color action...");
+
         tile.setColor(endColor);
-        pane.getNumLabel().setTextFill(endColor);
+        affectedColorTiles.add(tile);
+        affectedColorPanes.add(pane);
+        System.out.println("array size : "+ affectedColorTiles.size());
+        if(affectedColorTiles.size()>6){
+
+            discardTile = affectedColorTiles.remove(0);
+            discardPane  = affectedColorPanes.remove(0);
+
+            discardTile.setColor(Color.WHITE);
+            discardPane.getNumLabel().setText("");
+
+        }
+
+        updateColorNums(affectedColorTiles, affectedColorPanes);
 
         return true;
     }
@@ -92,7 +133,15 @@ public class ColorAction implements IAction {
     @Override
     public boolean isValid() {
         //only allows giving a color num to valid tiles
-        return tile.getExists();
+        return tile.getExists() && tile.getColor()==Color.WHITE;
+    }
+
+    public void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare>affectedColorPanes){
+        for(int i = 0; i< affectedColorPanes.size(); i++){
+            affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
+            Color color = affectedColorTiles.get(i).getColor();
+            affectedColorPanes.get(i).getNumLabel().setTextFill(color);
+        }
     }
 
 

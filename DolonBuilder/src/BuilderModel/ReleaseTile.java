@@ -10,7 +10,7 @@ public class ReleaseTile extends Tile {
     Color color;
 
     public ReleaseTile(){
-
+        color = Color.WHITE;
     }
     public int getNum(){
         return num;
@@ -24,4 +24,5 @@ public class ReleaseTile extends Tile {
     public void setColor(Color color){
         this.color=color;
     }
+
 }
