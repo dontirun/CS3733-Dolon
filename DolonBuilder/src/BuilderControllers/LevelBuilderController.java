@@ -1,19 +1,15 @@
 package BuilderControllers;
 
 import BuilderModel.LevelModel;
-import BuilderModel.ReleaseTile;
-import UndoActionManager.ColorAction;
 import UndoActionManager.IAction;
 import UndoActionManager.ResizeAction;
-import UndoActionManager.TileAction;
-import javafx.application.Platform;
+import UndoActionManager.ResizeReleaseAction;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +23,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -189,6 +184,8 @@ public class LevelBuilderController implements Initializable {
         }
 
         int num = Integer.parseInt(levelTextField.getText());
+
+
         // initialize elements for correct level type
         //Need to add actual loading stuff here as well
         switch (num % 3) {
@@ -390,12 +387,26 @@ public class LevelBuilderController implements Initializable {
      * @param event
      */
     public void handleResizeButton(ActionEvent event) {
-        ResizeAction ra = new ResizeAction(level.getBoardTiles(), tilePanes, colsTextField, rowsTextField);
-        if (ra.doAction()) {
-            System.out.println("resize action performed");
-            undoHistory.push(ra);
-            redoHistory.clear();
+        if(level.getMode()!="release"){
+            ResizeAction ra = new ResizeAction(level.getBoardTiles(), tilePanes, colsTextField, rowsTextField);
+            if (ra.doAction()) {
+                System.out.println("resize action performed");
+                undoHistory.push(ra);
+                redoHistory.clear();
+            }
+
+
+        }else{
+            ResizeReleaseAction rla = new ResizeReleaseAction(level.getBoardTiles(), tilePanes, colsTextField, rowsTextField);
+            if (rla.doAction()) {
+                System.out.println("resize action performed");
+                undoHistory.push(rla);
+                redoHistory.clear();
+            }
+
         }
+
+
 
     }
 
@@ -439,6 +450,7 @@ public class LevelBuilderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        color = Color.BLACK;
         boardController = new BoardController(this);
         level = new LevelModel();
         boardView.getStyleClass().add("board");

@@ -1,15 +1,14 @@
 package BuilderControllers;
 
 import BuilderModel.ReleaseTile;
-import BuilderModel.Tile;
 import UndoActionManager.ColorAction;
+import UndoActionManager.ReleaseTileAction;
 import UndoActionManager.TileAction;
-import UndoActionManager.TileAction2;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Queue;
 
 /**
  * Created by Walter on 4/23/2016.
@@ -52,15 +51,23 @@ public class BoardController {
         ReleaseTile clickedTile = (ReleaseTile) lbc.level.getTile(col, row);
         GridSquare clickedPane = (GridSquare) lbc.tilePanes[col][row];
 
-        if(lbc.color == Color.BLACK || lbc.color == Color.WHITE){
-            TileAction2 ta = new TileAction2(clickedTile, clickedPane, lbc.color);
-            if (ta.doAction()) {
-                System.out.println("tile action performed");
-                lbc.undoHistory.push(ta);
-                lbc.redoHistory.clear();
+        if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
+            if (lbc.level.getMode() == "release") {
+                ReleaseTileAction rta = new ReleaseTileAction(clickedTile, clickedPane, lbc.color);
+                if (rta.doAction()) {
+                    System.out.println("tile action performed");
+                    lbc.undoHistory.push(rta);
+                    lbc.redoHistory.clear();
+                }
+            } else {
+                TileAction ta = new TileAction(clickedTile, clickedPane, lbc.color);
+                if (ta.doAction()) {
+                    System.out.println("tile action performed");
+                    lbc.undoHistory.push(ta);
+                    lbc.redoHistory.clear();
+                }
             }
-
-        }else {
+        } else {
 
             ColorAction ca = new ColorAction(clickedTile, clickedPane, lbc.color);
             if (ca.doAction()) {
@@ -73,6 +80,55 @@ public class BoardController {
         // do nothing
 
     }
+
+    public static void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare>affectedColorPanes){
+        for(int i = 0; i< affectedColorPanes.size(); i++){
+            affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
+            Color color = affectedColorTiles.get(i).getColor();
+            affectedColorPanes.get(i).getNumLabel().setTextFill(color);
+        }
+    }
+    public static ArrayList<ReleaseTile> getColorNumTiles(Color color){
+        ArrayList<ReleaseTile> result = null;
+        if(color == Color.RED){
+            result = redNumTiles;
+        }
+        if(color == Color.GREEN){
+            result = greenNumTiles;
+        }
+        if(color == Color.YELLOW){
+            result = yellowNumTiles;
+        }
+        if(result== null){
+            System.out.println("couldnt find corresponding arraylist");
+        }
+        return result;
+    }
+    public static ArrayList<GridSquare> getColorNumPanes(Color color){
+        ArrayList<GridSquare> result = null;
+        if(color == Color.RED){
+            result = redNumPanes;
+        }
+        if(color == Color.GREEN){
+            result = greenNumPanes;
+        }
+        if(color == Color.YELLOW){
+            result = yellowNumPanes;
+        }
+        if(result== null){
+            System.out.println("couldnt find corresponding arraylist");
+        }
+        return result;
+    }
+    public static void clearColorNumPanes(){
+        redNumTiles.clear();
+        redNumPanes.clear();
+        greenNumTiles.clear();
+        greenNumPanes.clear();
+        yellowNumTiles.clear();
+        yellowNumPanes.clear();
+    }
+
 
 }
 

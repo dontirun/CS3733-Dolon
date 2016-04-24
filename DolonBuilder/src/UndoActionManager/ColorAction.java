@@ -16,6 +16,7 @@ import java.util.Queue;
 import static BuilderControllers.BoardController.*;
 
 
+
 /**
  * Created by Walter on 4/16/2016.
  */
@@ -38,18 +39,20 @@ public class ColorAction implements IAction {
         this.pane = pane;
         startColor = tile.getColor();
         this.endColor = color;
-        if(color == Color.RED){
-            affectedColorTiles = redNumTiles;
-            affectedColorPanes = redNumPanes;
-        }
-        if(color == Color.GREEN){
-            affectedColorTiles = greenNumTiles;
-            affectedColorPanes = greenNumPanes;
-        }
-        if(color == Color.YELLOW){
-            affectedColorTiles = yellowNumTiles;
-            affectedColorPanes = yellowNumPanes;
-        }
+//        if(color == Color.RED){
+//            affectedColorTiles = redNumTiles;
+//            affectedColorPanes = redNumPanes;
+//        }
+//        if(color == Color.GREEN){
+//            affectedColorTiles = greenNumTiles;
+//            affectedColorPanes = greenNumPanes;
+//        }
+//        if(color == Color.YELLOW){
+//            affectedColorTiles = yellowNumTiles;
+//            affectedColorPanes = yellowNumPanes;
+//        }
+        affectedColorTiles = getColorNumTiles(color);
+        affectedColorPanes = getColorNumPanes(color);
     }
 
     @Override
@@ -136,13 +139,8 @@ public class ColorAction implements IAction {
         return tile.getExists() && tile.getColor()==Color.WHITE;
     }
 
-    public void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare>affectedColorPanes){
-        for(int i = 0; i< affectedColorPanes.size(); i++){
-            affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
-            Color color = affectedColorTiles.get(i).getColor();
-            affectedColorPanes.get(i).getNumLabel().setTextFill(color);
-        }
-    }
+
+
 
 
 }
