@@ -71,6 +71,7 @@ public class LevelViewController implements Initializable{
     boolean placed = false;
 
     final static DataFormat pieceShape = new DataFormat("piece");
+    PieceFactory ourPieceFactory;
 
     // max rows and columns, might need to be changed
     int rows = 12;
@@ -214,14 +215,6 @@ public class LevelViewController implements Initializable{
         }
 
 
-        // Initiallize tiles
-        PieceFactory ourPieceFactory = new PieceFactory();
-
-        for (int i = 1; i < 36; i++) {
-            generateShapeFromPiece(ourPieceFactory.getPiece(i));
-        }
-
-
         bullpenView.setGridLinesVisible(true);
         // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
     }
@@ -292,6 +285,16 @@ public class LevelViewController implements Initializable{
         this.levelNumber.setText(Integer.toString(level));
     }
 
+    // Get the specific node from the board
+    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return node;
+            }
+        }
+        return null;
+    }
+
 
     // Level parsing function
     // TODO: Use some set of globals or way to pass values into a level
@@ -304,7 +307,7 @@ public class LevelViewController implements Initializable{
         int columns = 0;
         int metric = 0;
         ArrayList<Integer> pieces = new ArrayList<Integer>();
-        ArrayList<Integer> tiles = new ArrayList<Integer>();
+        ArrayList<String> tiles = new ArrayList<String>();
 
         // Starts at 0 because file begins with ### and will automatically increment
         int readCount = 0; // Determines what part of the files is being parsed
@@ -340,7 +343,7 @@ public class LevelViewController implements Initializable{
                             pieces.add(Integer.parseInt(dataLine));
                             break;
                         case 6: // Tiles
-                            tiles.add(Integer.parseInt(dataLine));
+                            tiles.add(dataLine);
                             break;
                     }
                 }
@@ -350,8 +353,53 @@ public class LevelViewController implements Initializable{
             e.printStackTrace();
         }
 
+
         // NOTE: here we tie into the GUI
         setLevelNumber(lvNum);
+
+
+        // Set board to appropriate size
+        int cshift = (int) ((12 - columns) / 2);
+        int rshift = (int) ((12 - rows) / 2);
+
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 12; j++) {
+                if (i < columns + cshift && i >= cshift && j < rows + rshift && j >= rshift) {
+                    //getNodeByRowColumnIndex(j, i, boardView).setExists(true);
+                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: white");
+                    //tilePanes[i][j].setStyle("-fx-background-color: white");
+                    // tilePanes[i][j].setStyle("-fx-border-color: black");
+                } else {
+                    //boardTiles[i][j].setExists(false);
+                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: black");
+                    //tilePanes[i][j].setStyle("-fx-background-color: black");
+                }
+            }
+        }
+
+
+        // Set the pieces given for the board
+        ourPieceFactory = new PieceFactory(); // Generate pieceFactory
+        for(int i: pieces){
+            generateShapeFromPiece(ourPieceFactory.getPiece(i));
+        }
+
+        // Set the specific tiles of the board (non-square board shapes)
+        int count = 0;
+        for(String s: tiles){
+            // Break up lines and convert to int
+            String[] tileLines = s.split(" ");
+            int[] tileInts = new int[tileLines.length];
+
+            for(int i = 0; i < tileLines.length; i++){
+                tileInts[i] = Integer.parseInt(tileLines[i]);
+            }
+
+            // Set values
+
+            // Increment count
+            count++;
+        }
 
     }
 }
