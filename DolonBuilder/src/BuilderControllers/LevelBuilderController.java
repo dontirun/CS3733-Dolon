@@ -1,6 +1,7 @@
 package BuilderControllers;
 
 import BuilderModel.LevelModel;
+import BuilderModel.ReleaseTile;
 import UndoActionManager.IAction;
 import UndoActionManager.ResizeAction;
 import UndoActionManager.ResizeReleaseAction;
@@ -131,7 +132,16 @@ public class LevelBuilderController implements Initializable {
                 level.getTile(j, i).setExists(true);
 
                 if (levelType == 3) {
-                    // for now nothing but when we add release specific stuff we need to reset it
+                    // clear the release level specifc parameters
+                    ((GridSquare)tilePanes[j][i]).getNumLabel().setText("");
+                    ((ReleaseTile)level.getTile(j, i)).setColor(Color.WHITE);
+                    boardController.redNumTiles.clear();
+                    boardController.redNumPanes.clear();
+                    boardController.greenNumTiles.clear();
+                    boardController.greenNumPanes.clear();
+                    boardController.yellowNumTiles.clear();
+                    boardController.yellowNumPanes.clear();
+
                 }
 
 
@@ -165,6 +175,7 @@ public class LevelBuilderController implements Initializable {
 
     public void resetPieces() {
         // add this functionality in later
+
     }
 
     /**
