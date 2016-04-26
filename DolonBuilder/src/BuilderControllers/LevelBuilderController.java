@@ -116,23 +116,12 @@ public class LevelBuilderController implements Initializable {
             return;
         }
         // helper functions
-        resetButtons();
         resetBoard(i);
         resetFields(i);
         resetPieces();
 
     }
-    public void resetButtons(){
-        // set black button to visually selected
-        redButton.setStyle("-fx-background-color:transparent");
-        greenButton.setStyle("-fx-background-color: transparent");
-        yellowButton.setStyle("-fx-background-color: transparent");
-        whiteButton.setStyle("-fx-background-color: transparent");
-        blackButton.setStyle("-fx-background-color: darkblue");
 
-        //black button is selected
-        color = Color.BLACK;
-    }
     public void resetBoard(int levelType) {
 
         for (int i = 0; i < rows; i++) {
@@ -288,10 +277,7 @@ public class LevelBuilderController implements Initializable {
             case 0:
                 level = new LevelModel("release");
         }
-        resetButtons();
-        resetBoard(num);
-        resetFields(num);
-        resetPieces();
+
         loadLevel(num);
     }
 
@@ -463,48 +449,18 @@ public class LevelBuilderController implements Initializable {
 
         if (ae.getSource() == redButton) {
             color = Color.RED;
-            // highlighting the border of the selected button
-            redButton.setStyle("-fx-background-color:darkblue");
-            greenButton.setStyle("-fx-background-color: transparent");
-            yellowButton.setStyle("-fx-background-color: transparent");
-            whiteButton.setStyle("-fx-background-color: transparent");
-            blackButton.setStyle("-fx-background-color: transparent");
-
-
         }
         if (ae.getSource() == greenButton) {
             color = Color.GREEN;
-
-            redButton.setStyle("-fx-background-color:transparent");
-            greenButton.setStyle("-fx-background-color: darkblue");
-            yellowButton.setStyle("-fx-background-color: transparent");
-            whiteButton.setStyle("-fx-background-color: transparent");
-            blackButton.setStyle("-fx-background-color: transparent");
         }
         if (ae.getSource() == yellowButton) {
             color = Color.YELLOW;
-
-            redButton.setStyle("-fx-background-color:transparent");
-            greenButton.setStyle("-fx-background-color: transparent");
-            yellowButton.setStyle("-fx-background-color: darkblue");
-            whiteButton.setStyle("-fx-background-color: transparent");
-            blackButton.setStyle("-fx-background-color: transparent");
         }
         if (ae.getSource() == whiteButton) {
             color = Color.WHITE;
-            redButton.setStyle("-fx-background-color:transparent");
-            greenButton.setStyle("-fx-background-color: transparent");
-            yellowButton.setStyle("-fx-background-color: transparent");
-            whiteButton.setStyle("-fx-background-color: darkblue");
-            blackButton.setStyle("-fx-background-color: transparent");
         }
         if (ae.getSource() == blackButton) {
             color = Color.BLACK;
-            redButton.setStyle("-fx-background-color:transparent");
-            greenButton.setStyle("-fx-background-color: transparent");
-            yellowButton.setStyle("-fx-background-color: transparent");
-            whiteButton.setStyle("-fx-background-color: transparent");
-            blackButton.setStyle("-fx-background-color: darkblue");
         }
         System.out.println("color changed to " + color.toString());
     }
@@ -637,7 +593,7 @@ public class LevelBuilderController implements Initializable {
             }
 
         } catch (FileNotFoundException e) {
-            return;
+            e.printStackTrace();
         }
 
         // Set level label
