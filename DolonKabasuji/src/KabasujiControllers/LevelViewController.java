@@ -285,17 +285,6 @@ public class LevelViewController implements Initializable{
         this.levelNumber.setText(Integer.toString(level));
     }
 
-    // Get the specific node from the board
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-        for (Node node : gridPane.getChildren()) {
-            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                return node;
-            }
-        }
-        return null;
-    }
-
-
     // Level parsing function
     // TODO: Use some set of globals or way to pass values into a level
     public void loadLevel(int levelNum) throws IOException {

@@ -26,8 +26,12 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
@@ -273,6 +277,8 @@ public class LevelBuilderController implements Initializable {
             case 0:
                 level = new LevelModel("release");
         }
+
+        loadLevel(num);
     }
 
     /**
@@ -539,6 +545,111 @@ public class LevelBuilderController implements Initializable {
                 tilePanes[i][j] = pane;
 
             }
+        }
+    }
+
+
+    // Level parsing function
+    public void loadLevel(int levelNum) throws IOException {
+
+        // Variables for level information
+        // NOTE: will most likely be moved to more global variables
+        int lvNum = 0;
+        int metric = 0;
+        ArrayList<Integer> pieces = new ArrayList<Integer>();
+        ArrayList<String> tiles = new ArrayList<String>();
+
+        // Starts at 0 because file begins with ### and will automatically increment
+        int readCount = 0; // Determines what part of the files is being parsed
+
+        try {
+            // Parsing objects
+            // Get filepath for the right level, and then load it in
+            String filepath = "DolonKabasuji/resources/levels/lvl" + levelNum + ".bdsm";
+            FileReader input = new FileReader(filepath); // Read in file
+            BufferedReader buf = new BufferedReader(input);
+            String dataLine;
+
+            // Parse file
+            while ((dataLine = buf.readLine()) != null) {
+                if (dataLine.contains("###")) { // Go to next section
+                    readCount++;
+                } else { // Information to parse
+                    switch (readCount) {
+                        case 1: // Level Number
+                            lvNum = Integer.parseInt(dataLine);
+                            break;
+                        case 2: // Metric
+                            metric = Integer.parseInt(dataLine);
+                            break;
+                        case 3: // Pieces
+                            pieces.add(Integer.parseInt(dataLine));
+                            break;
+                        case 4: // Tiles
+                            tiles.add(dataLine);
+                            break;
+                    }
+                }
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        // Set level label
+        levelNumber.setText(Integer.toString(lvNum));
+
+        // Set metric
+        switch(lvNum%3){
+            case 1:
+                movesRemainField.setText(Integer.toString(metric));
+                break;
+            case 2:
+                timerField.setText(Integer.toString(metric));
+                break;
+        }
+
+        /*
+        // Set the pieces given for the board
+        ourPieceFactory = new PieceFactory(); // Generate pieceFactory
+        for(int i: pieces){
+            generateShapeFromPiece(ourPieceFactory.getPiece(i));
+        }
+        */
+
+        // Set the specific tiles of the board (non-square board shapes)
+        int count = 0;
+        for (String s : tiles) {
+            // Break up lines and convert to int
+            String[] tileLines = s.split(" ");
+            int[] tileInts = new int[tileLines.length];
+
+            for (int i = 0; i < tileLines.length; i++) {
+                tileInts[i] = Integer.parseInt(tileLines[i]);
+            }
+
+            // Set values
+            for (int i = 0; i < columns; i++) {
+                // Determine what type of tile needs to be set
+                if (tileInts[i] == 0) { // No-Tile
+                    level.getBoardTiles()[i][count].setExists(false);
+                    tilePanes[i][count].setStyle("-fx-background-color: black");
+                    //tilePanes[i][count].setStyle("-fx-border-color: black");
+                } else if (tileInts[i] == 1) { // Valid blank tile
+                    level.getBoardTiles()[i][count].setExists(true);
+                    tilePanes[i][count].setStyle("-fx-background-color: white");
+                    //tilePanes[i][count].setStyle("-fx-border-color: black");
+                } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile.
+                    //
+                } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
+                    //
+                } else if (tileInts[i] > 40 && tileInts[i] < 47) { // Yellow release tile: 41-46 indicate the number on the tile.
+                    //
+                }
+            }
+
+            // Increment count
+            count++;
         }
     }
 }
