@@ -34,7 +34,6 @@ public class BoardController {
     }
 
     public void handleBoardClicked(MouseEvent event) {
-        //Walter: ???? why is this try catch here??
         try {
             // if its not an int don't change the board
             Integer.parseInt(lbc.levelNumber.getText());
