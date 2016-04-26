@@ -87,7 +87,7 @@ public class BoardController {
             Color color = affectedColorTiles.get(i).getColor();
             affectedColorPanes.get(i).getNumLabel().setTextFill(color);
             if(color == Color.YELLOW){
-                affectedColorPanes.get(i).getNumLabel().setTextFill(Color.GOLD);
+                affectedColorPanes.get(i).getNumLabel().setTextFill(Color.web("#d5ae27"));
             }
             affectedColorPanes.get(i).getNumLabel().autosize();
             affectedColorPanes.get(i).getNumLabel().setStyle("-fx-font: 40 arial;");
