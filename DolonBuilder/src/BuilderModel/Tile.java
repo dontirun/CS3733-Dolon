@@ -3,9 +3,9 @@ package BuilderModel;
 /**
  * Created by Walter on 4/16/2016.
  */
-public class Tile {
+public abstract class Tile {
 
-
+    Square square;
     boolean exists;
 
     public Tile() {
@@ -14,9 +14,6 @@ exists=true;
     public Tile(boolean exists){
         this.exists=exists;
     }
-    public Tile clone() {
-        return new Tile(exists);
-    };
     public boolean getExists(){
         return exists;
     }

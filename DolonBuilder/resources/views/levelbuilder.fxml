@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -91,22 +92,6 @@
          </children>
       </HBox>
 
-      <FlowPane layoutX="224.0" layoutY="130.0" prefHeight="550.0" prefWidth="437.0" style="-fx-border-color: black; -fx-border-radius: 10 0 0 10; -fx-border-width: 3; -fx-background-color: white; -fx-background-radius: 10 0 0 10;">
-         <children>
-            <Button mnemonicParsing="false" prefHeight="79.0" prefWidth="79.0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="55.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/LevelBuilderPlus.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-         </children></FlowPane>
-
       <Pane prefHeight="102.0" prefWidth="1280.0" style="-fx-background-color: #03A9F4; -fx-background-radius: 0 0 50 50; -fx-border-width: 5;">
          <children>
             <ImageView fx:id="typeImage" fitHeight="50.0" fitWidth="41.0" layoutX="547.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
@@ -152,5 +137,26 @@
       </Pane>
       <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" onMouseClicked="#handleBoardClicked" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
       </GridPane>
+      <ScrollPane layoutX="224.0" layoutY="130.0" prefHeight="550.0" prefWidth="437.0">
+         <content>
+      
+                  <FlowPane fx:id="bullpenView" prefHeight="550.0" prefWidth="437.0" style="-fx-border-color: black; -fx-border-radius: 10 0 0 10; -fx-border-width: 3; -fx-background-color: white; -fx-background-radius: 10 0 0 10;">
+               <children>
+                  <Button fx:id="addPieceButton" mnemonicParsing="false" onAction="#handleAddPieceButtonAction" prefHeight="79.0" prefWidth="79.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="55.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/LevelBuilderPlus.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </FlowPane>
+         </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

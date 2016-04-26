@@ -1,29 +1,36 @@
 package BuilderControllers;
 
-import BuilderModel.LevelModel;
-import BuilderModel.ReleaseTile;
+import BuilderModel.*;
+import PieceFactory.*;
 import UndoActionManager.IAction;
+import UndoActionManager.PieceAction;
 import UndoActionManager.ResizeAction;
 import UndoActionManager.ResizeReleaseAction;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.VPos;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.BufferedReader;
@@ -58,7 +65,11 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public Button resetButton; // Return to menu
     @FXML
+    public Button addPieceButton;
+    @FXML
     public GridPane boardView; // Pane for board
+    @FXML
+    public FlowPane bullpenView;
     @FXML
     public TextField rowsTextField;
     @FXML
@@ -84,6 +95,9 @@ public class LevelBuilderController implements Initializable {
     int columns = 12;
     Stack<IAction> undoHistory;
     Stack<IAction> redoHistory;
+    Bullpen bullpen = new Bullpen();
+    double RectangleSize = 45.83333333;
+    PieceFactory ourPieceFactory = new PieceFactory(); // Generate pieceFactory
 
 
     public void handleHomeButtonAction(ActionEvent event) throws IOException {
@@ -155,10 +169,6 @@ public class LevelBuilderController implements Initializable {
                 ((GridSquare)tilePanes[j][i]).getNumLabel().setText("");
                 ((ReleaseTile)level.getTile(j, i)).setColor(Color.WHITE);
 
-
-
-
-
             }
         }
 
@@ -170,6 +180,101 @@ public class LevelBuilderController implements Initializable {
         rowsTextField.setText("12");
         rowsTextField.setText("12");
 
+    }
+
+    public void handleAddPieceButtonAction(ActionEvent event) throws IOException {
+        int numberOfPiecesDrawn = 0;
+        // Set the pieces given for the board
+
+        final Stage pieceSelector = new Stage();
+        ScrollPane gridScroll = new ScrollPane();
+        final GridPane pieceGrid = new GridPane();
+
+        // Set board to appropriate size
+        int cshift = (int) ((12 - columns) / 2);
+        int rshift = (int) ((12 - rows) / 2);
+
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 12; j++) {
+                if (i < columns + cshift && i >= cshift && j < rows + rshift && j >= rshift) {
+                    //getNodeByRowColumnIndex(j, i, boardView).setExists(true);
+                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: white");
+                    //tilePanes[i][j].setStyle("-fx-background-color: white");
+                    // tilePanes[i][j].setStyle("-fx-border-color: black");
+                } else {
+                    //boardTiles[i][j].setExists(false);
+                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: black");
+                    //tilePanes[i][j].setStyle("-fx-background-color: black");
+                }
+            }
+        }
+
+
+        for (int i = 1; i < 36; i++) {
+
+            final Piece pieceToDraw = ourPieceFactory.getPiece(i);
+
+            final Group pieceGroup = new Group();
+            final Group bullpenViewGroup = new Group();
+
+            for (Square selectedSquare : pieceToDraw.squares) {
+                Rectangle selectedRectangle = new Rectangle();
+                Rectangle rectangleCopy = new Rectangle();
+                selectedRectangle.setX((selectedSquare.getRelCol()) * RectangleSize); //Set Y position based on the Relative Column
+                rectangleCopy.setX((selectedSquare.getRelCol()) * RectangleSize); //Set Y position based on the Relative Column
+                selectedRectangle.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
+                rectangleCopy.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
+                selectedRectangle.setWidth(RectangleSize); //Set the width of each rectangle
+                rectangleCopy.setWidth(RectangleSize); //Set the width of each rectangle
+                selectedRectangle.setHeight(RectangleSize); //Set the height of each rectangle
+                rectangleCopy.setHeight(RectangleSize); //Set the height of each rectangle
+                selectedRectangle.setFill(Color.RED); //Color the fill
+                rectangleCopy.setFill(Color.RED); //Color the fill
+                selectedRectangle.setStroke(Color.BLACK); //Color the outline
+                rectangleCopy.setStroke(Color.BLACK); //Color the outline
+
+                pieceGroup.getChildren().add(selectedRectangle);
+                bullpenViewGroup.getChildren().add(rectangleCopy);
+            }
+
+
+
+            pieceGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    PieceAction action = new PieceAction(pieceToDraw, bullpen);
+                    action.doAction();
+                    bullpenView.getChildren().add(bullpenViewGroup);
+                    bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
+                    pieceSelector.close();
+                }
+            });
+
+
+            pieceGrid.add(pieceGroup, numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
+            pieceGrid.setMargin(pieceGroup, new Insets(10, 10, 10, 10));
+            pieceGrid.setHalignment(pieceGroup, HPos.CENTER);
+            pieceGrid.setValignment(pieceGroup, VPos.CENTER);
+
+            numberOfPiecesDrawn++;
+        }
+
+        gridScroll.setContent(pieceGrid);
+        pieceSelector.setScene(new Scene(gridScroll, 640, 480));
+        pieceSelector.show();
+
+
+    }
+
+    public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+        Node result = null;
+        ObservableList<Node> childrens = gridPane.getChildren();
+        for(Node node : childrens) {
+            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+                result = node;
+                break;
+            }
+        }
+        return result;
     }
 
     public void resetFields(int levelType) {
@@ -435,9 +540,6 @@ public class LevelBuilderController implements Initializable {
             }
 
         }
-
-
-
     }
 
     public void handleUndo() {

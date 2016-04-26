@@ -5,9 +5,7 @@ import PieceFactory.PieceFactory;
 import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.event.Event;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
-import javafx.geometry.VPos;
+import javafx.geometry.*;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
@@ -263,10 +261,15 @@ public class LevelViewController implements Initializable{
         });
 
         bullpenView.add(pieceGroup, numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+        bullpenView.setMargin(pieceGroup, new javafx.geometry.Insets(10, 10, 10, 10));
         bullpenView.setHalignment(pieceGroup, HPos.CENTER);
         bullpenView.setValignment(pieceGroup, VPos.CENTER);
         numberOfPiecesDrawn++;
     }
+
+    /*
+    Got from someone on stackoverflow
+     */
 
     public Node getNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
         Node result = null;
