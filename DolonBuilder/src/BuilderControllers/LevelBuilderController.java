@@ -190,26 +190,6 @@ public class LevelBuilderController implements Initializable {
         ScrollPane gridScroll = new ScrollPane();
         final GridPane pieceGrid = new GridPane();
 
-        // Set board to appropriate size
-        int cshift = (int) ((12 - columns) / 2);
-        int rshift = (int) ((12 - rows) / 2);
-
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 12; j++) {
-                if (i < columns + cshift && i >= cshift && j < rows + rshift && j >= rshift) {
-                    //getNodeByRowColumnIndex(j, i, boardView).setExists(true);
-                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: white");
-                    //tilePanes[i][j].setStyle("-fx-background-color: white");
-                    // tilePanes[i][j].setStyle("-fx-border-color: black");
-                } else {
-                    //boardTiles[i][j].setExists(false);
-                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: black");
-                    //tilePanes[i][j].setStyle("-fx-background-color: black");
-                }
-            }
-        }
-
-
         for (int i = 1; i < 36; i++) {
 
             final Piece pieceToDraw = ourPieceFactory.getPiece(i);
