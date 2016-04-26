@@ -91,7 +91,7 @@ public class BoardController {
             }
             affectedColorPanes.get(i).getNumLabel().autosize();
             affectedColorPanes.get(i).getNumLabel().setStyle("-fx-font: 40 arial;");
-            //affectedColorPanes.get(i).getNumLabel().setStyle("-fx-stroke: black;");
+            affectedColorPanes.get(i).setStyle("-fx-border-color: black");
             // affectedColorPanes.get(i).getNumLabel().setStyle("-fx-stroke-width: 2px;");
             // affectedColorPanes.get(i).getNumLabel().setAlignment(Pos.CENTER_RIGHT);
         }

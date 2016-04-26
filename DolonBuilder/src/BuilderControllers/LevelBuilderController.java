@@ -154,7 +154,7 @@ public class LevelBuilderController implements Initializable {
                 // reset the visual aspect of the board
                 tilePanes[j][i].setMinSize(0, 0);
                 tilePanes[j][i].setStyle("-fx-background-color: white");
-                //tilePanes[j][i].setStyle("-fx-border-color: black");
+                tilePanes[j][i].setStyle("-fx-border-color: black");
                 tilePanes[j][i].getStyleClass().add("board-cell");
 
                 // reset the underlying tiles for tile actions
@@ -779,11 +779,10 @@ public class LevelBuilderController implements Initializable {
                 if (tileInts[i] == 0) { // No-Tile
                     level.getBoardTiles()[i][count].setExists(false);
                     tilePanes[i][count].setStyle("-fx-background-color: black");
-                    //tilePanes[i][count].setStyle("-fx-border-color: black");
                 } else if (tileInts[i] == 1) { // Valid blank tile
                     level.getBoardTiles()[i][count].setExists(true);
                     tilePanes[i][count].setStyle("-fx-background-color: white");
-                    //tilePanes[i][count].setStyle("-fx-border-color: black");
+                    tilePanes[i][count].setStyle("-fx-border-color: black");
                 } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile.
                     //
                 } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
