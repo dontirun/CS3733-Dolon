@@ -4,6 +4,7 @@ import BuilderModel.ReleaseTile;
 import UndoActionManager.ColorAction;
 import UndoActionManager.ReleaseTileAction;
 import UndoActionManager.TileAction;
+import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -34,7 +35,6 @@ public class BoardController {
     }
 
     public void handleBoardClicked(MouseEvent event) {
-        //Walter: ???? why is this try catch here??
         try {
             // if its not an int don't change the board
             Integer.parseInt(lbc.levelNumber.getText());
@@ -86,6 +86,14 @@ public class BoardController {
             affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
             Color color = affectedColorTiles.get(i).getColor();
             affectedColorPanes.get(i).getNumLabel().setTextFill(color);
+            if(color == Color.YELLOW){
+                affectedColorPanes.get(i).getNumLabel().setTextFill(Color.GOLD);
+            }
+            affectedColorPanes.get(i).getNumLabel().autosize();
+            affectedColorPanes.get(i).getNumLabel().setStyle("-fx-font: 40 arial;");
+            //affectedColorPanes.get(i).getNumLabel().setStyle("-fx-stroke: black;");
+            // affectedColorPanes.get(i).getNumLabel().setStyle("-fx-stroke-width: 2px;");
+            // affectedColorPanes.get(i).getNumLabel().setAlignment(Pos.CENTER_RIGHT);
         }
     }
     public static ArrayList<ReleaseTile> getColorNumTiles(Color color){
