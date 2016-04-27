@@ -2,10 +2,15 @@ package KabasujiControllers;
 
 import KabasujiModel.Level;
 import PieceFactory.PieceFactory;
+import com.sun.deploy.uitoolkit.DragContext;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.event.Event;
-import javafx.geometry.*;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
@@ -19,10 +24,8 @@ import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
-
 import java.io.*;
 import java.lang.Math;
-
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
@@ -38,7 +41,7 @@ import static javafx.geometry.Pos.TOP_RIGHT;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class LevelViewController implements Initializable{
+public class LevelViewController implements Initializable {
     @FXML
     Button homeButton;
     @FXML
@@ -68,7 +71,8 @@ public class LevelViewController implements Initializable{
 
     boolean placed = false;
 
-    final static DataFormat pieceShape = new DataFormat("piece");
+    private final static DataFormat pieceShape = new DataFormat("piece");
+    private final static double squareWidth = 45.8333333;
     PieceFactory ourPieceFactory;
 
     // max rows and columns, might need to be changed
@@ -79,7 +83,8 @@ public class LevelViewController implements Initializable{
     int gridH = 18;
     double RectangleSize = 45.83333333;
     int numberOfPiecesDrawn;
-    public LevelViewController(){
+
+    public LevelViewController() {
         numberOfPiecesDrawn = 0;
     }
 
@@ -88,19 +93,18 @@ public class LevelViewController implements Initializable{
         Parent root;
 
         // Return to home menu
-        if(event.getSource() == homeButton){
+        if (event.getSource() == homeButton) {
 
             //menuToLevelController(levelNumber);
             //get reference to the button's stage
-            stage=(Stage) homeButton.getScene().getWindow();
+            stage = (Stage) homeButton.getScene().getWindow();
             //load up OTHER FXML document
             root = FXMLLoader.load(getClass().getResource("/views/startscreen.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
 
-        }
-        else{
+        } else {
             //
         }
         //create a new scene with root and set the stage
@@ -113,17 +117,18 @@ public class LevelViewController implements Initializable{
         boardView.getStyleClass().add("board");
 
         // Set constraints (size of the cells)
-        for(int i = 0; i < columns; i++) {
+        for (int i = 0; i < columns; i++) {
             ColumnConstraints column = new ColumnConstraints(45.8333333);
             boardView.getColumnConstraints().add(column);
         }
 
-        for(int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) {
             RowConstraints row = new RowConstraints(45.8333333);
             boardView.getRowConstraints().add(row);
         }
 
         // Set grid (will later look at the grid for the level and set it that way)
+        //Iterate over the board and draw everything appropriate
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 final Pane pane = new Pane();
@@ -132,9 +137,7 @@ public class LevelViewController implements Initializable{
                 pane.setStyle("-fx-border-color: black");
                 pane.getStyleClass().add("board-cell");
                 boardView.add(pane, i, j);
-
-
-
+                //In case something is dragged over the pane
                 pane.setOnDragOver(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         // need to add something to prevent adding to an occupied tile
@@ -157,7 +160,6 @@ public class LevelViewController implements Initializable{
                                 getNodeByRowColumnIndex(currentRow + selectedSquare.getRelRow(), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
                             }
                         }
-
                         event.consume();
                     }
                 });
@@ -183,6 +185,7 @@ public class LevelViewController implements Initializable{
                     public void handle(DragEvent event) {
                         Dragboard db = event.getDragboard();
                         boolean success = false;
+                        //If we have a piece with us
                         if (db.hasContent(pieceShape)) {
                             int currentRow = GridPane.getRowIndex(pane);
                             int currentColumn = GridPane.getColumnIndex(pane);
@@ -198,84 +201,43 @@ public class LevelViewController implements Initializable{
                     }
                 });
             }
+
         }
 
-
-        // Set constraints (size of the cells)
-        for(int i = 0; i < gridW; i++) {
-            ColumnConstraints column = new ColumnConstraints(45.8333333*6);
+        // Set constraints (size of the cells for pieces)
+        for (int i = 0; i < gridW; i++) {
+            ColumnConstraints column = new ColumnConstraints(squareWidth * 6);
             bullpenView.getColumnConstraints().add(column);
         }
 
-        for(int i = 0; i < gridH; i++) {
-            RowConstraints row = new RowConstraints(45.8333333*6);
+        for (int i = 0; i < gridH; i++) {
+            RowConstraints row = new RowConstraints(squareWidth * 6);
             bullpenView.getRowConstraints().add(row);
         }
 
 
         bullpenView.setGridLinesVisible(true);
         // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
+        System.out.println("Made it here");
     }
-
 
 
     //Draw a piece on the board given the information about the piece
-    void generateShapeFromPiece(final Piece pieceToDraw){
-        final Group pieceGroup = new Group();
-        for(Square selectedSquare : pieceToDraw.squares){ //Iterate over all of the squares in the piece
-            Rectangle selectedRectangle = new Rectangle();
-            selectedRectangle.setX((selectedSquare.getRelCol()) * RectangleSize); //Set Y position based on the Relative Column
-            selectedRectangle.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
-            selectedRectangle.setWidth(RectangleSize); //Set the width of each rectangle
-            selectedRectangle.setHeight(RectangleSize); //Set the height of each rectangle
-            selectedRectangle.setFill(Color.RED); //Color the fill
-            selectedRectangle.setStroke(Color.BLACK); //Color the outline
-            pieceGroup.getChildren().add(selectedRectangle);
-        }
-
-
-
-        pieceGroup.setOnDragDetected(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-        /* drag was detected, start a drag-and-drop gesture*/
-        /* allow any transfer mode */
-                Dragboard db = pieceGroup.startDragAndDrop(TransferMode.ANY);
-
-        /* Put a string on a dragboard */
-                ClipboardContent content = new ClipboardContent();
-                content.put(pieceShape, pieceToDraw);
-                db.setContent(content);
-                event.consume();
-            }
-        });
-
-        pieceGroup.setOnDragDone(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-        /* the drag and drop gesture ended */
-        /* if the data was successfully moved, clear it */
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    pieceGroup.setVisible(FALSE);
-                }
-                event.consume();
-            }
-        });
-
-        bullpenView.add(pieceGroup, numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
-        bullpenView.setMargin(pieceGroup, new javafx.geometry.Insets(10, 10, 10, 10));
-        bullpenView.setHalignment(pieceGroup, HPos.CENTER);
-        bullpenView.setValignment(pieceGroup, VPos.CENTER);
+    private void generateShapeFromPiece(final Piece pieceToDraw) {
+        System.out.println("Made it here");
+        PieceGroup currentPiece = new PieceGroup(pieceToDraw, pieceShape);
+        System.out.println("Made it here");
+        bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+        bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
+        bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
         numberOfPiecesDrawn++;
     }
 
-    /*
-    Got from someone on stackoverflow
-     */
-
-    public Node getNodeByRowColumnIndex(final int row,final int column,GridPane gridPane) {
+    public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
-        for(Node node : childrens) {
-            if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+        for (Node node : childrens) {
+            if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
                 result = node;
                 break;
             }
@@ -284,7 +246,7 @@ public class LevelViewController implements Initializable{
     }
 
     // Sets the level number when loading a level
-    public void setLevelNumber(int level){
+    public void setLevelNumber(int level) {
         this.levelNumber.setText(Integer.toString(level));
     }
 
@@ -313,28 +275,21 @@ public class LevelViewController implements Initializable{
             String dataLine;
 
             // Parse file
-            while((dataLine = buf.readLine()) != null){
-                if(dataLine.contains("###")){ // Go to next section
+            while ((dataLine = buf.readLine()) != null) {
+                if (dataLine.contains("###")) { // Go to next section
                     readCount++;
-                }
-                else{ // Information to parse
-                    switch(readCount){
+                } else { // Information to parse
+                    switch (readCount) {
                         case 1: // Level Number
                             lvNum = Integer.parseInt(dataLine);
                             break;
-                        case 2: // Rows
-                            rows = Integer.parseInt(dataLine);
-                            break;
-                        case 3: // Columns
-                            columns = Integer.parseInt(dataLine);
-                            break;
-                        case 4: // Metric
+                        case 2: // Metric
                             metric = Integer.parseInt(dataLine);
                             break;
-                        case 5: // Pieces
+                        case 3: // Pieces
                             pieces.add(Integer.parseInt(dataLine));
                             break;
-                        case 6: // Tiles
+                        case 4: // Tiles
                             tiles.add(dataLine);
                             break;
                     }
@@ -342,48 +297,28 @@ public class LevelViewController implements Initializable{
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return;
         }
 
 
         // NOTE: here we tie into the GUI
         setLevelNumber(lvNum);
 
-
-        // Set board to appropriate size
-        int cshift = (int) ((12 - columns) / 2);
-        int rshift = (int) ((12 - rows) / 2);
-
-        for (int i = 0; i < 12; i++) {
-            for (int j = 0; j < 12; j++) {
-                if (i < columns + cshift && i >= cshift && j < rows + rshift && j >= rshift) {
-                    //getNodeByRowColumnIndex(j, i, boardView).setExists(true);
-                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: white");
-                    //tilePanes[i][j].setStyle("-fx-background-color: white");
-                    // tilePanes[i][j].setStyle("-fx-border-color: black");
-                } else {
-                    //boardTiles[i][j].setExists(false);
-                    getNodeByRowColumnIndex(j, i, boardView).setStyle("-fx-background-color: black");
-                    //tilePanes[i][j].setStyle("-fx-background-color: black");
-                }
-            }
-        }
-
-
         // Set the pieces given for the board
         ourPieceFactory = new PieceFactory(); // Generate pieceFactory
-        for(int i: pieces){
+        for (int i : pieces) {
+            System.out.println("Made it here");
             generateShapeFromPiece(ourPieceFactory.getPiece(i));
         }
 
         // Set the specific tiles of the board (non-square board shapes)
         int count = 0;
-        for(String s: tiles){
+        for (String s : tiles) {
             // Break up lines and convert to int
             String[] tileLines = s.split(" ");
             int[] tileInts = new int[tileLines.length];
 
-            for(int i = 0; i < tileLines.length; i++){
+            for (int i = 0; i < tileLines.length; i++) {
                 tileInts[i] = Integer.parseInt(tileLines[i]);
             }
 
