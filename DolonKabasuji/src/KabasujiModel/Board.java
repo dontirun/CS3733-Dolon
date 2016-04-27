@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Board {
     ArrayList<Tile> tiles;
     ArrayList<Piece> piecesOnBoard;
+    int numColumns, numRows;
 
     public Board() {
         //Initialize tiles
@@ -14,7 +15,8 @@ public class Board {
     //Takes in a piece to add to the board
     //Adds a piece to the board
     //Returns true if successfully added to the board, false otherwise
-    public boolean addPiece(Piece p){
+    public boolean addPiece(Piece p, int xLoc, int yLoc){
+      //  Array
         return false;
     }
 
@@ -23,5 +25,13 @@ public class Board {
     //Returns true if successfully removed from the board, false otherwise
     public boolean removePiece(Piece p){
         return false;
+    }
+
+    public void setNumColumns(int numColumns){
+        this.numColumns = numColumns;
+    }
+
+    public void setNumRows(int numColumns){
+        this.numColumns = numColumns;
     }
 }

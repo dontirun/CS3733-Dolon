@@ -3,7 +3,7 @@ package BuilderModel;
 /**
  * Created by Walter on 4/16/2016.
  */
-public abstract class Tile {
+public class Tile {
 
     Square square;
     boolean exists;
