@@ -669,6 +669,16 @@ public class LevelBuilderController implements Initializable {
 
                 tilePanes[i][j] = pane;
 
+                pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        int currentRow = GridPane.getRowIndex(pane);
+                        int currentColumn = GridPane.getColumnIndex(pane);
+                        event.consume();
+                        boardController.handleBoardClicked(level.getBoardTiles()[currentColumn][currentRow], tilePanes[currentColumn][currentRow]);
+                    }
+                });
+
             }
         }
     }

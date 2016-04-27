@@ -1,11 +1,13 @@
 package BuilderControllers;
 
 import BuilderModel.ReleaseTile;
+import BuilderModel.Tile;
 import UndoActionManager.ColorAction;
 import UndoActionManager.ReleaseTileAction;
 import UndoActionManager.TileAction;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import java.lang.reflect.Array;
@@ -33,7 +35,45 @@ public class BoardController {
         yellowNumTiles = new ArrayList<ReleaseTile>();
         yellowNumPanes = new ArrayList<GridSquare>();
     }
+    public void handleBoardClicked(Tile clickedTile, Pane clickedPane) {
+        try {
+            // if its not an int don't change the board
+            Integer.parseInt(lbc.levelNumber.getText());
+        } catch (Exception e) {
+            return;
+        }
 
+
+
+        if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
+            if (lbc.level.getMode() == "release") {
+                ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
+                if (rta.doAction()) {
+                    System.out.println("tile action performed");
+                    lbc.undoHistory.push(rta);
+                    lbc.redoHistory.clear();
+                }
+            } else {
+                TileAction ta = new TileAction(clickedTile, clickedPane, lbc.color);
+                if (ta.doAction()) {
+                    System.out.println("tile action performed");
+                    lbc.undoHistory.push(ta);
+                    lbc.redoHistory.clear();
+                }
+            }
+        } else {
+
+            ColorAction ca = new ColorAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
+            if (ca.doAction()) {
+                System.out.println("color action performed");
+                lbc.undoHistory.push(ca);
+                lbc.redoHistory.clear();
+            }
+        }
+
+        // do nothing
+
+    }
     public void handleBoardClicked(MouseEvent event) {
         try {
             // if its not an int don't change the board
