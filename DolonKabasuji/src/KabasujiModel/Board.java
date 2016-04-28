@@ -1,4 +1,5 @@
 package KabasujiModel;
+
 import java.util.ArrayList;
 /**
  * Created by Arthur on 4/10/2016.
@@ -10,10 +11,19 @@ public class Board {
 
     public Board() {
         //Initialize tiles
-        piecesOnBoard = new ArrayList<Piece>();
-        numColumns = 0;
-        numRows = 0;
+        tiles = new ArrayList<>();
+        piecesOnBoard = new ArrayList<>();
+        setNumRows(12);
+        setNumColumns(12);
     }
+
+    public Board(int numRows, int numColumns) {
+        tiles = new ArrayList<>();
+        piecesOnBoard = new ArrayList<>();
+        setNumRows(numRows);
+        setNumColumns(numColumns);
+    }
+
     //Takes in a piece to add to the board
     //Adds a piece to the board
     //Returns true if successfully added to the board, false otherwise
@@ -29,12 +39,19 @@ public class Board {
         return false;
     }
 
-    //Sets the number of columns for the board
-    public void setNumColumns(int numColumns){
+    /**
+     * @author Arthur Dooner ajdooner@wpi.edu
+     * Sets the number of columns on a board, removing or adding columms as appropriate
+     * @param numColumns Variable that is the number of columns we want
+     */
+    public boolean setNumColumns(int numColumns){
         int oldColumns = this.numColumns; //Number of columns that we currently have
         this.numColumns = numColumns; //Number of columns that we want
-        if (numColumns < 1){ //We shouldn't do this, guys. Come on.
+        if (numColumns < 1) { //We shouldn't do this, guys. Come on.
             throw(new IndexOutOfBoundsException("Numcolumns should not be less than 1"));
+        }
+        if (numRows < 1) { //We really shouldn't do this, either
+            throw(new IndexOutOfBoundsException("Can't have no rows here"));
         }
         //Iterate down the rows
         for (int y = 0; y < numRows; y++){
@@ -52,9 +69,34 @@ public class Board {
             }
             tiles.set(y, tempArrayList); //Sets the new tiles to have this arraylist info
         }
+        return true;
     }
 
-    public void setNumRows(int numColumns){
-        this.numColumns = numColumns;
+    /**
+     * @author Arthur Dooner ajdooner@wpi.edu
+     * Sets the number of columns on a board, removing or adding rows as appropriate
+     * @param numRows Variable that is the number of rows we want
+     */
+    public void setNumRows(int numRows){
+        int oldRows = this.numRows;
+        this.numRows = oldRows;
+        if (numRows < 1) {
+            throw(new IndexOutOfBoundsException("The number of rows should not be less than 1"));
+        }
+        if (numRows > oldRows) { //Add more rows to the board
+             for (int y = 0; y < (numRows - oldRows); y++) { //Add the number of rows in difference
+                 //Make the ArrayList of Tiles to add
+                 ArrayList<Tile> tempArrayList = new ArrayList<>();
+                 for (int x = 0; x < numColumns; x++) {
+                     tempArrayList.add(new Tile());
+                 }
+                 tiles.add(tempArrayList);
+             }
+        }
+        else if (numRows < oldRows) { //Want to remove columns instead
+            for (int y = 0; y < (oldRows - numRows); y++){
+                tiles.remove(tiles.size() - 1);
+            }
+        }
     }
 }
