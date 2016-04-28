@@ -116,7 +116,7 @@
                </font>
             </Label>
             <TextField fx:id="levelTextField" layoutX="113.0" layoutY="16.0" prefHeight="25.0" prefWidth="70.0" />
-            <Button layoutX="113.0" layoutY="56.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="70.0" text="Save" />
+            <Button layoutX="113.0" layoutY="56.0" mnemonicParsing="false" onAction="#handleSaveButtonAction" prefHeight="27.0" prefWidth="70.0" text="Save" />
             <Button fx:id="loadButton" layoutX="24.0" layoutY="56.0" mnemonicParsing="false" onAction="#handleLoadButtonAction" prefHeight="27.0" prefWidth="70.0" text="Load" />
             <Button fx:id="homeButton" layoutX="1148.0" layoutY="2.0" mnemonicParsing="false" onAction="#handleHomeButtonAction" prefHeight="50.0" prefWidth="59.0" style="-fx-background-color: transparent;">
                <graphic>

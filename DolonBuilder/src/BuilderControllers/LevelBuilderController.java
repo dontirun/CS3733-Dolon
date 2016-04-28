@@ -33,10 +33,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -384,6 +381,18 @@ public class LevelBuilderController implements Initializable {
         resetFields(num);
         resetPieces();
         loadLevel(num);
+    }
+
+    /**
+     * Called when save button is clicked, writes level information to a file.
+     * The file information that is saved is the level number, metric such as moves left or time given,
+     * the pieces present on both the board and in the bullpen, and the state of each board tile.
+     * The location of pieces on the board is not saved.
+     *
+     * @param event
+     */
+    public void handleSaveButtonAction(ActionEvent event) throws IOException{
+        saveLevel(Integer.parseInt(levelTextField.getText()));
     }
 
     /**
@@ -802,6 +811,51 @@ public class LevelBuilderController implements Initializable {
 
             // Increment count
             count++;
+        }
+    }
+
+    // Saves a level to a file
+    public void saveLevel(int levelNum) throws FileNotFoundException {
+
+        String filepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
+
+        try{
+
+            FileWriter out = new FileWriter(filepath);
+
+            out.write("###"); // Level divider
+            out.write("\r\n");
+            out.write(levelNumber.getText()); // Print level number
+            out.write("\r\n");
+
+            out.write("###"); // Metric divider
+            out.write("\r\n");
+            switch(levelNum%3){ // Print metric
+                case 1: // Puzzle
+                    out.write(movesRemainField.getText());
+                    out.write("\r\n");
+                    break;
+                case 2: // Lightning
+                    out.write(timerField.getText());
+                    out.write("\r\n");
+                    break;
+                case 0: // Release
+                    out.write("666");
+                    out.write("\r\n");
+                    break;
+            }
+
+            out.write("###"); // Pieces divider
+            out.write("\r\n");
+
+            out.write("###"); // Tiles divider
+            out.write("\r\n");
+
+            // Close file
+            out.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
