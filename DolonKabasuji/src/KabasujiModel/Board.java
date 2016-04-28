@@ -13,8 +13,8 @@ public class Board {
         //Initialize tiles
         tiles = new ArrayList<>();
         piecesOnBoard = new ArrayList<>();
-        setNumRows(12);
-        setNumColumns(12);
+        setNumRows(12); //Default initialization is to 12 rows
+        setNumColumns(12); //Default initialization is to 12 columns
     }
 
     public Board(int numRows, int numColumns) {
@@ -27,8 +27,18 @@ public class Board {
     //Takes in a piece to add to the board
     //Adds a piece to the board
     //Returns true if successfully added to the board, false otherwise
-    public boolean addPiece(Piece p, int xLoc, int yLoc){
-
+    public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
+        if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
+            piecesOnBoard.add(p);
+            for (Square s : p.squares){
+                int squareColumnOffset = s.getRelCol();
+                int squareRowOffset = s.getRelRow();
+                Tile tempTile = new Tile();
+                tempTile.setSquare(s);
+                setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
+            }
+            return true;
+        }
         return false;
     }
 
@@ -38,6 +48,31 @@ public class Board {
     public boolean removePiece(Piece p){
         return false;
     }
+
+    public boolean isValidMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
+        for (Square s: p.squares){
+            int squareColumnOffset = s.getRelCol();
+            int squareRowOffset = s.getRelRow();
+            if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0){ //We're out of bounds vertically
+                return false;
+            }
+            //If it's out of bounds with rows
+            if (squareRowOffset + tileRow > (numRows - 1) || squareRowOffset + tileRow < 0){ //We're out of bounds horizontally
+                return false;
+            }
+            //If it's a black tile
+            if (!getBoardTile(tileRow + squareRowOffset, tileColumn + squareColumnOffset).getExists()){ //Dang, this location is out of bounds. (Tile is black)
+                return false;
+            }
+            //If it's a tile that's covered by another piece
+            if (getBoardTile(tileRow, tileColumn).getCovered()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 
     /**
      * @author Arthur Dooner ajdooner@wpi.edu
@@ -70,6 +105,43 @@ public class Board {
             tiles.set(y, tempArrayList); //Sets the new tiles to have this arraylist info
         }
         return true;
+    }
+
+    /**
+     * @author Arthur Dooner ajdooner@wpi.edu
+     * Gets the specific tile on a board, pointed to by tileRow and tileColumn
+     * @param tileRow Row of the Tile
+     * @param tileColumn Column of the Tile
+     * @return Tile specific board tile
+     */
+    public Tile getBoardTile(int tileRow, int tileColumn){
+        if (tileRow > numRows - 1) {
+            throw(new IndexOutOfBoundsException("Row out of bounds"));
+        }
+        else if (tileColumn > numColumns - 1) {
+            throw(new IndexOutOfBoundsException("Column out of bounds"));
+        }
+        return tiles.get(tileRow).get(tileColumn);
+    }
+
+    /**
+     * @author Arthur Dooner ajdooner@wpi.edu
+     * Sets the specific tile on a board, pointed to by tileRow and tileColumn
+     * @param tempTile Tile to be set in specified place
+     * @param tileRow Row of the Tile
+     * @param tileColumn Column of the Tile
+     */
+    public void setBoardTile(Tile tempTile, int tileRow, int tileColumn) {
+        if (tileRow > numRows - 1) {
+            throw(new IndexOutOfBoundsException("Row out of bounds"));
+        }
+        else if (tileColumn > numColumns - 1){
+            throw (new IndexOutOfBoundsException("Column out of bounds"));
+        }
+        ArrayList<Tile> tempArrayList = tiles.get(tileRow);
+        tempArrayList.set(tileColumn, tempTile);
+        tiles.set(tileRow, tempArrayList);
+
     }
 
     /**
