@@ -23,7 +23,7 @@ public class Tile {
     public int getCovered(){
         return covered;
     }
-    public void setCovered() {
+    public void setCovered(int covered) {
         this.covered = covered;
     }
 
