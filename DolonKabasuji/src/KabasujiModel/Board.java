@@ -8,6 +8,7 @@ public class Board {
     ArrayList<ArrayList<Tile>> tiles; //Rows holding columns
     ArrayList<Piece> piecesOnBoard;
     int numColumns, numRows;
+    static int counter = 0;
 
     public Board() {
         //Initialize tiles
@@ -24,31 +25,60 @@ public class Board {
         setNumColumns(numColumns);
     }
 
-    //Takes in a piece to add to the board
-    //Adds a piece to the board
-    //Returns true if successfully added to the board, false otherwise
+    /**
+     * @author Arthur Dooner ajdooner@wpi.edu
+     * Adds a piece to the board
+     * @param p Piece used to take device results
+     * @param tileRow specific row to base the anchor around
+     * @param tileColumn specific column to base the anchor around
+     * @return true if successfully added, false otherwise
+     */
     public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
+            p.setPieceBoardNum(p.getPieceID()*1000 + counter);
             piecesOnBoard.add(p);
             for (Square s : p.squares){
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
                 Tile tempTile = new Tile();
-                tempTile.setSquare(s);
+                tempTile.setSquare(s, p.getPieceBoardNum());
                 setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
             }
+            counter++;
             return true;
         }
         return false;
     }
 
-    //Takes in a piece to remove from the board
-    //Removes a piece from the board
-    //Returns true if successfully removed from the board, false otherwise
-    public boolean removePiece(Piece p){
+    /**
+     * Takes in a unique pieceOnBoardNum to remove a piece from the board
+     * @param pieceOnBoardNum the unique identifier for the piece
+     * @return true if successfully removed from the board, false otherwise
+     */
+    public boolean removePiece(int pieceOnBoardNum){
+        for (ArrayList<Tile> a : tiles){ //Iterate over all the rows
+            for (Tile t : a) { //Iterate over all the columns
+                if (t.getCovered() == pieceOnBoardNum){  //If pieceNums are the same
+                    t.removeSquare(); //Clear the square
+                }
+            }
+        }
+        for (int x = 0; x < piecesOnBoard.size(); x++){ //Iterate over all the pieces
+            if (piecesOnBoard.get(x).getPieceBoardNum() == pieceOnBoardNum){ //If the piece board numbers are the same
+                piecesOnBoard.remove(x);
+                return true;
+            }
+        }
         return false;
     }
 
+    /**
+     * @author Arthur Dooner ajdooner@wpi.edu
+     * Checks if a move is valid
+     * @param p Piece used to take device results
+     * @param tileRow specific row to base the anchor around
+     * @param tileColumn specific column to base the anchor around
+     */
     public boolean isValidMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
         for (Square s: p.squares){
             int squareColumnOffset = s.getRelCol();
@@ -65,7 +95,7 @@ public class Board {
                 return false;
             }
             //If it's a tile that's covered by another piece
-            if (getBoardTile(tileRow, tileColumn).getCovered()) {
+            if (getBoardTile(tileRow, tileColumn).getCovered() > 0) {
                 return false;
             }
         }

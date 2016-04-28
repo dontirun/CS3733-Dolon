@@ -7,31 +7,33 @@ public class Tile {
 
     Square square;
     boolean exists;
-    boolean covered;
+    int covered;
 
     public Tile() {
         exists = true;
-        covered = false;
+        covered = -1;
     }
     public Tile(boolean exists){
         this.exists = exists;
-        covered = false;
+        covered = -1;
     }
     public boolean getExists(){
         return exists;
     }
-    public boolean getCovered(){
+    public int getCovered(){
         return covered;
     }
-    public void flipCovered() {covered = !covered; }
+    public void setCovered() {
+        this.covered = covered;
+    }
 
-    public void setSquare(Square square){
-        covered = true;
+    public void setSquare(Square square, int covered){
+        this.covered = covered;
         this.square = square;
     }
 
     public void removeSquare() {
-        covered = false;
+        covered = -1;
         this.square = null;
     }
 
