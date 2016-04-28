@@ -182,6 +182,20 @@ public class LevelBuilderController implements Initializable {
 
     }
 
+    // Draws an individual rectangle for a given square (used for GUI elements)
+    public Rectangle drawPieceRectangle(Square selectedSquare){
+        Rectangle selectedRectangle = new Rectangle();
+        selectedRectangle.setX((selectedSquare.getRelCol()) * RectangleSize); //Set X position based on the Relative Column
+        selectedRectangle.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
+        selectedRectangle.setWidth(RectangleSize); //Set the width of each rectangle
+        selectedRectangle.setHeight(RectangleSize); //Set the height of each rectangle
+        selectedRectangle.setFill(Color.RED); //Color the fill
+        selectedRectangle.setStroke(Color.BLACK); //Color the outline
+
+        return selectedRectangle;
+    }
+
+    // Handles pressing a button to add a piece to the bullpen
     public void handleAddPieceButtonAction(ActionEvent event) throws IOException {
         int numberOfPiecesDrawn = 0;
         // Set the pieces given for the board
@@ -192,26 +206,16 @@ public class LevelBuilderController implements Initializable {
 
         for (int i = 1; i < 36; i++) {
 
+            // Get the piece to draw
             final Piece pieceToDraw = ourPieceFactory.getPiece(i);
 
-            final Group pieceGroup = new Group();
-            final Group bullpenViewGroup = new Group();
+            final Group pieceGroup = new Group(); // Pieces drawn in window
+            final Group bullpenViewGroup = new Group(); // Pieces drawn in bullpen
 
             for (Square selectedSquare : pieceToDraw.squares) {
-                Rectangle selectedRectangle = new Rectangle();
-                Rectangle rectangleCopy = new Rectangle();
-                selectedRectangle.setX((selectedSquare.getRelCol()) * RectangleSize); //Set Y position based on the Relative Column
-                rectangleCopy.setX((selectedSquare.getRelCol()) * RectangleSize); //Set Y position based on the Relative Column
-                selectedRectangle.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
-                rectangleCopy.setY((-selectedSquare.getRelRow()) * RectangleSize); //Set Y position based on the Relative Row
-                selectedRectangle.setWidth(RectangleSize); //Set the width of each rectangle
-                rectangleCopy.setWidth(RectangleSize); //Set the width of each rectangle
-                selectedRectangle.setHeight(RectangleSize); //Set the height of each rectangle
-                rectangleCopy.setHeight(RectangleSize); //Set the height of each rectangle
-                selectedRectangle.setFill(Color.RED); //Color the fill
-                rectangleCopy.setFill(Color.RED); //Color the fill
-                selectedRectangle.setStroke(Color.BLACK); //Color the outline
-                rectangleCopy.setStroke(Color.BLACK); //Color the outline
+
+                Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                Rectangle rectangleCopy = drawPieceRectangle(selectedSquare);
 
                 pieceGroup.getChildren().add(selectedRectangle);
                 bullpenViewGroup.getChildren().add(rectangleCopy);
@@ -222,7 +226,10 @@ public class LevelBuilderController implements Initializable {
             pieceGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     PieceAction action = new PieceAction(pieceToDraw, bullpen);
-                    action.doAction();
+                    if(action.doAction()){
+                        undoHistory.push(action); // Push to undo stack
+                        redoHistory.clear(); // Clear redo history
+                    }
                     bullpenView.getChildren().add(bullpenViewGroup);
                     bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
                     pieceSelector.close();
@@ -659,7 +666,7 @@ public class LevelBuilderController implements Initializable {
 
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                GridSquare pane = new GridSquare();
+                final GridSquare pane = new GridSquare();
 
                 pane.setMinSize(0, 0);
                 pane.setStyle("-fx-background-color: white");
@@ -700,7 +707,7 @@ public class LevelBuilderController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "DolonKabasuji/resources/levels/lvl" + levelNum + ".bdsm";
+            String filepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
             FileReader input = new FileReader(filepath); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
@@ -744,13 +751,24 @@ public class LevelBuilderController implements Initializable {
                 break;
         }
 
-        /*
         // Set the pieces given for the board
         ourPieceFactory = new PieceFactory(); // Generate pieceFactory
         for(int i: pieces){
-            generateShapeFromPiece(ourPieceFactory.getPiece(i));
+            final Piece pieceToDraw = ourPieceFactory.getPiece(i); // Piece to be loaded
+            final Group bullpenViewGroup = new Group(); // Bullpen view group
+
+            // Draw each square and add it to the bullpen group
+            for (Square selectedSquare : pieceToDraw.squares) {
+                Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                bullpenViewGroup.getChildren().add(selectedRectangle);
+            }
+
+            // Add the actual piece object to the bullpen
+            PieceAction action = new PieceAction(pieceToDraw, bullpen); // Create action
+            action.doAction(); // Do action- add to bullpen
+            bullpenView.getChildren().add(bullpenViewGroup); // Add view to bullpen view
+            bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10)); // Set margins
         }
-        */
 
         // Set the specific tiles of the board (non-square board shapes)
         int count = 0;
