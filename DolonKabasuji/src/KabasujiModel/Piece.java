@@ -35,8 +35,8 @@ public abstract class Piece implements Serializable{
      */
     public boolean rotatePieceRight(){
         for(Square s: squares){
-            s.setRelCol(s.getRelRow() * -1); // Sets column
-            s.setRelRow(s.getRelCol()); // Sets row
+            s.setRelCol(s.getRelRow()); // Sets column
+            s.setRelRow(s.getRelCol() * -1); // Sets row
         }
 
         return true;
@@ -50,8 +50,8 @@ public abstract class Piece implements Serializable{
      */
     public boolean rotatePieceLeft(){
         for(Square s: squares){
-            s.setRelCol(s.getRelRow()); // Sets column
-            s.setRelRow(s.getRelCol() * -1); // Sets row
+            s.setRelCol(s.getRelRow() * -1); // Sets column
+            s.setRelRow(s.getRelCol()); // Sets row
         }
 
         return true;
