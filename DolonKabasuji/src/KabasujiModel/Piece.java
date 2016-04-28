@@ -27,20 +27,58 @@ public abstract class Piece implements Serializable{
         colorVals[1] = c.getGreen();
         colorVals[2] = c.getBlue();
     }
-    /** rotates piece 90 degrees, returns true if successful, false otherwise
+    /** rotates piece 90 degrees clockwise, returns true if successful, false otherwise
+     * Uses rotation matrix [0 1]
+     *                     [-1 0]
      *
      * @return
      */
-    public boolean rotatePiece(){
-        return false;
+    public boolean rotatePieceRight(){
+        for(Square s: squares){
+            s.setRelCol(s.getRelRow() * -1); // Sets column
+            s.setRelRow(s.getRelCol()); // Sets row
+        }
+
+        return true;
     }
 
-    /** flips piece, returns true if successful, false otherwise
+    /** rotates piece 90 degrees counterclockwise, returns true if successful, false otherwise
+     * Uses rotation matrix [0 -1]
+     *                      [1 0]
      *
      * @return
      */
-    public boolean flipPiece(){
-        return false;
+    public boolean rotatePieceLeft(){
+        for(Square s: squares){
+            s.setRelCol(s.getRelRow()); // Sets column
+            s.setRelRow(s.getRelCol() * -1); // Sets row
+        }
+
+        return true;
+    }
+
+    /** flips piece horizontally, returns true if successful, false otherwise
+     *
+     * @return
+     */
+    public boolean flipPieceHoriz(){
+        for(Square s: squares){
+            s.setRelCol(s.getRelCol() * -1); // Flips across the Y axis (change columns)
+        }
+
+        return true;
+    }
+
+    /** flips piece vertically, returns true if successful, false otherwise
+     *
+     * @return
+     */
+    public boolean flipPieceVert(){
+        for(Square s: squares){
+            s.setRelRow(s.getRelRow() * -1); // Flips across the X axis (change rows)
+        }
+
+        return true;
     }
 
     public int getPieceID() {
