@@ -88,8 +88,8 @@ public class BoardController {
         int col = (int) (x / 45.8333333);
         int row = (int) (y / 45.8333333);
 
-        ReleaseTile clickedTile = (ReleaseTile) lbc.level.getTile(col, row);
-        GridSquare clickedPane = (GridSquare) lbc.tilePanes[col][row];
+        ReleaseTile clickedTile = (ReleaseTile) lbc.level.getTile(row, col);
+        GridSquare clickedPane = (GridSquare) lbc.tilePanes.get(row).get(col);
 
         if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
             if (lbc.level.getMode() == "release") {

@@ -8,6 +8,7 @@ import java.util.Queue;
  */
 public class LevelModel {
     Tile[][] boardTiles;
+    Board field;
     Bullpen bullpen;
     int levelNum;
     int movesAllowed;
@@ -15,15 +16,22 @@ public class LevelModel {
 
 
     public LevelModel() {
+        field = new Board(12,12);
+        // commenting out for now
+        /*
         boardTiles = new ReleaseTile[12][12];
         for (int c = 0; c < 12; c++) {
             for (int r = 0; r < 12; r++) {
                 boardTiles[c][r] = new ReleaseTile();
             }
         }
+        */
     }
 
     public LevelModel(String mode){
+        field = new Board(12,12);
+        // commenting out for now
+        /*
         if(mode.equals("release")){
             boardTiles = new ReleaseTile[12][12];
             for (int c = 0; c < 12; c++) {
@@ -32,6 +40,7 @@ public class LevelModel {
                 }
             }
         }
+        */
     }
 
     public void saveLevel() {
@@ -50,6 +59,7 @@ public class LevelModel {
         return result;
     }
 
+    /*
     public boolean getValid(int col, int row) {
         return boardTiles[col][row].exists;
     }
@@ -65,13 +75,14 @@ public class LevelModel {
     public void flipValid(int col, int row) {
         boardTiles[col][row].flipExists();
     }
+    */
 
-    public Tile getTile(int col, int row) {
-        return boardTiles[col][row];
+    public Tile getTile(int row, int col) {
+        return field.getBoardTile(row,col);
     }
 
-    public Tile[][] getBoardTiles(){
-        return boardTiles;
+    public  ArrayList<ArrayList<Tile>>  getBoardTiles(){
+        return field.tiles;
     }
 
     public void assignRed() {

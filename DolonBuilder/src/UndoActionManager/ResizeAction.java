@@ -5,6 +5,8 @@ import BuilderModel.Tile;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 
 /**
  * Created by Walter on 4/16/2016.
@@ -23,10 +25,10 @@ public class ResizeAction implements IAction {
     TextField colsTextField;
 
     LevelModel level;
-    Tile[][] boardTiles;
-    Pane[][] tilePanes;
+    ArrayList<ArrayList<Tile>>  boardTiles;
+    ArrayList<ArrayList<Pane>> tilePanes;
 
-    public ResizeAction(Tile[][] boardTiles, Pane[][] tilePanes,TextField colsTextField, TextField rowsTextField) {
+    public ResizeAction(ArrayList<ArrayList<Tile>>  boardTiles, ArrayList<ArrayList<Pane>> tilePanes, TextField colsTextField, TextField rowsTextField) {
         this.boardTiles = boardTiles;
         this.tilePanes=tilePanes;
         this.rowsTextField= rowsTextField;
@@ -36,10 +38,11 @@ public class ResizeAction implements IAction {
     @Override
     public boolean doAction() {
         //record starting state
+        // change this later to be dynamic
         start= new boolean[12][12];
-        for(int col = 0; col<12; col++){
-            for(int row = 0;row<12; row++){
-                start[col][row]=boardTiles[col][row].getExists();
+        for(int row = 0; row<12; row++){
+            for(int col = 0;col<12; col++){
+                start[row][col]=boardTiles.get(row).get(col).getExists();
             }
         }
         //resize board
@@ -51,21 +54,22 @@ public class ResizeAction implements IAction {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 12; j++) {
                 if (i < startCols + cshift && i >= cshift && j < startRows + rshift && j >= rshift) {
-                    boardTiles[i][j].setExists(true);
+                    boardTiles.get(j).get(i).setExists(true);
                     //tilePanes[i][j].setStyle("-fx-background-color: white");
                    // tilePanes[i][j].setStyle("-fx-border-color: black");
                 } else {
-                    boardTiles[i][j].setExists(false);
+                    boardTiles.get(j).get(i).setExists(false);
                     //tilePanes[i][j].setStyle("-fx-background-color: black");
                 }
             }
         }
 
         //record ending state
+        // change this later to be dynamic
         end= new boolean[12][12];
         for(int col = 0; col<12; col++){
             for(int row = 0;row<12; row++){
-                end[col][row]=boardTiles[col][row].getExists();
+                end[row][col]=boardTiles.get(row).get(col).getExists();
             }
         }
 
@@ -79,7 +83,7 @@ public class ResizeAction implements IAction {
     public boolean undoAction() {
         for(int col = 0; col<12; col++){
             for(int row = 0;row<12; row++){
-                boardTiles[col][row].setExists(start[col][row]);
+                boardTiles.get(row).get(col).setExists(start[row][col]);
             }
         }
         colsTextField.setText(Integer.toString(startCols));
@@ -92,7 +96,7 @@ public class ResizeAction implements IAction {
     public boolean redoAction() {
         for(int col = 0; col<12; col++){
             for(int row = 0;row<12; row++){
-                boardTiles[col][row].setExists(end[col][row]);
+                boardTiles.get(row).get(col).setExists(end[row][col]);
             }
         }
         //redraw it correctly
@@ -109,11 +113,11 @@ public class ResizeAction implements IAction {
         for(int col = 0; col<12; col++){
             for(int row = 0;row<12; row++){
 
-                if (boardTiles[col][row].getExists() == true) {
-                    tilePanes[col][row].setStyle("-fx-background-color: white");
+                if (boardTiles.get(row).get(col).getExists() == true) {
+                    tilePanes.get(row).get(col).setStyle("-fx-background-color: white");
                  //   tilePanes[col][row].setStyle("-fx-border-color: black");
                 } else {
-                    tilePanes[col][row].setStyle("-fx-background-color: black");
+                    tilePanes.get(row).get(col).setStyle("-fx-background-color: black");
                 }
             }
         }

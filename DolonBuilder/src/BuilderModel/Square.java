@@ -1,13 +1,15 @@
 package BuilderModel;
 
+import java.io.Serializable;
+
 /**
- * Created by Walter on 4/16/2016.
+ * Created by Arthur on 4/10/2016.
  */
-public class Square {
+public class Square implements Serializable {
     int relCol;
     int relRow;
 
-    public Square(int relCol, int relRow) {
+    public Square(int relCol, int relRow){
         this.relCol = relCol;
         this.relRow = relRow;
     }

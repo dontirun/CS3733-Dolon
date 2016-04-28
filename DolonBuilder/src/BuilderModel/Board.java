@@ -1,4 +1,4 @@
-package KabasujiModel;
+package BuilderModel;
 
 import java.util.ArrayList;
 

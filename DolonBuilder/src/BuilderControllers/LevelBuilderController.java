@@ -86,7 +86,7 @@ public class LevelBuilderController implements Initializable {
 
     public Color color;
     //contains references to all the panes added to boardView
-    Pane[][] tilePanes;
+    ArrayList<ArrayList<Pane>> tilePanes;
     // Max row and column size
     int rows = 12;
     int columns = 12;
@@ -149,13 +149,13 @@ public class LevelBuilderController implements Initializable {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 // reset the visual aspect of the board
-                tilePanes[j][i].setMinSize(0, 0);
-                tilePanes[j][i].setStyle("-fx-background-color: white");
-                tilePanes[j][i].setStyle("-fx-border-color: black");
-                tilePanes[j][i].getStyleClass().add("board-cell");
+                tilePanes.get(i).get(j).setMinSize(0, 0);
+                tilePanes.get(i).get(j).setStyle("-fx-background-color: white");
+                tilePanes.get(i).get(j).setStyle("-fx-border-color: black");
+                tilePanes.get(i).get(j).getStyleClass().add("board-cell");
 
                 // reset the underlying tiles for tile actions
-                level.getTile(j, i).setExists(true);
+                level.getTile(i, j).setExists(true);
                 boardController.redNumTiles.clear();
                 boardController.redNumPanes.clear();
                 boardController.greenNumTiles.clear();
@@ -163,8 +163,8 @@ public class LevelBuilderController implements Initializable {
                 boardController.yellowNumTiles.clear();
                 boardController.yellowNumPanes.clear();
                 // clear the release level specifc parameters
-                ((GridSquare)tilePanes[j][i]).getNumLabel().setText("");
-                ((ReleaseTile)level.getTile(j, i)).setColor(Color.WHITE);
+                ((GridSquare)tilePanes.get(i).get(j)).getNumLabel().setText("");
+                ((ReleaseTile)level.getTile(i, j)).setColor(Color.WHITE);
 
             }
         }
@@ -671,19 +671,28 @@ public class LevelBuilderController implements Initializable {
         }
 
         // Draw grid on board
-        tilePanes = new Pane[columns][rows];
+        tilePanes = new ArrayList<ArrayList<Pane>>();
 
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
+        for (int i = 0; i < rows; i++) {
+            ArrayList<Pane> tempArrayList = new ArrayList<>();
+
+            for (int x = 0; x < columns; x++) {
+                // adding a blank pane to fill out columns
+                tempArrayList.add(new Pane());
+            }
+
+            tilePanes.add(tempArrayList);
+            for (int j = 0; j < columns; j++) {
+
                 final GridSquare pane = new GridSquare();
 
                 pane.setMinSize(0, 0);
                 pane.setStyle("-fx-background-color: white");
                 pane.setStyle("-fx-border-color: black");
                 pane.getStyleClass().add("board-cell");
-                boardView.add(pane, i, j);
+                boardView.add(pane, j, i);
 
-                tilePanes[i][j] = pane;
+                tilePanes.get(i).set(j, pane);
 
                 pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
@@ -691,7 +700,7 @@ public class LevelBuilderController implements Initializable {
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         event.consume();
-                        boardController.handleBoardClicked(level.getBoardTiles()[currentColumn][currentRow], tilePanes[currentColumn][currentRow]);
+                        boardController.handleBoardClicked(level.getBoardTiles().get(currentRow).get(currentColumn), tilePanes.get(currentRow).get(currentColumn));
                     }
                 });
 
@@ -794,12 +803,12 @@ public class LevelBuilderController implements Initializable {
             for (int i = 0; i < columns; i++) {
                 // Determine what type of tile needs to be set
                 if (tileInts[i] == 0) { // No-Tile
-                    level.getBoardTiles()[i][count].setExists(false);
-                    tilePanes[i][count].setStyle("-fx-background-color: black");
+                    level.getBoardTiles().get(count).get(i).setExists(false);
+                    tilePanes.get(count).get(i).setStyle("-fx-background-color: black");
                 } else if (tileInts[i] == 1) { // Valid blank tile
-                    level.getBoardTiles()[i][count].setExists(true);
-                    tilePanes[i][count].setStyle("-fx-background-color: white");
-                    tilePanes[i][count].setStyle("-fx-border-color: black");
+                    level.getBoardTiles().get(count).get(i).setExists(true);
+                    tilePanes.get(count).get(i).setStyle("-fx-background-color: white");
+                    tilePanes.get(count).get(i).setStyle("-fx-border-color: black");
                 } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile.
                     //
                 } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
