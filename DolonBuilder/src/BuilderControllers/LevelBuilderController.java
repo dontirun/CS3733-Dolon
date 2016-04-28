@@ -2,8 +2,9 @@ package BuilderControllers;
 
 import BuilderModel.*;
 import PieceFactory.*;
+import UndoActionManager.AddPieceAction;
 import UndoActionManager.IAction;
-import UndoActionManager.PieceAction;
+import UndoActionManager.AddPieceAction;
 import UndoActionManager.ResizeAction;
 import UndoActionManager.ResizeReleaseAction;
 import javafx.beans.value.ChangeListener;
@@ -21,10 +22,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -46,6 +44,14 @@ public class LevelBuilderController implements Initializable {
     BoardController boardController;
     LevelModel level;
     @FXML
+    public Button rotateLeftButton;
+    @FXML
+    public Button rotateRightButton;
+    @FXML
+    public Button flipHorizontalButton;
+    @FXML
+    public Button flipVerticalButton;
+    @FXML
     public Button greenButton; // Return to menu
     @FXML
     public Button redButton; // Return to menu
@@ -66,7 +72,7 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public GridPane boardView; // Pane for board
     @FXML
-    public FlowPane bullpenView;
+    public GridPane bullpenView;
     @FXML
     public TextField rowsTextField;
     @FXML
@@ -93,10 +99,19 @@ public class LevelBuilderController implements Initializable {
     Stack<IAction> undoHistory;
     Stack<IAction> redoHistory;
     Bullpen bullpen = new Bullpen();
+    int numberOfBullpenPieces;
+    int gridW = 2;
+    int gridH = 18;
     double RectangleSize = 45.83333333;
     PieceFactory ourPieceFactory = new PieceFactory(); // Generate pieceFactory
 
 
+    /**
+     * Handles returning to the home screen when the home button is pressed
+     *
+     * @param event
+     * @throws IOException
+     */
     public void handleHomeButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
@@ -133,6 +148,11 @@ public class LevelBuilderController implements Initializable {
         resetPieces();
 
     }
+
+    /**
+     * unsure what this does, maybe the buttons should have a better name?
+     *
+     */
     public void resetButtons(){
         // set black button to visually selected
         redButton.setStyle("-fx-background-color:transparent");
@@ -144,6 +164,12 @@ public class LevelBuilderController implements Initializable {
         //black button is selected
         color = Color.BLACK;
     }
+
+    /**
+     * Resets the view of the board
+     *
+     * @param levelType
+     */
     public void resetBoard(int levelType) {
 
         for (int i = 0; i < rows; i++) {
@@ -179,7 +205,13 @@ public class LevelBuilderController implements Initializable {
 
     }
 
-    // Draws an individual rectangle for a given square (used for GUI elements)
+    /**
+     * Draws an individual rectangle for a given square (used for GUI elements)
+     *
+     * @param selectedSquare
+     * @return
+     */
+
     public Rectangle drawPieceRectangle(Square selectedSquare){
         Rectangle selectedRectangle = new Rectangle();
         selectedRectangle.setX((selectedSquare.getRelCol()) * RectangleSize); //Set X position based on the Relative Column
@@ -192,7 +224,12 @@ public class LevelBuilderController implements Initializable {
         return selectedRectangle;
     }
 
-    // Handles pressing a button to add a piece to the bullpen
+    /**
+     * Handles pressing a button to add a piece to the bullpen
+     *
+     * @param event
+     * @throws IOException
+     */
     public void handleAddPieceButtonAction(ActionEvent event) throws IOException {
         int numberOfPiecesDrawn = 0;
         // Set the pieces given for the board
@@ -206,7 +243,7 @@ public class LevelBuilderController implements Initializable {
             // Get the piece to draw
             final Piece pieceToDraw = ourPieceFactory.getPiece(i);
 
-            final Group pieceGroup = new Group(); // Pieces drawn in window
+            final Group pieceSelectorGroup = new Group(); // Pieces drawn in window
             final Group bullpenViewGroup = new Group(); // Pieces drawn in bullpen
 
             for (Square selectedSquare : pieceToDraw.squares) {
@@ -214,30 +251,30 @@ public class LevelBuilderController implements Initializable {
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
                 Rectangle rectangleCopy = drawPieceRectangle(selectedSquare);
 
-                pieceGroup.getChildren().add(selectedRectangle);
+                pieceSelectorGroup.getChildren().add(selectedRectangle);
                 bullpenViewGroup.getChildren().add(rectangleCopy);
             }
 
-
-
-            pieceGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+            // when piece is clicked on add it to bullpen
+            pieceSelectorGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    PieceAction action = new PieceAction(pieceToDraw, bullpen);
+                    AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen);
                     if(action.doAction()){
                         undoHistory.push(action); // Push to undo stack
                         redoHistory.clear(); // Clear redo history
                     }
-                    bullpenView.getChildren().add(bullpenViewGroup);
+                    bullpenView.add(bullpenViewGroup, numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
                     bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
+                    bullpenView.setHalignment(pieceSelectorGroup, HPos.CENTER);
+                    bullpenView.setValignment(pieceSelectorGroup, VPos.CENTER);
+                    numberOfBullpenPieces++;
                     pieceSelector.close();
                 }
             });
 
 
-            pieceGrid.add(pieceGroup, numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
-            pieceGrid.setMargin(pieceGroup, new Insets(10, 10, 10, 10));
-            pieceGrid.setHalignment(pieceGroup, HPos.CENTER);
-            pieceGrid.setValignment(pieceGroup, VPos.CENTER);
+            pieceGrid.add(pieceSelectorGroup, numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
+            pieceGrid.setMargin(pieceSelectorGroup, new Insets(10, 10, 10, 10));
 
             numberOfPiecesDrawn++;
         }
@@ -249,6 +286,22 @@ public class LevelBuilderController implements Initializable {
 
     }
 
+    public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
+        if (event.getSource() == rotateLeftButton) {
+            // highlighting the border of the selected button
+            rotateLeftButton.setStyle("-fx-background-color:darkblue");
+
+        }
+    }
+    /**
+     * Gets a specific node in a gridpane
+     * http://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column
+     *
+     * @param row
+     * @param column
+     * @param gridPane
+     * @return
+     */
     public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
@@ -261,6 +314,11 @@ public class LevelBuilderController implements Initializable {
         return result;
     }
 
+    /**
+     * Resets the Rows and Columns text to reflect a reset board
+     *
+     * @param levelType
+     */
     public void resetFields(int levelType) {
         //set the text on rows and columns to reflect board
         rowsTextField.setText("12");
@@ -276,9 +334,13 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    /**
+     * Will clear all the pieces in the bullpen
+     *
+     */
     public void resetPieces() {
-        // add this functionality in later
-
+        bullpenView.getChildren().clear();
+        numberOfBullpenPieces = 0;
     }
 
     /**
@@ -608,6 +670,7 @@ public class LevelBuilderController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        numberOfBullpenPieces = 0;
         color = Color.BLACK;
         boardController = new BoardController(this);
         level = new LevelModel();
@@ -627,6 +690,17 @@ public class LevelBuilderController implements Initializable {
         yellowButton.setVisible(false);
         yellowButton.setManaged(false);
         typeImage.setVisible(false);
+
+        // Set constraints (size of the cells for pieces)
+        for (int i = 0; i < gridW; i++) {
+            ColumnConstraints column = new ColumnConstraints(RectangleSize * 6);
+            bullpenView.getColumnConstraints().add(column);
+        }
+
+        for (int i = 0; i < gridH; i++) {
+            RowConstraints row = new RowConstraints(RectangleSize * 6);
+            bullpenView.getRowConstraints().add(row);
+        }
 
         rowsTextField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -782,10 +856,13 @@ public class LevelBuilderController implements Initializable {
             }
 
             // Add the actual piece object to the bullpen
-            PieceAction action = new PieceAction(pieceToDraw, bullpen); // Create action
+            AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen); // Create action
             action.doAction(); // Do action- add to bullpen
-            bullpenView.getChildren().add(bullpenViewGroup); // Add view to bullpen view
-            bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10)); // Set margins
+            bullpenView.add(bullpenViewGroup, numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
+            bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
+            bullpenView.setHalignment(bullpenViewGroup, HPos.CENTER);
+            bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
+            numberOfBullpenPieces++;
         }
 
         // Set the specific tiles of the board (non-square board shapes)

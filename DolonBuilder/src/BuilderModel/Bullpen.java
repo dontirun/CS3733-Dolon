@@ -29,4 +29,14 @@ public class Bullpen {
         return true;
     }
 
+    /*
+    public Piece getPiece(Piece desiredPiece) {
+        for (Piece p : pieces) {
+            if (p == desiredPiece) {
+                return p;
+            }
+        }
+    }
+    */
+
 }

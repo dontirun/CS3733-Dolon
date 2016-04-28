@@ -1,21 +1,16 @@
 package UndoActionManager;
 
-import BuilderControllers.GridSquare;
 import BuilderModel.Bullpen;
 import BuilderModel.Piece;
-import BuilderModel.ReleaseTile;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.paint.Color;
 
 /**
- * Created by slafo on 4/26/2016.
+ * Created by slafo on 4/28/2016.
  */
-public class PieceAction implements IAction{
+public class RotatePieceAction implements IAction{
     Piece piece;
     Bullpen bullpen;
-    FlowPane bullpenView;
 
-    public PieceAction(Piece piece, Bullpen bullpen) {
+    public RotatePieceAction(Piece piece, Bullpen bullpen, char direction) {
 
         this.piece = piece;
         this.bullpen = bullpen;
@@ -23,7 +18,7 @@ public class PieceAction implements IAction{
 
     @Override
     public boolean doAction() {
-        bullpen.addPiece(piece);
+        // need to get piece
         return true;
     }
 

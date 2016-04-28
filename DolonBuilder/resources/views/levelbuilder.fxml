@@ -137,26 +137,32 @@
       </Pane>
       <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" onMouseClicked="#handleBoardClicked" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
       </GridPane>
-      <ScrollPane layoutX="224.0" layoutY="130.0" prefHeight="550.0" prefWidth="437.0">
+      <ScrollPane layoutX="224.0" layoutY="188.0" prefHeight="492.0" prefWidth="437.0">
          <content>
-      
-                  <FlowPane fx:id="bullpenView" prefHeight="550.0" prefWidth="437.0" style="-fx-border-color: black; -fx-border-radius: 10 0 0 10; -fx-border-width: 3; -fx-background-color: white; -fx-background-radius: 10 0 0 10;">
-               <children>
-                  <Button fx:id="addPieceButton" mnemonicParsing="false" onAction="#handleAddPieceButtonAction" prefHeight="79.0" prefWidth="79.0">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                     <graphic>
-                        <ImageView fitHeight="55.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/LevelBuilderPlus.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-               </children>
-            </FlowPane>
+            <GridPane fx:id="bullpenView" prefHeight="492.0" prefWidth="437.0">
+            </GridPane>
          </content>
       </ScrollPane>
+      <HBox layoutX="224.0" layoutY="130.0" prefHeight="59.0" prefWidth="437.0" style="-fx-background-color: white; -fx-border-color: black;">
+         <children>
+            <Button fx:id="addPieceButton" mnemonicParsing="false" onAction="#handleAddPieceButtonAction" prefHeight="74.0" prefWidth="80.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="55.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/LevelBuilderPlus.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="59.0" prefWidth="80.0" text="Delete" />
+            <Button fx:id="rotateLeftButton" mnemonicParsing="false" prefHeight="98.0" prefWidth="69.25" text="Rotate L" />
+            <Button fx:id="rotateRightButton" mnemonicParsing="false" prefHeight="87.0" prefWidth="69.25" text="Rotate R" />
+            <Button fx:id="flipHorizontalButton" mnemonicParsing="false" prefHeight="91.0" prefWidth="69.25" text="Flip H" />
+            <Button fx:id="flipVerticalButton" mnemonicParsing="false" prefHeight="89.0" prefWidth="69.25" text="Flip V" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
