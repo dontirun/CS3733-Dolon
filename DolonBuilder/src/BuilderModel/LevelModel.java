@@ -43,9 +43,6 @@ public class LevelModel {
         */
     }
 
-    public void saveLevel() {
-    }
-
     public String getMode() {
         String result = "none";
         switch (levelNum % 3) {
@@ -84,6 +81,8 @@ public class LevelModel {
     public  ArrayList<ArrayList<Tile>>  getBoardTiles(){
         return field.tiles;
     }
+
+    public Board getField() { return field; }
 
     public void assignRed() {
 

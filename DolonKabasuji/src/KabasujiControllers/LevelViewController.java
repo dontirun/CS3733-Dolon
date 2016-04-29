@@ -218,15 +218,12 @@ public class LevelViewController implements Initializable {
 
         bullpenView.setGridLinesVisible(true);
         // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
-        System.out.println("Made it here");
     }
 
 
     //Draw a piece on the board given the information about the piece
     private void generateShapeFromPiece(final Piece pieceToDraw) {
-        System.out.println("Made it here");
         PieceGroup currentPiece = new PieceGroup(pieceToDraw, pieceShape);
-        System.out.println("Made it here");
         bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
         bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
         bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
@@ -298,16 +295,19 @@ public class LevelViewController implements Initializable {
 
         } catch (FileNotFoundException e) {
             return;
+        } catch (NullPointerException e){
+            return;
         }
 
 
         // NOTE: here we tie into the GUI
         setLevelNumber(lvNum);
 
+        // TODO: Must tie in metric
+
         // Set the pieces given for the board
         ourPieceFactory = new PieceFactory(); // Generate pieceFactory
         for (int i : pieces) {
-            System.out.println("Made it here");
             generateShapeFromPiece(ourPieceFactory.getPiece(i));
         }
 
@@ -323,10 +323,81 @@ public class LevelViewController implements Initializable {
             }
 
             // Set values
+            for (int i = 0; i < columns; i++) {
+                // Determine what type of tile needs to be set
+                if (tileInts[i] == 0) { // No-Tile
+                    /*
+                    level.getBoardTiles().get(count).get(i).setExists(false);
+                    tilePanes.get(count).get(i).setStyle("-fx-background-color: black");
+                    */
+
+                } else if (tileInts[i] == 1) { // Valid blank tile
+                    /*
+                    level.getBoardTiles().get(count).get(i).setExists(true);
+                    tilePanes.get(count).get(i).setStyle("-fx-background-color: white");
+                    tilePanes.get(count).get(i).setStyle("-fx-border-color: black");
+                    */
+
+                } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile
+                    /*
+                    redTile[tileInts[i]-21] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                    redTile[tileInts[i]-21].setExists(true); // Set to valid tile
+                    redTile[tileInts[i]-21].setColor(Color.RED); // Set color
+                    redPane[tileInts[i]-21] = tilePanes.get(count).get(i);
+                    usedSlots[tileInts[i]-21] = true; // Set slot to used
+                    */
+
+                } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
+                    /*
+                    greenTile[tileInts[i]-31] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                    greenTile[tileInts[i]-31].setExists(true); // Set to valid tile
+                    greenTile[tileInts[i]-31].setColor(Color.GREEN); // Set color
+                    greenPane[tileInts[i]-31] = tilePanes.get(count).get(i);
+                    usedSlots[tileInts[i]-25] = true; // Set slot to used
+                    */
+
+                } else if (tileInts[i] > 40 && tileInts[i] < 47) { // Yellow release tile: 41-46 indicate the number on the tile.
+                    /*
+                    yellowTile[tileInts[i]-41] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                    yellowTile[tileInts[i]-41].setExists(true); // Set to valid tile
+                    yellowTile[tileInts[i]-41].setColor(Color.YELLOW); // Set color
+                    yellowPane[tileInts[i]-41] = tilePanes.get(count).get(i);
+                    usedSlots[tileInts[i]-29] = true;
+                    */
+
+                }
+            }
 
             // Increment count
             count++;
         }
+
+        /* Copied from builder, must be adapted
+        // Add the release tiles to the board and draw them
+        for(int i = 0; i < 6; i++){
+            if(usedSlots[i]){ // Add red tile
+                boardController.getColorNumTiles(Color.RED).add(redTile[i]); // Add tile
+                ((GridSquare)redPane[i]).setNumber(i+1); // Set label
+                boardController.getColorNumPanes(Color.RED).add((GridSquare)redPane[i]); // Add pane
+                boardController.updateColorNums(boardController.getColorNumTiles(Color.RED), // Update color
+                        boardController.getColorNumPanes(Color.RED));
+            }
+            if(usedSlots[i+6]){ // Add green tile
+                boardController.getColorNumTiles(Color.GREEN).add(greenTile[i]); // Add tile
+                ((GridSquare)greenPane[i]).setNumber(i+1); // Set label
+                boardController.getColorNumPanes(Color.GREEN).add((GridSquare)greenPane[i]); // Add pane
+                boardController.updateColorNums(boardController.getColorNumTiles(Color.GREEN), // Update color
+                        boardController.getColorNumPanes(Color.GREEN));
+            }
+            if(usedSlots[i+12]){ // Add yellow tile
+                boardController.getColorNumTiles(Color.YELLOW).add(yellowTile[i]); // Add tile
+                ((GridSquare)yellowPane[i]).setNumber(i+1); // Set label
+                boardController.getColorNumPanes(Color.YELLOW).add((GridSquare)yellowPane[i]); // Add pane
+                boardController.updateColorNums(boardController.getColorNumTiles(Color.YELLOW), // Update color
+                        boardController.getColorNumPanes(Color.YELLOW));
+            }
+        }
+        */
 
     }
 

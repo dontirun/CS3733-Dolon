@@ -1019,6 +1019,37 @@ public class LevelBuilderController implements Initializable {
 
             out.write("###"); // Tiles divider
             out.write("\r\n");
+            // Iterate through the board and output the value for each square
+            for(ArrayList<Tile> arr: level.getField().getTiles()){
+                for(Tile t: arr){
+                    int tileCount = 0;
+
+                    if(t.getExists()){ // If it exists, have to find out whether it's a release tile or not
+                        if(((ReleaseTile)t).getColor() == Color.WHITE){ // Regular tile
+                            out.write("1");
+                        }
+                        else if(((ReleaseTile)t).getColor() == Color.RED){ // Red tile
+                            out.write("2" + Integer.toString(((ReleaseTile)t).getNum()));
+                        }
+                        else if(((ReleaseTile)t).getColor() == Color.GREEN){ // Green tile
+                            out.write("3" + Integer.toString(((ReleaseTile)t).getNum()));
+                        }
+                        else if(((ReleaseTile)t).getColor() == Color.YELLOW){ // Yellow tile
+                            out.write("4" + Integer.toString(((ReleaseTile)t).getNum()));
+                        }
+                    }
+                    else{
+                        out.write("0"); // If it doesn't exist, it's a no-tile
+                    }
+
+                    if(tileCount < 11){ // Add spaces
+                        out.write(" ");
+                    }
+
+                    tileCount++;
+                }
+                out.write("\r\n"); // New line
+            }
 
             // Close file
             out.close();

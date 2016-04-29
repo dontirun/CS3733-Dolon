@@ -28,8 +28,6 @@ public abstract class Piece implements Serializable{
         colorVals[2] = c.getBlue();
     }
     /** rotates piece 90 degrees clockwise, returns true if successful, false otherwise
-     * Uses rotation matrix [0 1]
-     *                     [-1 0]
      *
      * @return
      */
@@ -43,8 +41,6 @@ public abstract class Piece implements Serializable{
     }
 
     /** rotates piece 90 degrees counterclockwise, returns true if successful, false otherwise
-     * Uses rotation matrix [0 -1]
-     *                      [1 0]
      *
      * @return
      */

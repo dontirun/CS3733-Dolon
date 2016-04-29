@@ -157,6 +157,10 @@ public class Board {
         return tiles.get(tileRow).get(tileColumn);
     }
 
+    public ArrayList<ArrayList<Tile>> getTiles(){
+        return tiles;
+    }
+
     /**
      * @author Arthur Dooner ajdooner@wpi.edu
      * Sets the specific tile on a board, pointed to by tileRow and tileColumn
