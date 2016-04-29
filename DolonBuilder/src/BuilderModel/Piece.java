@@ -12,9 +12,19 @@ public abstract class Piece implements Serializable{
     public Square anchor;
     public ArrayList<Square> squares;
     public int pieceID;
+
+    public void setUniqueID(int uniqueID) {
+        this.uniqueID = uniqueID;
+    }
+
+    public int uniqueID;
     public int pieceBoardNum = -1;
     public int DEBUG = 1;
     private double[] colorVals = {0, 0, 1};
+
+    public int getUniqueID() {
+        return uniqueID;
+    }
 
     public Piece(int pieceID){
         this.pieceID = pieceID;

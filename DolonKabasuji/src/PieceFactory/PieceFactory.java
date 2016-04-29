@@ -7,80 +7,121 @@ import KabasujiModel.Piece;
  */
 public class PieceFactory {
 
+    static int counter = -1;
+
     public Piece getPiece(int pieceNum){
+        counter++;
+        Piece tempPiece;
         switch (pieceNum) {
             case 1:
-                return new Hex1();
+                tempPiece = new Hex1();
+                break;
             case 2:
-                return new Hex2();
+                tempPiece = new Hex2();
+                break;
             case 3:
-                return new Hex3();
+                tempPiece = new Hex3();
+                break;
             case 4:
-                return new Hex4();
+                tempPiece = new Hex4();
+                break;
             case 5:
-                return new Hex5();
+                tempPiece = new Hex5();
+                break;
             case 6:
-                return new Hex6();
+                tempPiece = new Hex6();
+                break;
             case 7:
-                return new Hex7();
+                tempPiece = new Hex7();
+                break;
             case 8:
-                return new Hex8();
+                tempPiece = new Hex8();
+                break;
             case 9:
-                return new Hex9();
+                tempPiece = new Hex9();
+                break;
             case 10:
-                return new Hex10();
+                tempPiece = new Hex10();
+                break;
             case 11:
-                return new Hex11();
+                tempPiece = new Hex11();
+                break;
             case 12:
-                return new Hex12();
+                tempPiece = new Hex12();
+                break;
             case 13:
-                return new Hex13();
+                tempPiece = new Hex13();
+                break;
             case 14:
-                return new Hex14();
+                tempPiece = new Hex14();
+                break;
             case 15:
-                return new Hex15();
+                tempPiece = new Hex15();
+                break;
             case 16:
-                return new Hex16();
+                tempPiece = new Hex16();
+                break;
             case 17:
-                return new Hex17();
+                tempPiece = new Hex17();
+                break;
             case 18:
-                return new Hex18();
+                tempPiece = new Hex18();
+                break;
             case 19:
-                return new Hex19();
+                tempPiece = new Hex19();
+                break;
             case 20:
-                return new Hex20();
+                tempPiece = new Hex20();
+                break;
             case 21:
-                return new Hex21();
+                tempPiece = new Hex21();
+                break;
             case 22:
-                return new Hex22();
+                tempPiece = new Hex22();
+                break;
             case 23:
-                return new Hex23();
+                tempPiece = new Hex23();
+                break;
             case 24:
-                return new Hex24();
+                tempPiece = new Hex24();
+                break;
             case 25:
-                return new Hex25();
+                tempPiece = new Hex25();
+                break;
             case 26:
-                return new Hex26();
+                tempPiece = new Hex26();
+                break;
             case 27:
-                return new Hex27();
+                tempPiece = new Hex27();
+                break;
             case 28:
-                return new Hex28();
+                tempPiece = new Hex28();
+                break;
             case 29:
-                return new Hex29();
+                tempPiece = new Hex29();
+                break;
             case 30:
-                return new Hex30();
+                tempPiece = new Hex30();
+                break;
             case 31:
-                return new Hex31();
+                tempPiece = new Hex31();
+                break;
             case 32:
-                return new Hex32();
+                tempPiece = new Hex32();
+                break;
             case 33:
-                return new Hex33();
+                tempPiece = new Hex33();
+                break;
             case 34:
-                return new Hex34();
+                tempPiece = new Hex34();
+                break;
             case 35:
-                return new Hex35();
+                tempPiece = new Hex35();
+                break;
             default:
                 return null;
         }
+        tempPiece.setUniqueID(counter);
+        return tempPiece;
     }
 }
