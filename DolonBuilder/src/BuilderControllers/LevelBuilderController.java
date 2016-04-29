@@ -1054,13 +1054,13 @@ public class LevelBuilderController implements Initializable {
             // Close file
             out.close();
 
-            // Popup that the level has been saved
-            Stage saveStage = new Stage();
-            saveStage.initModality(Modality.WINDOW_MODAL);
-            saveStage.setScene(new Scene(VBoxBuilder.create(). // Set scene
-                children(new Text("Level successfully saved."), new Button("Ok")).
-                alignment(Pos.CENTER).padding(new Insets(5)).build()));
-            saveStage.show();
+            // Pop up save confirmation
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Kabasuji Builder");
+            alert.setHeaderText(null);
+            alert.setContentText("The level has been saved.");
+            alert.showAndWait();
+
         }
         catch (IOException e) {
             e.printStackTrace();
