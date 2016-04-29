@@ -928,8 +928,8 @@ public class LevelBuilderController implements Initializable {
             out.write("\r\n");
             switch(levelNum%3){ // Print metric
                 case 1: // Puzzle
-                    if(movesRemainField.getText().equals("")){
-                        out.write("0");
+                    if(Pattern.matches("[0-9]+", movesRemainField.getText())){
+                        out.write("5"); // Default
                     }
                     else{
                         out.write(movesRemainField.getText());
@@ -937,8 +937,8 @@ public class LevelBuilderController implements Initializable {
                     out.write("\r\n");
                     break;
                 case 2: // Lightning
-                    if(timerField.getText().equals("")){
-                        out.write("0");
+                    if(Pattern.matches("[0-9]+", timerField.getText())){
+                        out.write("20"); // Default
                     }
                     else{
                         out.write(timerField.getText());
@@ -954,7 +954,8 @@ public class LevelBuilderController implements Initializable {
             out.write("###"); // Pieces divider
             out.write("\r\n");
             for(Piece p: bullpen.getPieces()){
-                out.write(p.getPieceID());
+                String pieceNum = Integer.toString(p.getPieceID());
+                out.write(pieceNum);
                 out.write("\r\n");
             }
 
