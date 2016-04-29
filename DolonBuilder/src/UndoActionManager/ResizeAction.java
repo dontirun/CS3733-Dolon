@@ -5,10 +5,10 @@ import BuilderModel.Tile;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 
 /**
- * Resizes a puzzle or lightning board based on texts given in textfields
- * <p>
  * Created by Walter on 4/16/2016.
  */
 public class ResizeAction implements IAction {
@@ -21,9 +21,9 @@ public class ResizeAction implements IAction {
     TextField rowsTextField; //reference to fxml rows textfield
     TextField colsTextField; //reference to fxml cols textfield
 
-    Tile[][] boardTiles; //reference to all tiles on board
-    Pane[][] tilePanes; //reference to all panes on board
-
+    LevelModel level;
+    ArrayList<ArrayList<Tile>>  boardTiles;//reference to all tiles on board
+    ArrayList<ArrayList<Pane>> tilePanes;//reference to all panes on board
     /**
      * Creates a resize action
      *
@@ -32,56 +32,60 @@ public class ResizeAction implements IAction {
      * @param colsTextField
      * @param rowsTextField
      */
-    public ResizeAction(Tile[][] boardTiles, Pane[][] tilePanes, TextField colsTextField, TextField rowsTextField) {
+    public ResizeAction(ArrayList<ArrayList<Tile>>  boardTiles, ArrayList<ArrayList<Pane>> tilePanes, TextField colsTextField, TextField rowsTextField) {
         this.boardTiles = boardTiles;
-        this.tilePanes = tilePanes;
-        this.rowsTextField = rowsTextField;
-        this.colsTextField = colsTextField;
+        this.tilePanes=tilePanes;
+        this.rowsTextField= rowsTextField;
+        this.colsTextField= colsTextField;
     }
+
 
     @Override
     /** does the ResizeAction, whiting out all tiles in a rectangle and blacking out all other ones
      * @return true if action is successful
      */
     public boolean doAction() {
-        if (isValid()) {
-            //record starting state of board validity
-            start = new boolean[12][12];
-            for (int col = 0; col < 12; col++) {
-                for (int row = 0; row < 12; row++) {
-                    start[col][row] = boardTiles[col][row].getExists();
-                }
+        //record starting state
+        // change this later to be dynamic
+        start= new boolean[12][12];
+        for(int row = 0; row<12; row++){
+            for(int col = 0;col<12; col++){
+                start[row][col]=boardTiles.get(row).get(col).getExists();
             }
-
-            //get correct amount to shift so the valid tiles are centered
-            int cshift = (int) ((12 - startCols) / 2);
-            int rshift = (int) ((12 - startRows) / 2);
-
-            //set board tiles to valid or invalid
-            for (int i = 0; i < 12; i++) {
-                for (int j = 0; j < 12; j++) {
-                    if (i < startCols + cshift && i >= cshift && j < startRows + rshift && j >= rshift) {
-                        boardTiles[i][j].setExists(true);
-                    } else {
-                        boardTiles[i][j].setExists(false);
-                    }
-                }
-            }
-
-            //record ending state
-            end = new boolean[12][12];
-            for (int col = 0; col < 12; col++) {
-                for (int row = 0; row < 12; row++) {
-                    end[col][row] = boardTiles[col][row].getExists();
-                }
-            }
-
-
-            //redraw it correctly
-            redrawBoard();
-            return true;
         }
-        return false;
+        //resize board
+        startCols = Integer.parseInt(colsTextField.getText().trim());
+        startRows = Integer.parseInt(rowsTextField.getText().trim());
+        //get correct amount to shift so the valid tiles are centered
+        int cshift = (int) ((12 - startCols) / 2);
+        int rshift = (int) ((12 - startRows) / 2);
+//set board tiles to valid or invalid
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 12; j++) {
+                if (i < startCols + cshift && i >= cshift && j < startRows + rshift && j >= rshift) {
+                    boardTiles.get(j).get(i).setExists(true);
+                    //tilePanes[i][j].setStyle("-fx-background-color: white");
+                    // tilePanes[i][j].setStyle("-fx-border-color: black");
+                } else {
+                    boardTiles.get(j).get(i).setExists(false);
+                    //tilePanes[i][j].setStyle("-fx-background-color: black");
+                }
+            }
+        }
+
+        //record ending state
+        // change this later to be dynamic
+        end= new boolean[12][12];
+        for(int col = 0; col<12; col++){
+            for(int row = 0;row<12; row++){
+                end[row][col]=boardTiles.get(row).get(col).getExists();
+            }
+        }
+
+
+        //redraw it correctly
+        redrawBoard();
+        return true;
     }
 
     @Override
@@ -89,29 +93,25 @@ public class ResizeAction implements IAction {
      * @return true if successful
      */
     public boolean undoAction() {
-        //set board state to the saved board state
-        for (int col = 0; col < 12; col++) {
-            for (int row = 0; row < 12; row++) {
-                boardTiles[col][row].setExists(start[col][row]);
+        for(int col = 0; col<12; col++){
+            for(int row = 0;row<12; row++){
+                boardTiles.get(row).get(col).setExists(start[row][col]);
             }
         }
-        //reset the text fields
         colsTextField.setText(Integer.toString(startCols));
         rowsTextField.setText(Integer.toString(startRows));
         //redraw it correctly
         redrawBoard();
         return true;
     }
-
     @Override
     /**
      * redoes the ResizeAction
      */
     public boolean redoAction() {
-        //set board state to saved endstate
-        for (int col = 0; col < 12; col++) {
-            for (int row = 0; row < 12; row++) {
-                boardTiles[col][row].setExists(end[col][row]);
+        for(int col = 0; col<12; col++){
+            for(int row = 0;row<12; row++){
+                boardTiles.get(row).get(col).setExists(end[row][col]);
             }
         }
         //redraw it correctly
@@ -121,28 +121,18 @@ public class ResizeAction implements IAction {
 
     @Override
     public boolean isValid() {
-        try {
-            //attempt to parse text input into valid numbers
-            startCols = Integer.parseInt(colsTextField.getText().trim());
-            startRows = Integer.parseInt(rowsTextField.getText().trim());
-            if(startCols<0 || startRows<0 || startCols>12 || startRows>12){
-                return false;
-            }
-        } catch (Exception e) {
-            //return false if textfield inputs are invalid
-            return false;
-        }
         return true;
     }
 
     public void redrawBoard() {
-        for (int col = 0; col < 12; col++) {
-            for (int row = 0; row < 12; row++) {
+        for(int col = 0; col<12; col++){
+            for(int row = 0;row<12; row++){
 
-                if (boardTiles[col][row].getExists() == true) {
-                    tilePanes[col][row].setStyle("-fx-background-color: white");
+                if (boardTiles.get(row).get(col).getExists() == true) {
+                    tilePanes.get(row).get(col).setStyle("-fx-background-color: white");
+                    //   tilePanes[col][row].setStyle("-fx-border-color: black");
                 } else {
-                    tilePanes[col][row].setStyle("-fx-background-color: black");
+                    tilePanes.get(row).get(col).setStyle("-fx-background-color: black");
                 }
             }
         }
