@@ -3,6 +3,7 @@ package KabasujiControllers;
 import KabasujiModel.Level;
 import PieceFactory.PieceFactory;
 import com.sun.deploy.uitoolkit.DragContext;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
@@ -14,7 +15,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.shape.*;
@@ -24,13 +25,16 @@ import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
+
+import java.awt.Image;
 import java.io.*;
 import java.lang.Math;
 import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
+import java.util.Timer;
+import java.util.TimerTask;
 import KabasujiModel.*;
 import PieceFactory.*;
 
@@ -51,6 +55,10 @@ public class LevelViewController implements Initializable {
     @FXML
     Label levelNumber;
     @FXML
+    Label allowedLabel;
+    @FXML
+    Label limitLabel;
+    @FXML
     GridPane boardView;
     @FXML
     GridPane bullpenView;
@@ -68,7 +76,8 @@ public class LevelViewController implements Initializable {
     ImageView thirdStar;
     @FXML
     ImageView homeIcon;
-
+    Timer timer;
+    int timeLeft;
     boolean placed = false;
 
     private final static DataFormat pieceShape = new DataFormat("piece");
@@ -299,6 +308,27 @@ public class LevelViewController implements Initializable {
             return;
         }
 
+        switch(lvNum%3){
+            case 1://puzzle
+                allowedLabel.setText("Moves Allowed");
+                limitLabel.setText("");
+                javafx.scene.image.Image puz = new javafx.scene.image.Image("/images/PuzzleIcon.png");
+                levelIcon.setImage(puz);
+                break;
+            case 2://lightning
+                allowedLabel.setText("Time left");
+                startCountDown();
+                javafx.scene.image.Image lit = new javafx.scene.image.Image("/images/lightning.png");
+                levelIcon.setImage(lit);
+                break;
+            case 0://release
+                allowedLabel.setText("");
+                limitLabel.setText("");
+                javafx.scene.image.Image rel = new javafx.scene.image.Image("/images/ReleaseIcon.png");
+                levelIcon.setImage(rel);
+                break;
+
+        }
 
         // NOTE: here we tie into the GUI
         setLevelNumber(lvNum);
@@ -399,6 +429,28 @@ public class LevelViewController implements Initializable {
         }
         */
 
+    }
+
+    private void startCountDown() {
+        timer = new Timer();
+        timeLeft = 10;
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        timeLeft--;
+                        limitLabel.setText(""+timeLeft);
+                        if(timeLeft<=0){
+                            timer.cancel();
+                            //do this when time is up
+
+                        }
+                    }
+                });
+            }
+        }, 1000, 1000);
     }
 
 }

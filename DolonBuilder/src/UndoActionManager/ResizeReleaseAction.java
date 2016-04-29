@@ -8,31 +8,29 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 
-/**
+/** Handles resize for release levels
  * Created by Walter on 4/24/2016.
  */
 public class ResizeReleaseAction implements IAction {
-    boolean[][] start;
-    boolean[][] end;
 
-    Stack<ReleaseTileAction> undoHistory;
-    Stack<ReleaseTileAction> redoHistory;
+    Stack<ReleaseTileAction> undoHistory; //keeps track of all undo moves to undo if undo is called
+    Stack<ReleaseTileAction> redoHistory; //keeps track of all redo moves to redo if redo is called
 
-    int startCols;
-    int startRows;
+    int startCols; //number of columns, indicated by columns textfield
+    int startRows; //number of rows, indicated by rows textfield
 
-    TextField rowsTextField;
-    TextField colsTextField;
+
+    TextField rowsTextField;//reference to fxml rows textfield
+    TextField colsTextField;//reference to fxml cols textfield
 
     LevelModel level;
-    ArrayList<ArrayList<Tile>> tiles;
-    ArrayList<ArrayList<Pane>> panes;;
+    Tile[][] tiles;//reference to all tiles on board
+    Pane[][] panes;//reference to all panes on board
 
-    public ResizeReleaseAction( ArrayList<ArrayList<Tile>> tiles,  ArrayList<ArrayList<Pane>> panes, TextField colsTextField, TextField rowsTextField) {
+    public ResizeReleaseAction(Tile[][] tiles, Pane[][] panes, TextField colsTextField, TextField rowsTextField) {
         this.tiles = tiles;
         this.panes = panes;
         this.rowsTextField = rowsTextField;
@@ -53,7 +51,7 @@ public class ResizeReleaseAction implements IAction {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 12; j++) {
                 if (i < startCols + cshift && i >= cshift && j < startRows + rshift && j >= rshift) {
-                    ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) tiles.get(j).get(i), (GridSquare) panes.get(j).get(i), Color.WHITE);
+                    ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) tiles[i][j], (GridSquare) panes[i][j], Color.WHITE);
 
                     if (rta.doAction()) {
                         undoHistory.push(rta);
@@ -61,12 +59,12 @@ public class ResizeReleaseAction implements IAction {
                     }
 
                 } else {
-                    ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) tiles.get(j).get(i), (GridSquare) panes.get(j).get(i), Color.BLACK);
+                    ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) tiles[i][j], (GridSquare) panes[i][j], Color.BLACK);
                     if (rta.doAction()) {
                         undoHistory.push(rta);
                         redoHistory.clear();
                     }
-                    ReleaseTileAction rta2 = new ReleaseTileAction((ReleaseTile) tiles.get(j).get(i), (GridSquare) panes.get(j).get(i), Color.BLACK);
+                    ReleaseTileAction rta2 = new ReleaseTileAction((ReleaseTile) tiles[i][j], (GridSquare) panes[i][j], Color.BLACK);
                     if (rta2.doAction()) {
                         undoHistory.push(rta2);
                         redoHistory.clear();

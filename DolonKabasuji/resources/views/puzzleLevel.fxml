@@ -71,6 +71,8 @@
                   <Image url="@../images/slice05_05.png" />
                </image>
             </ImageView>
+            <Label fx:id="allowedLabel" layoutX="688.0" layoutY="73.0" prefHeight="46.0" prefWidth="82.0" text="Moves Allowed" />
+            <Label fx:id="limitLabel" layoutX="796.0" layoutY="75.0" prefHeight="40.0" prefWidth="82.0" text="?" />
          </children>
       </Pane>
       <GridPane fx:id="boardView" layoutX="640.0" layoutY="152.0" prefHeight="550.0" prefWidth="550.0" style="-fx-border-color: black; -fx-background-color: white;">
