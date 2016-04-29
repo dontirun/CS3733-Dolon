@@ -149,6 +149,7 @@ public class BoardController {
     public static void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare>affectedColorPanes){
         for(int i = 0; i< affectedColorPanes.size(); i++){
             affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
+            affectedColorTiles.get(i).setNum(i+1);
             Color color = affectedColorTiles.get(i).getColor();
             affectedColorPanes.get(i).getNumLabel().setTextFill(color);
             if(color == Color.YELLOW){

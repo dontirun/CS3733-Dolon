@@ -901,6 +901,7 @@ public class LevelBuilderController implements Initializable {
                     }
                 }
             }
+            
 
         } catch (FileNotFoundException e) {
             return;
