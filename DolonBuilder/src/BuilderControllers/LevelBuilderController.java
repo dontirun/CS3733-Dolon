@@ -497,7 +497,8 @@ public class LevelBuilderController implements Initializable {
      * @param event action event
      */
     public void handleSaveButtonAction(ActionEvent event) throws IOException{
-        saveLevel(Integer.parseInt(levelTextField.getText()));
+        saveLevel(Integer.parseInt(levelTextField.getText()), true);
+        saveLevel(Integer.parseInt(levelTextField.getText()), false);
     }
 
     /**
@@ -1027,13 +1028,21 @@ public class LevelBuilderController implements Initializable {
      * @param levelNum number of the level to be saved
      * @throws FileNotFoundException
      */
-    public void saveLevel(int levelNum) throws FileNotFoundException {
+    public void saveLevel(int levelNum, boolean isOut) throws FileNotFoundException {
 
-        String filepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
+        String filepath = "/levels/lvl" + levelNum + ".bdsm";
+        String projFilepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
 
         try{
+            FileWriter out;
 
-            FileWriter out = new FileWriter(filepath);
+            if(isOut){ // Write to the getResource version of the path
+                out = new FileWriter(getClass().getResource(filepath).getPath());
+            }
+            else{ // Write to the project filepath
+                out = new FileWriter(projFilepath);
+            }
+
 
             out.write("###"); // Level divider
             out.write("\r\n");
@@ -1113,12 +1122,14 @@ public class LevelBuilderController implements Initializable {
             // Close file
             out.close();
 
-            // Pop up save confirmation
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Kabasuji Builder");
-            alert.setHeaderText(null);
-            alert.setContentText("The level has been saved.");
-            alert.showAndWait();
+            if(isOut){ // Only pop up once
+                // Pop up save confirmation
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Kabasuji Builder");
+                alert.setHeaderText(null);
+                alert.setContentText("The level has been saved.");
+                alert.showAndWait();
+            }
 
         }
         catch (IOException e) {
