@@ -15,6 +15,9 @@ public class LevelModel {
     int timeAllowed;
 
 
+    /**
+     * Constructor for the Level
+     */
     public LevelModel() {
         field = new Board(12,12);
         // commenting out for now
@@ -28,6 +31,11 @@ public class LevelModel {
         */
     }
 
+    /**
+     * Constructor for the Level when given a mode
+     *
+     * @param mode game mode
+     */
     public LevelModel(String mode){
         field = new Board(12,12);
         // commenting out for now
@@ -43,6 +51,11 @@ public class LevelModel {
         */
     }
 
+    /**
+     * Returns the game mode of the level
+     *
+     * @return game mode
+     */
     public String getMode() {
         String result = "none";
         switch (levelNum % 3) {
@@ -74,16 +87,35 @@ public class LevelModel {
     }
     */
 
+    /**
+     * Returns the tile in a certain row and column
+     *
+     * @param row row of tile
+     * @param col column of tile
+     * @return tile
+     */
     public Tile getTile(int row, int col) {
         return field.getBoardTile(row,col);
     }
 
+    /**
+     * Gets the arraylist of all the tiles that make up the level
+     *
+     * @return array of tiles
+     */
     public  ArrayList<ArrayList<Tile>>  getBoardTiles(){
         return field.tiles;
     }
 
+    /**
+     * @return returns the board of the level
+     */
     public Board getField() { return field; }
 
+
+    /**
+     * Don't know what this will be used for
+     */
     public void assignRed() {
 
     }

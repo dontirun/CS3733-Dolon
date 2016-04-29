@@ -114,7 +114,7 @@ public class LevelBuilderController implements Initializable {
     /**
      * Handles returning to the home screen when the home button is pressed
      *
-     * @param event
+     * @param event action event
      * @throws IOException
      */
     public void handleHomeButtonAction(ActionEvent event) throws IOException {
@@ -131,9 +131,9 @@ public class LevelBuilderController implements Initializable {
     }
 
     /**
-     * called when reset button is clicked, resets all  elements on the levelbuilder based on type of level
+     * called when reset button is clicked, resets all elements on the levelbuilder based on type of level
      *
-     * @param event
+     * @param event action event
      */
     public void handleResetButtonAction(ActionEvent event) throws IOException {
         // try getting the level number
@@ -173,7 +173,7 @@ public class LevelBuilderController implements Initializable {
     /**
      * Resets the view of the board
      *
-     * @param levelType
+     * @param levelType the type of level that is being edited
      */
     public void resetBoard(int levelType) {
 
@@ -213,8 +213,8 @@ public class LevelBuilderController implements Initializable {
     /**
      * Draws an individual rectangle for a given square (used for GUI elements)
      *
-     * @param selectedSquare
-     * @return
+     * @param selectedSquare the square that makes up a group that is to be drawn
+     * @return individual square used in a group
      */
 
     public Rectangle drawPieceRectangle(Square selectedSquare){
@@ -232,7 +232,7 @@ public class LevelBuilderController implements Initializable {
     /**
      * Handles pressing a button to add a piece to the bullpen
      *
-     * @param event
+     * @param event action event
      * @throws IOException
      */
     public void handleAddPieceButtonAction(ActionEvent event) throws IOException {
@@ -291,21 +291,49 @@ public class LevelBuilderController implements Initializable {
 
     }
 
+    /**
+     * Handles the action performed when the rotate buttons are pressed
+     *
+     * @param event action event
+     * @throws IOException
+     */
     public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
         if (event.getSource() == rotateLeftButton) {
             // highlighting the border of the selected button
-            rotateLeftButton.setStyle("-fx-background-color:darkblue");
+
+
+        }
+        if (event.getSource() == rotateRightButton) {
 
         }
     }
+
+    /**
+     * Handles the action performed when the rotate buttons are pressed
+     *
+     * @param event action event
+     * @throws IOException
+     */
+    public void handleFlipPieceButtonAction (ActionEvent event) throws IOException {
+        if (event.getSource() == flipHorizontalButton) {
+            // highlighting the border of the selected button
+
+
+        }
+        if (event.getSource() == flipVerticalButton) {
+
+        }
+    }
+
+
     /**
      * Gets a specific node in a gridpane
      * http://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column
      *
-     * @param row
-     * @param column
-     * @param gridPane
-     * @return
+     * @param row desired row
+     * @param column desired column
+     * @param gridPane the gridPane to search
+     * @return desired node
      */
     public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
@@ -322,7 +350,7 @@ public class LevelBuilderController implements Initializable {
     /**
      * Resets the Rows and Columns text to reflect a reset board
      *
-     * @param levelType
+     * @param levelType the type of level being edited
      */
     public void resetFields(int levelType) {
         //set the text on rows and columns to reflect board
@@ -340,11 +368,12 @@ public class LevelBuilderController implements Initializable {
     }
 
     /**
-     * Will clear all the pieces in the bullpen
+     * Clears all the pieces in the bullpenView and in the bullpen
      *
      */
     public void resetPieces() {
         bullpenView.getChildren().clear();
+        bullpen.getPieces().clear();
         numberOfBullpenPieces = 0;
     }
 
@@ -352,10 +381,10 @@ public class LevelBuilderController implements Initializable {
      * called when load button is clicked, loads the correct elements on the levelbuilder based on type of level and if
      * there is already a saved levels loads that information
      *
-     * @param event
+     * need to add actually loading functionality
+     *
+     * @param event action event
      */
-
-    // need to add actually loading functionality
     public void handleLoadButtonAction(ActionEvent event) throws IOException {
 
         // Return if empty
@@ -465,7 +494,7 @@ public class LevelBuilderController implements Initializable {
      * the pieces present on both the board and in the bullpen, and the state of each board tile.
      * The location of pieces on the board is not saved.
      *
-     * @param event
+     * @param event action event
      */
     public void handleSaveButtonAction(ActionEvent event) throws IOException{
         saveLevel(Integer.parseInt(levelTextField.getText()));
@@ -474,7 +503,7 @@ public class LevelBuilderController implements Initializable {
     /**
      * called when mouse clicks on board, inverts the validity of the tile clicked and updates view
      *
-     * @param event
+     * @param event mouse event
      */
     public void handleBoardClicked(MouseEvent event) {
 
@@ -589,9 +618,10 @@ public class LevelBuilderController implements Initializable {
     }
 
     /**
+     * Resize button is clicked
      * makes a rectangular area of tiles valid according to user input into rows and cols textFields
      *
-     * @param event
+     * @param event action event
      */
     public void handleResizeButton(ActionEvent event) {
         if(level.getMode()!="release"){
@@ -614,6 +644,9 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    /**
+     * Handles when the undo button is clicked
+     */
     public void handleUndo() {
         System.out.println("undo button clicked");
         if (!undoHistory.empty()) {
@@ -623,6 +656,9 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    /**
+     * Handles when the redo button is pressed
+     */
     public void handleRedo() {
         System.out.println("redo button clicked");
         if (!redoHistory.empty()) {
@@ -632,6 +668,11 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    /**
+     * Changes the background colors of buttons to show selection
+     *
+     * @param ae action event
+     */
     public void changeColor(ActionEvent ae) {
 
         if (ae.getSource() == redButton) {
@@ -682,6 +723,12 @@ public class LevelBuilderController implements Initializable {
         System.out.println("color changed to " + color.toString());
     }
 
+    /**
+     * Called when the LevelBuilder view loads
+     *
+     * @param url url
+     * @param resourceBundle resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         numberOfBullpenPieces = 0;
@@ -797,7 +844,12 @@ public class LevelBuilderController implements Initializable {
     }
 
 
-    // Level parsing function
+    /**
+     * Parses the level and sets everything to its specifications
+     *
+     * @param levelNum number of the level to be loaded
+     * @throws IOException
+     */
     public void loadLevel(int levelNum) throws IOException {
 
         // Variables for level information
@@ -968,7 +1020,12 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
-    // Saves a level to a file
+    /**
+     * Saves the level to a file
+     *
+     * @param levelNum number of the level to be saved
+     * @throws FileNotFoundException
+     */
     public void saveLevel(int levelNum) throws FileNotFoundException {
 
         String filepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";

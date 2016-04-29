@@ -9,6 +9,12 @@ public class PieceFactory {
 
     static int counter = -1;
 
+    /**
+     * Gets a piece of the desired number
+     *
+     * @param pieceNum desired piece number
+     * @return the piece
+     */
     public Piece getPiece(int pieceNum){
         counter++;
         Piece tempPiece;

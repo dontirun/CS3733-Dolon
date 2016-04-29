@@ -20,6 +20,12 @@ public class StartScreenController {
     @FXML
     public Button aboutButton;
 
+    /**
+     * Handles the startButton and about buttons being pressed
+     *
+     * @param event action event
+     * @throws IOException
+     */
     public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;

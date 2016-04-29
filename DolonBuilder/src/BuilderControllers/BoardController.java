@@ -26,6 +26,11 @@ public class BoardController {
 
     LevelBuilderController lbc;
 
+    /**
+     * Creates a new BoardController
+     *
+     * @param lbc the controller for the level builder
+     */
     public BoardController(LevelBuilderController lbc) {
         this.lbc = lbc;
         redNumTiles = new ArrayList<ReleaseTile>();
@@ -35,6 +40,14 @@ public class BoardController {
         yellowNumTiles = new ArrayList<ReleaseTile>();
         yellowNumPanes = new ArrayList<GridSquare>();
     }
+
+    /**
+     * Handles when a specific tile in the board is clicked
+     * Needs to be changed so that the tiles handle it instead of the board
+     *
+     * @param clickedTile the clicked tile
+     * @param clickedPane the clicked pane
+     */
     public void handleBoardClicked(Tile clickedTile, Pane clickedPane) {
         try {
             // if its not an int don't change the board
@@ -74,6 +87,12 @@ public class BoardController {
         // do nothing
 
     }
+
+    /**
+     * Handles when the board is clicked and gets the tile located at the click
+     *
+     * @param event mouseevent that occurs
+     */
     public void handleBoardClicked(MouseEvent event) {
         try {
             // if its not an int don't change the board
@@ -121,6 +140,12 @@ public class BoardController {
 
     }
 
+    /**
+     * Updates the numbers on the tiles when setting release tile numbers
+     *
+     * @param affectedColorTiles all the tiles affected by the update
+     * @param affectedColorPanes all the panes affected by the update
+     */
     public static void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare>affectedColorPanes){
         for(int i = 0; i< affectedColorPanes.size(); i++){
             affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
@@ -136,6 +161,14 @@ public class BoardController {
             // affectedColorPanes.get(i).getNumLabel().setAlignment(Pos.CENTER_RIGHT);
         }
     }
+
+
+    /**
+     * Finds all the tiles of a certain color?
+     *
+     * @param color color tile nums to be found
+     * @return arraylist of specific color tiles
+     */
     public static ArrayList<ReleaseTile> getColorNumTiles(Color color){
         ArrayList<ReleaseTile> result = null;
         if(color == Color.RED){
@@ -152,6 +185,13 @@ public class BoardController {
         }
         return result;
     }
+
+    /**
+     * Finds all the panes of a certain color?
+     *
+     * @param color color pane nums to be found
+     * @return arraylist of specific color panes
+     */
     public static ArrayList<GridSquare> getColorNumPanes(Color color){
         ArrayList<GridSquare> result = null;
         if(color == Color.RED){
@@ -168,6 +208,10 @@ public class BoardController {
         }
         return result;
     }
+
+    /**
+     * clears the numbers from the panes and the tiles
+     */
     public static void clearColorNumPanes(){
         redNumTiles.clear();
         redNumPanes.clear();
