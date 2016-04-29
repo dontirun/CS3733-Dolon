@@ -24,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +32,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -108,6 +110,8 @@ public class LevelBuilderController implements Initializable {
     int gridW = 2;
     int gridH = 18;
     double RectangleSize = 45.83333333;
+    Piece selectedPiece;
+    Group selectedGroup;
     PieceFactory ourPieceFactory = new PieceFactory(); // Generate pieceFactory
 
 
@@ -277,6 +281,27 @@ public class LevelBuilderController implements Initializable {
                 }
             });
 
+            // when piece is clicked on add it to bullpen
+            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    if (selectedPiece == pieceToDraw) {
+                        selectedPiece = null;
+                        bullpenViewGroup.setEffect(null);
+                    }
+                    else {
+                        if (selectedPiece != null) {
+                            // remove visual effect of previous selected piece
+                            selectedGroup.setEffect(null);
+                        }
+                        selectedPiece = pieceToDraw;
+                        selectedGroup = bullpenViewGroup;
+                        System.out.println("piece selected");
+                        Lighting light = new Lighting();
+                        bullpenViewGroup.setEffect(light);
+                    }
+                }
+            });
+
 
             pieceGrid.add(pieceSelectorGroup, numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
             pieceGrid.setMargin(pieceSelectorGroup, new Insets(10, 10, 10, 10));
@@ -292,6 +317,25 @@ public class LevelBuilderController implements Initializable {
     }
 
     /**
+     * Redraws a piece and returns a new group
+     *
+     * @param piece new piece to redraw
+     * @return new group that has been transformed
+     */
+    public Group redrawPieceGroupView(Piece piece) {
+        Group newGroup = new Group();
+
+        for (Square selectedSquare : piece.squares) {
+            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+
+            newGroup.getChildren().add(selectedRectangle);
+        }
+
+        return newGroup;
+    }
+
+
+    /**
      * Handles the action performed when the rotate buttons are pressed
      *
      * @param event action event
@@ -299,12 +343,24 @@ public class LevelBuilderController implements Initializable {
      */
     public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
         if (event.getSource() == rotateLeftButton) {
-            // highlighting the border of the selected button
+            selectedPiece.rotatePieceLeft();
 
+            int colLocation = bullpenView.getColumnIndex(selectedGroup);
+            int rowLocation = bullpenView.getColumnIndex(selectedGroup);
 
+            bullpenView.getChildren().remove(selectedGroup);
+            bullpenView.getChildren().add(redrawPieceGroupView(selectedPiece));
+            System.out.println("Rotated left");
         }
         if (event.getSource() == rotateRightButton) {
+            selectedPiece.rotatePieceRight();
 
+            int colLocation = bullpenView.getColumnIndex(selectedGroup);
+            int rowLocation = bullpenView.getColumnIndex(selectedGroup);
+
+            bullpenView.getChildren().remove(selectedGroup);
+            bullpenView.getChildren().add(redrawPieceGroupView(selectedPiece));
+            System.out.println("Rotated right");
         }
     }
 
@@ -316,12 +372,13 @@ public class LevelBuilderController implements Initializable {
      */
     public void handleFlipPieceButtonAction (ActionEvent event) throws IOException {
         if (event.getSource() == flipHorizontalButton) {
-            // highlighting the border of the selected button
-
-
+            selectedPiece.flipPieceHoriz();
+            selectedGroup = redrawPieceGroupView(selectedPiece);
         }
         if (event.getSource() == flipVerticalButton) {
-
+            // highlighting the border of the selected button
+            selectedPiece.flipPieceVert();
+            selectedGroup = redrawPieceGroupView(selectedPiece);
         }
     }
 
@@ -668,6 +725,7 @@ public class LevelBuilderController implements Initializable {
             undoHistory.push(i);
         }
     }
+
 
     /**
      * Changes the background colors of buttons to show selection

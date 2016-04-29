@@ -158,10 +158,10 @@
                </graphic>
             </Button>
             <Button mnemonicParsing="false" prefHeight="59.0" prefWidth="80.0" text="Delete" />
-            <Button fx:id="rotateLeftButton" mnemonicParsing="false" prefHeight="98.0" prefWidth="69.25" text="Rotate L" />
-            <Button fx:id="rotateRightButton" mnemonicParsing="false" prefHeight="87.0" prefWidth="69.25" text="Rotate R" />
-            <Button fx:id="flipHorizontalButton" mnemonicParsing="false" prefHeight="91.0" prefWidth="69.25" text="Flip H" />
-            <Button fx:id="flipVerticalButton" mnemonicParsing="false" prefHeight="89.0" prefWidth="69.25" text="Flip V" />
+            <Button fx:id="rotateLeftButton" mnemonicParsing="false" onAction="#handleRotatePieceButtonAction" prefHeight="98.0" prefWidth="69.25" text="Rotate L" />
+            <Button fx:id="rotateRightButton" mnemonicParsing="false" onAction="#handleRotatePieceButtonAction" prefHeight="87.0" prefWidth="69.25" text="Rotate R" />
+            <Button fx:id="flipHorizontalButton" mnemonicParsing="false" onAction="#handleFlipPieceButtonAction" prefHeight="91.0" prefWidth="69.25" text="Flip H" />
+            <Button fx:id="flipVerticalButton" mnemonicParsing="false" onAction="#handleFlipPieceButtonAction" prefHeight="89.0" prefWidth="69.25" text="Flip V" />
          </children>
       </HBox>
    </children>
