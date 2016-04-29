@@ -30,6 +30,11 @@ public class PieceGroup {
         generateShapeFromPiece(this.piece);
     }
 
+    /**
+     * Generates group of squares from the piece
+     *
+     * @param pieceToDraw
+     */
     public void generateShapeFromPiece(final Piece pieceToDraw) {
         pieceGroup = new Group();
         for (Square selectedSquare : pieceToDraw.squares) { //Iterate over all of the squares in the piece
@@ -69,10 +74,22 @@ public class PieceGroup {
         });
     }
 
+    /**
+     * getter for piece
+     *
+     * @return piece
+     */
     public Piece getPiece(){
         return piece;
     }
 
+
+    /**
+     * Makes a group draggable, may or may not be implemented
+     *
+     * @param node
+     * @return Group
+     */
     private Group makeDraggable(final Group node) {
         final DragContext dragContext = new DragContext();
         final Group wrapGroup = node;
@@ -127,6 +144,11 @@ public class PieceGroup {
         return wrapGroup;
     }
 
+    /**
+     * Returns the view of the piece
+     *
+     * @return group of squares representing the piece
+     */
     public Group getGroup(){
         return pieceGroup;
     }

@@ -9,19 +9,31 @@ import java.util.ArrayList;
 public class Bullpen {
     ArrayList<Piece> pieces;
 
+    /**
+     * Constructor for the bullpen
+     */
     public Bullpen() {
         pieces = new ArrayList<>();
     }
 
+    /**
+     * Adds a piece to the bullpen
+     *
+     * @param addedPiece piece to be added
+     */
     public void addPiece(Piece addedPiece) {
         System.out.println(addedPiece.getPieceID());
         pieces.add(addedPiece);
     }
 
-    public boolean removePiece(int id) {
+    /**
+     * @param uniqueid unique id given to the piece
+     * @return true if the piece was successfully removed, otherwise false
+     */
+    public boolean removePiece(int uniqueid) {
         Piece toBeRemoved;
         for (Piece p : pieces) {
-            if (p.getPieceID() == id) {
+            if (p.getUniqueID() == uniqueid) {
                 pieces.remove(p);
                 return true;
             }
@@ -29,15 +41,22 @@ public class Bullpen {
         return true;
     }
 
-    /*
-    public Piece getPiece(Piece desiredPiece) {
+
+    /**
+     * @param desiredPiece piece to be searched for
+     * @return piece that was desired
+     * @throws PieceNotFoundException
+     */
+    public Piece getPiece(Piece desiredPiece) throws PieceNotFoundException {
         for (Piece p : pieces) {
-            if (p == desiredPiece) {
+            if (p.getUniqueID() == desiredPiece.getUniqueID()) {
                 return p;
             }
         }
+        //We didn't get anything; uh oh!
+        throw new PieceNotFoundException("Could not find piece with unique ID: " + desiredPiece.getUniqueID());
     }
-    */
+
 
     // Getter for pieces
     public ArrayList<Piece> getPieces(){
