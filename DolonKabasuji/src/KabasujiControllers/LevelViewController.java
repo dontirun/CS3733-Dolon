@@ -269,8 +269,8 @@ public class LevelViewController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
-            FileReader input = new FileReader(filepath); // Read in file
+            String filepath = "/levels/lvl" + levelNum + ".bdsm";
+            FileReader input = new FileReader(getClass().getResource(filepath).getPath()); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
 

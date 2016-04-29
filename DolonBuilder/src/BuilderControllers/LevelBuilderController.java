@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -29,6 +30,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -809,8 +812,8 @@ public class LevelBuilderController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
-            FileReader input = new FileReader(filepath); // Read in file
+            String filepath = "/levels/lvl" + levelNum + ".bdsm";
+            FileReader input = new FileReader(getClass().getResource(filepath).getPath()); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
 
@@ -964,6 +967,14 @@ public class LevelBuilderController implements Initializable {
 
             // Close file
             out.close();
+
+            // Popup that the level has been saved
+            Stage saveStage = new Stage();
+            saveStage.initModality(Modality.WINDOW_MODAL);
+            saveStage.setScene(new Scene(VBoxBuilder.create(). // Set scene
+                children(new Text("Level successfully saved."), new Button("Ok")).
+                alignment(Pos.CENTER).padding(new Insets(5)).build()));
+            saveStage.show();
         }
         catch (IOException e) {
             e.printStackTrace();
