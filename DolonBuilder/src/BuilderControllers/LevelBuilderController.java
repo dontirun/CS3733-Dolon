@@ -1086,6 +1086,7 @@ public class LevelBuilderController implements Initializable {
                             out.write("1");
                         }
                         else if(((ReleaseTile)t).getColor() == Color.RED){ // Red tile
+                            System.out.println(Integer.toString(((ReleaseTile)t).getNum()));
                             out.write("2" + Integer.toString(((ReleaseTile)t).getNum()));
                         }
                         else if(((ReleaseTile)t).getColor() == Color.GREEN){ // Green tile
