@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.regex.Pattern;
@@ -806,6 +807,16 @@ public class LevelBuilderController implements Initializable {
         ArrayList<Integer> pieces = new ArrayList<Integer>();
         ArrayList<String> tiles = new ArrayList<String>();
 
+        // Release metrics so that release tiles are added properly
+        ReleaseTile redTile[] = new ReleaseTile[6];
+        ReleaseTile greenTile[] = new ReleaseTile[6];
+        ReleaseTile yellowTile[] = new ReleaseTile[6];
+        Pane redPane[] = new Pane[6];
+        Pane greenPane[] = new Pane[6];
+        Pane yellowPane[] = new Pane[6];
+        boolean usedSlots[] = new boolean[18];
+        Arrays.fill(usedSlots, Boolean.FALSE);
+
         // Starts at 0 because file begins with ### and will automatically increment
         int readCount = 0; // Determines what part of the files is being parsed
 
@@ -840,6 +851,8 @@ public class LevelBuilderController implements Initializable {
             }
 
         } catch (FileNotFoundException e) {
+            return;
+        } catch (NullPointerException e){
             return;
         }
 
@@ -895,21 +908,63 @@ public class LevelBuilderController implements Initializable {
                 if (tileInts[i] == 0) { // No-Tile
                     level.getBoardTiles().get(count).get(i).setExists(false);
                     tilePanes.get(count).get(i).setStyle("-fx-background-color: black");
+
                 } else if (tileInts[i] == 1) { // Valid blank tile
                     level.getBoardTiles().get(count).get(i).setExists(true);
                     tilePanes.get(count).get(i).setStyle("-fx-background-color: white");
                     tilePanes.get(count).get(i).setStyle("-fx-border-color: black");
+
                 } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile.
-                    //
+                    redTile[tileInts[i]-21] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                    redTile[tileInts[i]-21].setExists(true); // Set to valid tile
+                    redTile[tileInts[i]-21].setColor(Color.RED); // Set color
+                    redPane[tileInts[i]-21] = tilePanes.get(count).get(i);
+                    usedSlots[tileInts[i]-21] = true; // Set slot to used
+
                 } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
-                    //
+                    greenTile[tileInts[i]-31] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                    greenTile[tileInts[i]-31].setExists(true); // Set to valid tile
+                    greenTile[tileInts[i]-31].setColor(Color.GREEN); // Set color
+                    greenPane[tileInts[i]-31] = tilePanes.get(count).get(i);
+                    usedSlots[tileInts[i]-25] = true; // Set slot to used
+
                 } else if (tileInts[i] > 40 && tileInts[i] < 47) { // Yellow release tile: 41-46 indicate the number on the tile.
-                    //
+                    yellowTile[tileInts[i]-41] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                    yellowTile[tileInts[i]-41].setExists(true); // Set to valid tile
+                    yellowTile[tileInts[i]-41].setColor(Color.YELLOW); // Set color
+                    yellowPane[tileInts[i]-41] = tilePanes.get(count).get(i);
+                    usedSlots[tileInts[i]-29] = true;
+
                 }
             }
 
             // Increment count
             count++;
+        }
+
+        // Add the release tiles to the board and draw them
+        for(int i = 0; i < 6; i++){
+            if(usedSlots[i]){ // Add red tile
+                boardController.getColorNumTiles(Color.RED).add(redTile[i]); // Add tile
+                ((GridSquare)redPane[i]).setNumber(i+1); // Set label
+                boardController.getColorNumPanes(Color.RED).add((GridSquare)redPane[i]); // Add pane
+                boardController.updateColorNums(boardController.getColorNumTiles(Color.RED), // Update color
+                        boardController.getColorNumPanes(Color.RED));
+            }
+            if(usedSlots[i+6]){ // Add green tile
+                boardController.getColorNumTiles(Color.GREEN).add(greenTile[i]); // Add tile
+                ((GridSquare)greenPane[i]).setNumber(i+1); // Set label
+                boardController.getColorNumPanes(Color.GREEN).add((GridSquare)greenPane[i]); // Add pane
+                boardController.updateColorNums(boardController.getColorNumTiles(Color.GREEN), // Update color
+                        boardController.getColorNumPanes(Color.GREEN));
+            }
+            if(usedSlots[i+12]){ // Add yellow tile
+                boardController.getColorNumTiles(Color.YELLOW).add(yellowTile[i]); // Add tile
+                ((GridSquare)yellowPane[i]).setNumber(i+1); // Set label
+                boardController.getColorNumPanes(Color.YELLOW).add((GridSquare)yellowPane[i]); // Add pane
+                boardController.updateColorNums(boardController.getColorNumTiles(Color.YELLOW), // Update color
+                        boardController.getColorNumPanes(Color.YELLOW));
+            }
         }
     }
 
@@ -931,7 +986,7 @@ public class LevelBuilderController implements Initializable {
             out.write("\r\n");
             switch(levelNum%3){ // Print metric
                 case 1: // Puzzle
-                    if(Pattern.matches("[0-9]+", movesRemainField.getText())){
+                    if(!Pattern.matches("[0-9]+", movesRemainField.getText())){
                         out.write("5"); // Default
                     }
                     else{
@@ -940,7 +995,7 @@ public class LevelBuilderController implements Initializable {
                     out.write("\r\n");
                     break;
                 case 2: // Lightning
-                    if(Pattern.matches("[0-9]+", timerField.getText())){
+                    if(!Pattern.matches("[0-9]+", timerField.getText())){
                         out.write("20"); // Default
                     }
                     else{
