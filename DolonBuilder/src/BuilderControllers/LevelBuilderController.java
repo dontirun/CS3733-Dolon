@@ -316,24 +316,6 @@ public class LevelBuilderController implements Initializable {
 
     }
 
-    /**
-     * Redraws a piece and returns a new group
-     *
-     * @param piece new piece to redraw
-     * @return new group that has been transformed
-     */
-    public Group redrawPieceGroupView(Piece piece) {
-        Group newGroup = new Group();
-
-        for (Square selectedSquare : piece.squares) {
-            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-
-            newGroup.getChildren().add(selectedRectangle);
-        }
-
-        return newGroup;
-    }
-
 
     /**
      * Handles the action performed when the rotate buttons are pressed
@@ -342,25 +324,26 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
+        if(selectedPiece == null){
+            return;
+        }
+
+        // if rotate left button is pressed
         if (event.getSource() == rotateLeftButton) {
             selectedPiece.rotatePieceLeft();
-
-            int colLocation = bullpenView.getColumnIndex(selectedGroup);
-            int rowLocation = bullpenView.getColumnIndex(selectedGroup);
-
-            bullpenView.getChildren().remove(selectedGroup);
-            bullpenView.getChildren().add(redrawPieceGroupView(selectedPiece));
-            System.out.println("Rotated left");
         }
+
+        // if rotate right button is pressed
         if (event.getSource() == rotateRightButton) {
             selectedPiece.rotatePieceRight();
+        }
 
-            int colLocation = bullpenView.getColumnIndex(selectedGroup);
-            int rowLocation = bullpenView.getColumnIndex(selectedGroup);
+        // clears the squares in the group and adds in the repositioned ones
+        selectedGroup.getChildren().clear();
+        for (Square selectedSquare : selectedPiece.squares) {
+            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
 
-            bullpenView.getChildren().remove(selectedGroup);
-            bullpenView.getChildren().add(redrawPieceGroupView(selectedPiece));
-            System.out.println("Rotated right");
+            selectedGroup.getChildren().add(selectedRectangle);
         }
     }
 
@@ -371,14 +354,27 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleFlipPieceButtonAction (ActionEvent event) throws IOException {
+        if(selectedPiece == null){
+            return;
+        }
+
+        // if flip horizontal button is pressed
         if (event.getSource() == flipHorizontalButton) {
             selectedPiece.flipPieceHoriz();
-            selectedGroup = redrawPieceGroupView(selectedPiece);
         }
+
+        // if flip vertical button is pressed
         if (event.getSource() == flipVerticalButton) {
             // highlighting the border of the selected button
             selectedPiece.flipPieceVert();
-            selectedGroup = redrawPieceGroupView(selectedPiece);
+        }
+
+        // clears the squares in the group and adds in the repositioned ones
+        selectedGroup.getChildren().clear();
+        for (Square selectedSquare : selectedPiece.squares) {
+            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+
+            selectedGroup.getChildren().add(selectedRectangle);
         }
     }
 
@@ -1000,6 +996,28 @@ public class LevelBuilderController implements Initializable {
             bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
             bullpenView.setHalignment(bullpenViewGroup, HPos.CENTER);
             bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
+
+            // when piece is clicked on add it to bullpen
+            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    if (selectedPiece == pieceToDraw) {
+                        selectedPiece = null;
+                        bullpenViewGroup.setEffect(null);
+                    }
+                    else {
+                        if (selectedPiece != null) {
+                            // remove visual effect of previous selected piece
+                            selectedGroup.setEffect(null);
+                        }
+                        selectedPiece = pieceToDraw;
+                        selectedGroup = bullpenViewGroup;
+                        System.out.println("piece selected");
+                        Lighting light = new Lighting();
+                        bullpenViewGroup.setEffect(light);
+                    }
+                }
+            });
+
             numberOfBullpenPieces++;
         }
 

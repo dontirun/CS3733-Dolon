@@ -139,7 +139,7 @@
       </GridPane>
       <ScrollPane layoutX="224.0" layoutY="188.0" prefHeight="492.0" prefWidth="437.0">
          <content>
-            <GridPane fx:id="bullpenView" prefHeight="492.0" prefWidth="437.0">
+            <GridPane fx:id="bullpenView" alignment="CENTER" prefHeight="489.0" prefWidth="435.0">
             </GridPane>
          </content>
       </ScrollPane>
