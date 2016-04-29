@@ -157,7 +157,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="59.0" prefWidth="80.0" text="Delete" />
+            <Button fx:id="deletePieceButton" mnemonicParsing="false" onAction="#handleDeletePieceAction" prefHeight="59.0" prefWidth="80.0" text="Delete" />
             <Button fx:id="rotateLeftButton" mnemonicParsing="false" onAction="#handleRotatePieceButtonAction" prefHeight="98.0" prefWidth="69.25" text="Rotate L" />
             <Button fx:id="rotateRightButton" mnemonicParsing="false" onAction="#handleRotatePieceButtonAction" prefHeight="87.0" prefWidth="69.25" text="Rotate R" />
             <Button fx:id="flipHorizontalButton" mnemonicParsing="false" onAction="#handleFlipPieceButtonAction" prefHeight="91.0" prefWidth="69.25" text="Flip H" />
