@@ -36,6 +36,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import java.util.regex.Pattern;
 
 /**
  * Created by slafo on 4/10/2016.
@@ -352,6 +353,15 @@ public class LevelBuilderController implements Initializable {
 
     // need to add actually loading functionality
     public void handleLoadButtonAction(ActionEvent event) throws IOException {
+
+        // Return if empty
+        if(levelTextField.getText().equals("")){
+            return;
+        }
+        else if(!Pattern.matches("[0-9]+", levelTextField.getText())){
+            return;
+        }
+
         // only do loading things if the textfield has a valid value
         if (handleLevelChanged()) {
             // change the elements to match the correct level type
@@ -918,11 +928,21 @@ public class LevelBuilderController implements Initializable {
             out.write("\r\n");
             switch(levelNum%3){ // Print metric
                 case 1: // Puzzle
-                    out.write(movesRemainField.getText());
+                    if(movesRemainField.getText().equals("")){
+                        out.write("0");
+                    }
+                    else{
+                        out.write(movesRemainField.getText());
+                    }
                     out.write("\r\n");
                     break;
                 case 2: // Lightning
-                    out.write(timerField.getText());
+                    if(timerField.getText().equals("")){
+                        out.write("0");
+                    }
+                    else{
+                        out.write(timerField.getText());
+                    }
                     out.write("\r\n");
                     break;
                 case 0: // Release
@@ -933,6 +953,10 @@ public class LevelBuilderController implements Initializable {
 
             out.write("###"); // Pieces divider
             out.write("\r\n");
+            for(Piece p: bullpen.getPieces()){
+                out.write(p.getPieceID());
+                out.write("\r\n");
+            }
 
             out.write("###"); // Tiles divider
             out.write("\r\n");

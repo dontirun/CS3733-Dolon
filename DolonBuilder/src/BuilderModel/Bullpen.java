@@ -39,4 +39,9 @@ public class Bullpen {
     }
     */
 
+    // Getter for pieces
+    public ArrayList<Piece> getPieces(){
+        return pieces;
+    }
+
 }
