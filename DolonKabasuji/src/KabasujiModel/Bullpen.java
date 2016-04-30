@@ -1,35 +1,70 @@
 package KabasujiModel;
 
 import java.util.ArrayList;
+
 /**
- * Created by Arthur on 4/10/2016.
+ * Created by Walter on 4/16/2016.
  */
 public class Bullpen {
     ArrayList<Piece> pieces;
+
+    /**
+     * Constructor for the bullpen
+     */
     public Bullpen() {
         pieces = new ArrayList<>();
     }
-    public Bullpen(ArrayList<Piece> pieces) {
-        this.pieces = pieces;
+
+    /**
+     * Adds a piece to the bullpen
+     *
+     * @param addedPiece piece to be added
+     */
+    public void addPiece(Piece addedPiece) {
+        System.out.println(addedPiece.getPieceID());
+        pieces.add(addedPiece);
     }
 
     /**
-     * Takes in a piece to add to the bullpen
-     *
-     * @param p the piece to be added
-     * @return true if successfully added piece, false otherwise
+     * @param uniqueid unique id given to the piece
+     * @return true if the piece was successfully removed, otherwise false
      */
-    public boolean addPiece(Piece p){
+    public boolean removePiece(int uniqueid) {
+        Piece toBeRemoved;
+        for (Piece p : pieces) {
+            if (p.getUniqueID() == uniqueid) {
+                pieces.remove(p);
+                return true;
+            }
+        }
         return false;
     }
 
+
     /**
-     * Removes a piece from the bullpen
-     *
-     * @param p the piece to be removed
-     * @return true if successfully removed piece, false otherwise
+     * @param desiredPiece piece to be searched for
+     * @return piece that was desired
+     * @throws PieceNotFoundException
      */
-    public boolean removePiece(Piece p){
-        return false;
+    public Piece getPiece(Piece desiredPiece) throws PieceNotFoundException {
+        for (Piece p : pieces) {
+            if (p.getUniqueID() == desiredPiece.getUniqueID()) {
+                return p;
+            }
+        }
+        //We didn't get anything; uh oh!
+        throw new PieceNotFoundException("Could not find piece with unique ID: " + desiredPiece.getUniqueID());
     }
+
+
+    /**
+     * Getter for the pieces
+     *
+     * @return arraylist of pieces
+     */
+    // Getter for pieces
+    public ArrayList<Piece> getPieces(){
+        return pieces;
+    }
+
 }

@@ -10,9 +10,9 @@ public class LightningLevelModel extends LevelModel {
      * Constructor for the lightning level
      *
      * @param levelNum level number
-     * @param allowedTime time allowed for the level to be played
+     *
      */
-    public LightningLevelModel(int levelNum, int allowedTime){
+    public LightningLevelModel(int levelNum){
         super(levelNum);
         this.allowedTime = allowedTime;
     }

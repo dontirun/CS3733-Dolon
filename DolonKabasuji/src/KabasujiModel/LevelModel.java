@@ -2,6 +2,7 @@ package KabasujiModel;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 /**
  * Created by Arthur on 4/10/2016.
@@ -74,5 +75,32 @@ public abstract class LevelModel {
         return false;
     }
 
+    /**
+     * Returns the tile in a certain row and column
+     *
+     * @param row row of tile
+     * @param col column of tile
+     * @return tile
+     */
+    public Tile getTile(int row, int col) {
+        return board.getBoardTile(row,col);
+    }
 
+    /**
+     * Gets the arraylist of all the tiles that make up the level
+     *
+     * @return array of tiles
+     */
+    public  ArrayList<ArrayList<Tile>>  getBoardTiles(){
+        return board.tiles;
+    }
+
+    /**
+     * @return returns the board of the level
+     */
+    public Board getField() { return board; }
 }
+
+
+
+
