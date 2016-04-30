@@ -173,6 +173,7 @@ public class LevelBuilderController implements Initializable {
         yellowButton.setStyle("-fx-background-color: transparent");
         whiteButton.setStyle("-fx-background-color: transparent");
         blackButton.setStyle("-fx-background-color: darkblue");
+        hintButton.setStyle("-fx-background-color: transparent");
 
         //black button is selected
         color = Color.BLACK;

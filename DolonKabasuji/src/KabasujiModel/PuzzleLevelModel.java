@@ -24,7 +24,7 @@ public class PuzzleLevelModel extends LevelModel {
         this.totalMoves =  totalMoves;
     }
 
-    public int getTotalMoves(int totalMoves){
+    public int getTotalMoves(){
         return totalMoves;
     }
 

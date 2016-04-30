@@ -151,7 +151,7 @@ public class GameTests extends TestCase {
         tile.removeSquare();
         assertEquals(tile.getSquare(),null);
 
-
+        //testing exetential stuff
         Tile newTile = new Tile(false);
         assertEquals(newTile.getExists(), false);
         newTile.setExists(true);
@@ -160,7 +160,12 @@ public class GameTests extends TestCase {
         assertEquals(newTile.getExists(), false);
         newTile.setCovered(1);
 
-
+        //testing hint stuff
+        assertFalse(newTile.getHint());
+        newTile.flipHint();
+        assertTrue(newTile.getHint());
+        newTile.setHint(false);
+        assertFalse(newTile.getHint());
 
 
     }
@@ -206,8 +211,8 @@ public class GameTests extends TestCase {
     //making sure level model and some board methods work properly
     public void testLevelTest() throws Exception {
         LevelModel rlm = new ReleaseLevelModel(3);
-        LevelModel plm = new PuzzleLevelModel(1);
-        LevelModel llm = new LightningLevelModel(2);
+        PuzzleLevelModel plm = new PuzzleLevelModel(1);
+        LightningLevelModel llm = new LightningLevelModel(2);
         assertEquals(rlm.getTile(1,1).getExists(),true);
         assertEquals(rlm.getBoardTiles().size(),12);
         assertEquals(rlm.getField().getBoardTile(1,1).getExists(),true);
@@ -216,6 +221,12 @@ public class GameTests extends TestCase {
         // these will need to be changed
         assertFalse(plm.updateStars());
         assertFalse(plm.hasPassed());
+        // checking total move stuff
+        plm.setTotalMoves(5);
+        assertEquals(plm.getTotalMoves(),5);
+        //checking allowed time stuff
+        llm.setAllowedTime(5);
+        assertEquals(llm.getAllowedTime(),5);
 
 
 
