@@ -59,6 +59,8 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public Button flipVerticalButton;
     @FXML
+    public Button deletePieceButton;
+    @FXML
     public Button greenButton; // Return to menu
     @FXML
     public Button redButton; // Return to menu
@@ -314,6 +316,15 @@ public class LevelBuilderController implements Initializable {
         pieceSelector.show();
 
 
+    }
+
+    public void handleDeletePieceAction  (ActionEvent event) throws IOException {
+        if (selectedPiece == null) {
+            return;
+        }
+
+        bullpenView.getChildren().remove(selectedGroup);
+        bullpen.removePiece(selectedPiece.getUniqueID());
     }
 
 
