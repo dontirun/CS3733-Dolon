@@ -3,7 +3,7 @@ package KabasujiModel;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class LightningLevel extends Level {
+public class LightningLevelModel extends LevelModel {
     int allowedTime, usedTime;
 
     /**
@@ -12,7 +12,7 @@ public class LightningLevel extends Level {
      * @param levelNum level number
      * @param allowedTime time allowed for the level to be played
      */
-    public LightningLevel(int levelNum, int allowedTime){
+    public LightningLevelModel(int levelNum, int allowedTime){
         super(levelNum);
         this.allowedTime = allowedTime;
     }

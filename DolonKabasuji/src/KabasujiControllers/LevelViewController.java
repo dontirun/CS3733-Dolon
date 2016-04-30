@@ -1,16 +1,10 @@
 package KabasujiControllers;
 
-import KabasujiModel.Level;
 import PieceFactory.PieceFactory;
-import com.sun.deploy.uitoolkit.DragContext;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.event.*;
-import javafx.event.Event;
 import javafx.geometry.HPos;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
@@ -18,29 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.shape.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Rotate;
 import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 
-import java.awt.Image;
 import java.io.*;
-import java.lang.Math;
-import java.awt.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 import KabasujiModel.*;
-import PieceFactory.*;
-
-import static java.lang.Boolean.FALSE;
-import static javafx.geometry.Pos.CENTER;
-import static javafx.geometry.Pos.TOP_RIGHT;
 
 /**
  * Created by Arthur on 4/10/2016.
@@ -325,7 +307,7 @@ public class LevelViewController implements Initializable {
                     readCount++;
                 } else { // Information to parse
                     switch (readCount) {
-                        case 1: // Level Number
+                        case 1: // LevelModel Number
                             lvNum = Integer.parseInt(dataLine);
                             break;
                         case 2: // Metric

@@ -14,7 +14,7 @@ public class Tile {
      */
     public Tile() {
         exists = true;
-        covered = -1;
+        covered = -1; //Covered represents the unique piece ID
     }
 
     /**
@@ -49,7 +49,7 @@ public class Tile {
     /**
      * Setter for covered
      *
-     * @param covered int representing it being covered
+     * @param covered int representing it being covered, corresponding to unique Piece ID
      */
     public void setCovered(int covered) {
         this.covered = covered;

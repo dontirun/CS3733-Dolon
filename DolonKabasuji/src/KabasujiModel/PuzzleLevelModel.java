@@ -3,7 +3,7 @@ package KabasujiModel;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class PuzzleLevel extends Level {
+public class PuzzleLevelModel extends LevelModel {
     int totalMoves = 0, movesUsed = 0;
 
     /**
@@ -11,7 +11,7 @@ public class PuzzleLevel extends Level {
      *
      * @param levelNum number of the level
      */
-    public PuzzleLevel(int levelNum){
+    public PuzzleLevelModel(int levelNum){
         super(levelNum);
     }
 }

@@ -36,14 +36,13 @@ public class Board {
      */
     public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
-            p.setPieceBoardNum(p.getPieceID()*1000 + counter);
             piecesOnBoard.add(p);
             for (Square s : p.squares){
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
                 // changed to release tile for now
                 ReleaseTile tempTile = new ReleaseTile();
-                tempTile.setSquare(s, p.getPieceBoardNum());
+                tempTile.setSquare(s, p.getUniqueID());
                 setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
             }
             counter++;
@@ -54,19 +53,19 @@ public class Board {
 
     /**
      * Takes in a unique pieceOnBoardNum to remove a piece from the board
-     * @param pieceOnBoardNum the unique identifier for the piece
+     * @param uniqueID the unique identifier for the piece
      * @return true if successfully removed from the board, false otherwise
      */
-    public boolean removePiece(int pieceOnBoardNum){
+    public boolean removePiece(int uniqueID){
         for (ArrayList<Tile> a : tiles){ //Iterate over all the rows
             for (Tile t : a) { //Iterate over all the columns
-                if (t.getCovered() == pieceOnBoardNum){  //If pieceNums are the same
+                if (t.getCovered() == uniqueID){  //If pieceNums Unique ID and the covered int are the same
                     t.removeSquare(); //Clear the square
                 }
             }
         }
         for (int x = 0; x < piecesOnBoard.size(); x++){ //Iterate over all the pieces
-            if (piecesOnBoard.get(x).getPieceBoardNum() == pieceOnBoardNum){ //If the piece board numbers are the same
+            if (piecesOnBoard.get(x).getUniqueID() == uniqueID){ //If the piece board numbers are the same
                 piecesOnBoard.remove(x);
                 return true;
             }

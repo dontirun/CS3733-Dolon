@@ -6,18 +6,18 @@ import java.io.FileNotFoundException;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public abstract class Level {
+public abstract class LevelModel {
     int levelNum, maxStars, numStars;
     boolean isUnlocked;
     Bullpen bullpen;
     Board board;
 
     /**
-     * Takes in Level number to configure the level.
+     * Takes in LevelModel number to configure the level.
      *
      * @param LevelNum level to be configured
      */
-    public Level(int LevelNum){
+    public LevelModel(int LevelNum){
         this.levelNum = levelNum;
         bullpen = new Bullpen();
         board = new Board();

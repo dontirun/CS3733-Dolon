@@ -3,13 +3,13 @@ package KabasujiModel;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public class ReleaseLevel extends Level {
+public class ReleaseLevelModel extends LevelModel {
     /**
      * Constructor for release level
      *
      * @param levelNum number of the level
      */
-    public ReleaseLevel(int levelNum){
+    public ReleaseLevelModel(int levelNum){
         super(levelNum);
     }
 }

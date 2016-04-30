@@ -12,7 +12,6 @@ public abstract class Piece implements Serializable{
     public ArrayList<Square> squares;
     public int pieceID;
     public int uniqueID;
-    public int pieceBoardNum = -1;
     public int DEBUG = 1;
     private double[] colorVals = {0, 0, 1};
 
@@ -142,22 +141,5 @@ public abstract class Piece implements Serializable{
         colorVals[2] = c.getBlue();
     }
 
-    /**
-     * Unsure of what this is for
-     *
-     * @return int
-     */
-    public int getPieceBoardNum() {
-        return pieceBoardNum;
-    }
-
-    /**
-     * Unsure of what this is for
-     *
-     * @param pieceBoardNum unsure
-     */
-    public void setPieceBoardNum(int pieceBoardNum){
-        this.pieceBoardNum = pieceBoardNum;
-    }
 
 }
