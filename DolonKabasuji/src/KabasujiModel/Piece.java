@@ -50,6 +50,7 @@ public abstract class Piece implements Serializable{
      * @param pieceID id of the piece to be generated
      * @param c color of the piece to be generated
      */
+    /* commented out fo rnow because I don't know if we are ever going to hit this
     public Piece(int pieceID, Color c){
         this.pieceID = pieceID;
         squares = new ArrayList<>();
@@ -57,6 +58,7 @@ public abstract class Piece implements Serializable{
         colorVals[1] = c.getGreen();
         colorVals[2] = c.getBlue();
     }
+    */
     /** rotates piece 90 degrees clockwise
      * Uses rotation matrix [0 1]
      *                     [-1 0]

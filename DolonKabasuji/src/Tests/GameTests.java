@@ -158,6 +158,8 @@ public class GameTests extends TestCase {
         assertEquals(newTile.getExists(), true);
         newTile.flipExists();
         assertEquals(newTile.getExists(), false);
+        newTile.setCovered(1);
+
 
 
 
@@ -174,9 +176,9 @@ public class GameTests extends TestCase {
         // adding piece to the bullpen
         bp.addPiece(tempPiece);
         // checking if that piece is in the bullpen
-       // assertEquals(bp.getPiece(tempPiece),tempPiece);
+        assertEquals(bp.getPiece(tempPiece),tempPiece);
         // getting the arraylist of pieces and seeing if it returns properly
-        //assertTrue(bp.getPieces().contains(tempPiece));
+        assertTrue(bp.getPieces().contains(tempPiece));
         // should return true if piece was properly removed
         assertTrue(bp.removePiece(tempPiece.uniqueID));
         // should return false now if piece was properly removed
@@ -209,6 +211,11 @@ public class GameTests extends TestCase {
         assertEquals(rlm.getTile(1,1).getExists(),true);
         assertEquals(rlm.getBoardTiles().size(),12);
         assertEquals(rlm.getField().getBoardTile(1,1).getExists(),true);
+        // shouldn't be able to load this baord
+        assertEquals(plm.loadBoard("lvlasdasd1.bdsm"),false);
+        // these will need to be changed
+        assertFalse(plm.updateStars());
+        assertFalse(plm.hasPassed());
 
 
 
@@ -218,6 +225,7 @@ public class GameTests extends TestCase {
     //making sure rest of board methods work properly
     public void testBoardTest() throws Exception {
         Board board = new Board();
+        Board board1 = new Board(11,11);
         PieceFactory pf = new PieceFactory();
         Piece tempPiece1 = pf.getPiece(2);
         Piece tempPiece2 = pf.getPiece(1);
@@ -240,10 +248,39 @@ public class GameTests extends TestCase {
         board.setNumColumns(11);
         board.setNumRows(11);
 
+
         // checking if rows and columns updated properly
         //assertTrue(board.getTiles().size()==11);
        // assertTrue(board.getTiles().get(1).size()==11);
     }
+
+    @Test
+    //making sure game menu methods work properly
+    public void testGameMenuTest() throws Exception {
+       GameMenu gm = new GameMenu();
+        //checking levelnumber and unlocked functionalities
+        assertEquals(gm.getLevelNumber(),1);
+        gm.incrementLevelNumber();
+        assertEquals(gm.getLevelNumber(),2);
+        gm.decrementLevelNumber();
+        assertEquals(gm.getLevelNumber(),1);
+        gm.setLevelNumber(3);
+        assertEquals(gm.getLevelNumber(),3);
+        gm.setUnlocked(3);
+        assertEquals(gm.getUnlocked(),3);
+    }
+
+
+    @Test
+    //making sure piece group methods work properly
+    // I'm gonna leave this part to Arthur
+    public void testPieceGroupTest() throws Exception {
+        PieceFactory pf = new PieceFactory();
+        Piece piece1  = pf.getPiece(3);
+
+    }
+
+
 
 }
 

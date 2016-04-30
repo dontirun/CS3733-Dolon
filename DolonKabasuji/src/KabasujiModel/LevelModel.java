@@ -37,13 +37,13 @@ public abstract class LevelModel {
     public boolean loadBoard(String fileName){
         try {
             FileInputStream inputStream = new FileInputStream(fileName);
+            return true;
         }
         catch (FileNotFoundException fileException) {
             System.out.println("File " + fileName + " not found.");
             return false;
         }
 
-        return false;
     }
 
     /**

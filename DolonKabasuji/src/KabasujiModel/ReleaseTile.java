@@ -52,13 +52,5 @@ public class ReleaseTile extends Tile {
         this.color=color;
     }
 
-    /** returns the square covering it if it has one, null otherwise
-     * Should probably be changed to boolean?
-     *
-     * @return the square
-     */
-    public Square isCovered(){
-        return super.square;
-    }
 }
 
