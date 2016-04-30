@@ -14,4 +14,18 @@ public class PuzzleLevelModel extends LevelModel {
     public PuzzleLevelModel(int levelNum){
         super(levelNum);
     }
+
+    public PuzzleLevelModel(int levelNum, int totalMoves){
+        super(levelNum);
+        this.totalMoves = totalMoves;
+    }
+
+    public void setTotalMoves(int totalMoves){
+        this.totalMoves =  totalMoves;
+    }
+
+    public int getTotalMoves(int totalMoves){
+        return totalMoves;
+    }
+
 }

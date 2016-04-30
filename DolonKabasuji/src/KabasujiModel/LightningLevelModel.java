@@ -12,8 +12,20 @@ public class LightningLevelModel extends LevelModel {
      * @param levelNum level number
      *
      */
-    public LightningLevelModel(int levelNum){
+    public LightningLevelModel(int levelNum, int allowedTime){
         super(levelNum);
         this.allowedTime = allowedTime;
+    }
+    public LightningLevelModel(int levelNum){
+        super(levelNum);
+        this.allowedTime = 10;
+    }
+
+    public void setAllowedTime(int allowedTime){
+        this.allowedTime = allowedTime;
+    }
+
+    public int getAllowedTime() {
+        return allowedTime;
     }
 }

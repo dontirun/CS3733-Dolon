@@ -65,6 +65,7 @@ public class LevelViewController implements Initializable {
     private final static DataFormat pieceShape = new DataFormat("piece");
     private final static double squareWidth = 45.8333333;
     PieceFactory ourPieceFactory;
+    LevelModel ourModel;
 
     // max rows and columns, might need to be changed
     int rows = 12;
@@ -72,7 +73,6 @@ public class LevelViewController implements Initializable {
 
     int gridW = 2;
     int gridH = 18;
-    double RectangleSize = 45.83333333;
     int numberOfPiecesDrawn;
 
     /**
@@ -309,12 +309,41 @@ public class LevelViewController implements Initializable {
                     switch (readCount) {
                         case 1: // LevelModel Number
                             lvNum = Integer.parseInt(dataLine);
+                            //Instantiate the level model in the controller
+                            switch (lvNum % 3) {
+                                case 1: //Puzzle Level implementation
+                                    ourModel = new PuzzleLevelModel(lvNum);
+                                    allowedLabel.setText("Moves Allowed");
+                                    limitLabel.setText("");
+                                    javafx.scene.image.Image puz = new javafx.scene.image.Image("/images/PuzzleIcon.png");
+                                    levelIcon.setImage(puz);
+                                case 2: //Lightning Level instantiation
+                                    ourModel = new LightningLevelModel(lvNum);
+                                    allowedLabel.setText("Time left");
+                                    startCountDown();
+                                    javafx.scene.image.Image lit = new javafx.scene.image.Image("/images/lightning.png");
+                                    levelIcon.setImage(lit);
+                                    break;
+                                case 0: //Release Level implementation
+                                    ourModel = new ReleaseLevelModel(lvNum);
+                                    allowedLabel.setText("");
+                                    limitLabel.setText("");
+                                    javafx.scene.image.Image rel = new javafx.scene.image.Image("/images/ReleaseIcon.png");
+                                    levelIcon.setImage(rel);
+                                    break;
+                            }
                             break;
-                        case 2: // Metric
+                        case 2: // Metric for time
                             metric = Integer.parseInt(dataLine);
+                            if (lvNum == 1) { //Only if we're on Lightning Level
+                                ((PuzzleLevelModel)ourModel).setTotalMoves(metric);
+                            }
+                            if (lvNum == 2) { //Only if we're on Lightning Level
+                                ((LightningLevelModel)ourModel).setAllowedTime(metric);
+                            }
                             break;
                         case 3: // Pieces
-                            pieces.add(Integer.parseInt(dataLine));
+
                             break;
                         case 4: // Tiles
                             tiles.add(dataLine);
@@ -323,32 +352,12 @@ public class LevelViewController implements Initializable {
                 }
             }
 
-        } catch (FileNotFoundException e) {
-            return;
-        } catch (NullPointerException e){
+        }
+        catch (FileNotFoundException e) {
             return;
         }
-
-        switch(lvNum%3){
-            case 1://puzzle
-                allowedLabel.setText("Moves Allowed");
-                limitLabel.setText("");
-                javafx.scene.image.Image puz = new javafx.scene.image.Image("/images/PuzzleIcon.png");
-                levelIcon.setImage(puz);
-                break;
-            case 2://lightning
-                allowedLabel.setText("Time left");
-                startCountDown();
-                javafx.scene.image.Image lit = new javafx.scene.image.Image("/images/lightning.png");
-                levelIcon.setImage(lit);
-                break;
-            case 0://release
-                allowedLabel.setText("");
-                limitLabel.setText("");
-                javafx.scene.image.Image rel = new javafx.scene.image.Image("/images/ReleaseIcon.png");
-                levelIcon.setImage(rel);
-                break;
-
+        catch (NullPointerException e){
+            return;
         }
 
         // NOTE: here we tie into the GUI
