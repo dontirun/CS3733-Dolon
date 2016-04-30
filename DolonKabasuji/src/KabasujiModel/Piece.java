@@ -11,25 +11,46 @@ public abstract class Piece implements Serializable{
     public Square anchor;
     public ArrayList<Square> squares;
     public int pieceID;
-
-    public int getUniqueID() {
-        return uniqueID;
-    }
-
-    public void setUniqueID(int uniqueID) {
-        this.uniqueID = uniqueID;
-    }
-
     public int uniqueID;
     public int pieceBoardNum = -1;
     public int DEBUG = 1;
     private double[] colorVals = {0, 0, 1};
 
+    /**
+     * Getter for the unique id
+     *
+     * @return unique id
+     */
+    public int getUniqueID() {
+        return uniqueID;
+    }
+
+    /**
+     * Setter for the unique id
+     *
+     * @param uniqueID unique id
+     */
+    public void setUniqueID(int uniqueID) {
+        this.uniqueID = uniqueID;
+    }
+
+
+    /**
+     * Constructor for the piece
+     *
+     * @param pieceID id of the piece to be generated
+     */
     public Piece(int pieceID){
         this.pieceID = pieceID;
         squares = new ArrayList<>();
     }
 
+    /**
+     * Constructs the piece with a color
+     *
+     * @param pieceID id of the piece to be generated
+     * @param c color of the piece to be generated
+     */
     public Piece(int pieceID, Color c){
         this.pieceID = pieceID;
         squares = new ArrayList<>();
@@ -37,9 +58,9 @@ public abstract class Piece implements Serializable{
         colorVals[1] = c.getGreen();
         colorVals[2] = c.getBlue();
     }
-    /** rotates piece 90 degrees clockwise, returns true if successful, false otherwise
+    /** rotates piece 90 degrees clockwise,
      *
-     * @return
+     * @return true if successful, false otherwise
      */
     public boolean rotatePieceRight(){
         for(Square s: squares){
@@ -50,9 +71,9 @@ public abstract class Piece implements Serializable{
         return true;
     }
 
-    /** rotates piece 90 degrees counterclockwise, returns true if successful, false otherwise
+    /** rotates piece 90 degrees counterclockwise
      *
-     * @return
+     * @return true if successful, false otherwise
      */
     public boolean rotatePieceLeft(){
         for(Square s: squares){
@@ -63,9 +84,9 @@ public abstract class Piece implements Serializable{
         return true;
     }
 
-    /** flips piece horizontally, returns true if successful, false otherwise
+    /** flips piece horizontally
      *
-     * @return
+     * @return returns true if successful, false otherwise
      */
     public boolean flipPieceHoriz(){
         for(Square s: squares){
@@ -75,9 +96,9 @@ public abstract class Piece implements Serializable{
         return true;
     }
 
-    /** flips piece vertically, returns true if successful, false otherwise
+    /** flips piece vertically
      *
-     * @return
+     * @return returns true if successful, false otherwise
      */
     public boolean flipPieceVert(){
         for(Square s: squares){
@@ -87,26 +108,54 @@ public abstract class Piece implements Serializable{
         return true;
     }
 
+    /**
+     * Getter for piece id
+     *
+     * @return id of the piece
+     */
     public int getPieceID() {
         return pieceID;
     }
 
+    /**
+     * Constructs the piece
+     */
     protected abstract void construct();
 
+    /**
+     * Getter for the color of the piece
+     *
+     * @return color
+     */
     public Color getColor(){
         return Color.color(colorVals[0], colorVals[1], colorVals[2]);
     }
 
+    /**
+     * Sets the color of the piece
+     *
+     * @param c color
+     */
     public void setColor(Color c){
         colorVals[0] = c.getRed();
         colorVals[1] = c.getGreen();
         colorVals[2] = c.getBlue();
     }
 
+    /**
+     * Unsure of what this is for
+     *
+     * @return int
+     */
     public int getPieceBoardNum() {
         return pieceBoardNum;
     }
 
+    /**
+     * Unsure of what this is for
+     *
+     * @param pieceBoardNum unsure
+     */
     public void setPieceBoardNum(int pieceBoardNum){
         this.pieceBoardNum = pieceBoardNum;
     }

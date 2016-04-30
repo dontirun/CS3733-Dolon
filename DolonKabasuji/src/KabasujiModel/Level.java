@@ -12,17 +12,27 @@ public abstract class Level {
     Bullpen bullpen;
     Board board;
 
-    //Takes in Level number to configure the level.
-    //
+    /**
+     * Takes in Level number to configure the level.
+     *
+     * @param LevelNum level to be configured
+     */
     public Level(int LevelNum){
         this.levelNum = levelNum;
         bullpen = new Bullpen();
         board = new Board();
         //Import then saved number of stars
     }
-    //Takes in a board file string
-    //opens the file from relative string name and reads it in, setting up the board properly.
-    //Returns true upon success, false upon failure
+
+    /**
+     * Takes in a board file string
+     * opens the file from relative string name and reads it in, setting up the board properly.
+     * Returns true upon success, false upon failure
+     *
+     * @param fileName file to load the board from
+     * @return
+     */
+
     public boolean loadBoard(String fileName){
         try {
             FileInputStream inputStream = new FileInputStream(fileName);
@@ -35,8 +45,13 @@ public abstract class Level {
         return false;
     }
 
-    //Checks to see if conditions have been satisfied for the player to move on to the next level.
-    //Returns true if conditions were met, false upon failure
+    /**
+     * Checks to see if conditions have been satisfied for the player to move on to the next level.
+     * Returns true if conditions were met, false upon failure
+     *
+     * @return returns whether the level has been passed or not
+     */
+
     public boolean hasPassed() {
         return false;
     }
@@ -48,8 +63,13 @@ public abstract class Level {
     }
     */
 
-    //Checks to see if board conditions suggest that stars needed to be changed.
-    //Returns true if the star count was changed, false otherwise.
+    /**
+     * Checks to see if board conditions suggest that stars needed to be changed.
+     * Returns true if the star count was changed, false otherwise.
+     *
+     * @return true if stars have been updated
+     */
+
     public boolean updateStars() {
         return false;
     }

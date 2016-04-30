@@ -43,11 +43,15 @@ public class StartScreenController {
     static GameMenu menu;
 
 
-    // Constructor
+    /**
+     * Constructor
+     */
     public StartScreenController() {
     }
 
-    // run every time this view loads
+    /**
+     * Is run every time the view loads
+     */
     @FXML
     public void initialize() {
         if (this.menu == null) {
@@ -65,6 +69,12 @@ public class StartScreenController {
     }
 
 
+    /**
+     * Handles the actions of different buttons on the start screen
+     *
+     * @param event action event
+     * @throws IOException
+     */
     // checks the event sent out by a certain button
     public void handleButtonAction(ActionEvent event) throws IOException {
         // Start selected level
@@ -90,6 +100,11 @@ public class StartScreenController {
     }
 
 
+    /**
+     * Handles the start button being pressed
+     *
+     * @throws IOException
+     */
     public void handleStartKButton() throws IOException {
         Stage stage;
         Parent root;
@@ -136,6 +151,9 @@ public class StartScreenController {
         }
     }
 
+    /**
+     * Handles the level number being decremented
+     */
     public void handleDecrementLevel() {
         menu.decrementLevelNumber();
         //stage = (Stage) decrementLevel.getScene().getWindow();
@@ -148,6 +166,9 @@ public class StartScreenController {
         }
     }
 
+    /**
+     * Handles the level number being incremented
+     */
     public void handleIncrementLevel() {
         menu.incrementLevelNumber();
         //stage = (Stage) incrementLevel.getScene().getWindow();
@@ -160,6 +181,11 @@ public class StartScreenController {
         }
     }
 
+    /**
+     * Handles the about button being pressed
+     *
+     * @throws IOException
+     */
     public void handleAboutKButton() throws IOException {
         Stage stage;
         Parent root;

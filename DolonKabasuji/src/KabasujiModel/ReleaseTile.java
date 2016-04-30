@@ -9,25 +9,53 @@ public class ReleaseTile extends Tile {
     int num;
     Color color;
 
+    /**
+     * Constructor for a release tile
+     */
     public ReleaseTile(){
         color = Color.WHITE;
     }
+
+    /**
+     * Getter for the tile num
+     *
+     * @return number on the release tile
+     */
     public int getNum(){
         return num;
     }
+
+    /**
+     * Setter for the tile num
+     *
+     * @param num number on the release tile
+     */
     public void setNum(int num){
         this.num=num;
     }
+
+    /**
+     * Gets the color of the tile
+     *
+     * @return color
+     */
     public Color getColor(){
         return color;
     }
+
+    /**
+     * Sets the color of the tile
+     *
+     * @param color color
+     */
     public void setColor(Color color){
         this.color=color;
     }
 
     /** returns the square covering it if it has one, null otherwise
+     * Should probably be changed to boolean?
      *
-     * @return
+     * @return the square
      */
     public Square isCovered(){
         return super.square;

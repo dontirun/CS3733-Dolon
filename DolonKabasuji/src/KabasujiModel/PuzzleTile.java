@@ -6,7 +6,7 @@ package KabasujiModel;
 public class PuzzleTile extends Tile {
     /** returns the square covering it if it has one, null otherwise
      *
-     * @return
+     * @return square
      */
     public Square isCovered(){
         return super.square;

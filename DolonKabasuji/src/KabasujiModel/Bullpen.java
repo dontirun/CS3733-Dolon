@@ -13,16 +13,22 @@ public class Bullpen {
         this.pieces = pieces;
     }
 
-    //Takes in a piece to add to the bullpen
-    //Adds a piece to the bullpen
-    //Returns true if successfully added piece, false otherwise
+    /**
+     * Takes in a piece to add to the bullpen
+     *
+     * @param p the piece to be added
+     * @return true if successfully added piece, false otherwise
+     */
     public boolean addPiece(Piece p){
         return false;
     }
 
-    //Takes in a piece to remove from the bullpen
-    //Removes a piece from the bullpen
-    //Returns true if successfully removes piece, false otherwise
+    /**
+     * Removes a piece from the bullpen
+     *
+     * @param p the piece to be removed
+     * @return true if successfully removed piece, false otherwise
+     */
     public boolean removePiece(Piece p){
         return false;
     }

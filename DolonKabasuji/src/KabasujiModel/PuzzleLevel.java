@@ -5,6 +5,12 @@ package KabasujiModel;
  */
 public class PuzzleLevel extends Level {
     int totalMoves = 0, movesUsed = 0;
+
+    /**
+     * Constructor for puzzle level
+     *
+     * @param levelNum number of the level
+     */
     public PuzzleLevel(int levelNum){
         super(levelNum);
     }

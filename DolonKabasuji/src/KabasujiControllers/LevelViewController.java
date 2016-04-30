@@ -93,10 +93,19 @@ public class LevelViewController implements Initializable {
     double RectangleSize = 45.83333333;
     int numberOfPiecesDrawn;
 
+    /**
+     * Constructor for the controller
+     */
     public LevelViewController() {
         numberOfPiecesDrawn = 0;
     }
 
+    /**
+     * Handles the home button being pressed
+     *
+     * @param event action event
+     * @throws IOException
+     */
     public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
@@ -120,7 +129,13 @@ public class LevelViewController implements Initializable {
 
     }
 
-    // gets called every time the view is loaded
+    /**
+     * gets called every time the view is loaded
+     *
+     * @param url
+     * @param resourceBundle
+     */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         boardView.getStyleClass().add("board");
@@ -230,7 +245,11 @@ public class LevelViewController implements Initializable {
     }
 
 
-    //Draw a piece on the board given the information about the piece
+    /**
+     * Draw a piece on the board given the information about the piece
+     *
+     * @param pieceToDraw the piece to draw
+     */
     private void generateShapeFromPiece(final Piece pieceToDraw) {
         PieceGroup currentPiece = new PieceGroup(pieceToDraw, pieceShape);
         bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
@@ -239,6 +258,16 @@ public class LevelViewController implements Initializable {
         numberOfPiecesDrawn++;
     }
 
+    /**
+     * Gets a node by row and column
+     * http://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column
+     *
+     *
+     * @param row row of the desired node
+     * @param column column of the desired node
+     * @param gridPane gridpane to search for the node
+     * @return
+     */
     public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
         Node result = null;
         ObservableList<Node> childrens = gridPane.getChildren();
@@ -251,13 +280,23 @@ public class LevelViewController implements Initializable {
         return result;
     }
 
-    // Sets the level number when loading a level
+    /**
+     * Sets the level number when loading a level
+     *
+     * @param level level number to be set
+     */
     public void setLevelNumber(int level) {
         this.levelNumber.setText(Integer.toString(level));
     }
 
-    // Level parsing function
-    // TODO: Use some set of globals or way to pass values into a level
+    /**
+     * Parses the level
+     *
+     * TODO: Use some set of globals or way to pass values into a level
+     *
+     * @param levelNum level number to load
+     * @throws IOException
+     */
     public void loadLevel(int levelNum) throws IOException {
 
         // Variables for level information
@@ -431,6 +470,9 @@ public class LevelViewController implements Initializable {
 
     }
 
+    /**
+     * Starts the count down for the timer
+     */
     private void startCountDown() {
         timer = new Timer();
         timeLeft = 10;

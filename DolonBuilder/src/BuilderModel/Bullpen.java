@@ -58,6 +58,11 @@ public class Bullpen {
     }
 
 
+    /**
+     * Getter for the pieces
+     *
+     * @return arraylist of pieces
+     */
     // Getter for pieces
     public ArrayList<Piece> getPieces(){
         return pieces;
