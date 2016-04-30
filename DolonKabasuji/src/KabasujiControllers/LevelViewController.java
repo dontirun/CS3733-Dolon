@@ -59,13 +59,14 @@ public class LevelViewController implements Initializable {
     @FXML
     ImageView homeIcon;
     Timer timer;
-    int timeLeft;
+
     boolean placed = false;
 
     private final static DataFormat pieceShape = new DataFormat("piece");
     private final static double squareWidth = 45.8333333;
     PieceFactory ourPieceFactory;
     LevelModel ourModel;
+    int timeLeft;
 
     // max rows and columns, might need to be changed
     int rows = 12;
@@ -287,8 +288,8 @@ public class LevelViewController implements Initializable {
         int rows = 0;
         int columns = 0;
         int metric = 0;
-        ArrayList<Integer> pieces = new ArrayList<Integer>();
-        ArrayList<String> tiles = new ArrayList<String>();
+        ArrayList<Integer> pieces = new ArrayList<>();
+        ArrayList<String> tiles = new ArrayList<>();
 
         // Starts at 0 because file begins with ### and will automatically increment
         int readCount = 0; // Determines what part of the files is being parsed
@@ -309,6 +310,8 @@ public class LevelViewController implements Initializable {
                     switch (readCount) {
                         case 1: // LevelModel Number
                             lvNum = Integer.parseInt(dataLine);
+                            // NOTE: here we tie into the GUI
+                            setLevelNumber(lvNum);
                             //Instantiate the level model in the controller
                             switch (lvNum % 3) {
                                 case 1: //Puzzle Level implementation
@@ -317,6 +320,7 @@ public class LevelViewController implements Initializable {
                                     limitLabel.setText("");
                                     javafx.scene.image.Image puz = new javafx.scene.image.Image("/images/PuzzleIcon.png");
                                     levelIcon.setImage(puz);
+                                    break;
                                 case 2: //Lightning Level instantiation
                                     ourModel = new LightningLevelModel(lvNum);
                                     allowedLabel.setText("Time left");
@@ -335,15 +339,20 @@ public class LevelViewController implements Initializable {
                             break;
                         case 2: // Metric for time
                             metric = Integer.parseInt(dataLine);
-                            if (lvNum == 1) { //Only if we're on Lightning Level
-                                ((PuzzleLevelModel)ourModel).setTotalMoves(metric);
-                            }
-                            if (lvNum == 2) { //Only if we're on Lightning Level
-                                ((LightningLevelModel)ourModel).setAllowedTime(metric);
+                            switch (lvNum % 3) {
+                                case 1:
+                                    ((PuzzleLevelModel) ourModel).setTotalMoves(metric);
+                                    break;
+                                case 2:
+                                    ((LightningLevelModel) ourModel).setAllowedTime(metric);
+                                    break;
                             }
                             break;
                         case 3: // Pieces
-
+                            int pieceID = Integer.parseInt(dataLine);
+                            Piece ourPiece = new PieceFactory().getPiece(pieceID);
+                            ourModel.addPieceToBullpen(ourPiece);
+                            generateShapeFromPiece(ourPiece);
                             break;
                         case 4: // Tiles
                             tiles.add(dataLine);
@@ -358,17 +367,6 @@ public class LevelViewController implements Initializable {
         }
         catch (NullPointerException e){
             return;
-        }
-
-        // NOTE: here we tie into the GUI
-        setLevelNumber(lvNum);
-
-        // TODO: Must tie in metric
-
-        // Set the pieces given for the board
-        ourPieceFactory = new PieceFactory(); // Generate pieceFactory
-        for (int i : pieces) {
-            generateShapeFromPiece(ourPieceFactory.getPiece(i));
         }
 
         // Set the specific tiles of the board (non-square board shapes)
@@ -466,7 +464,7 @@ public class LevelViewController implements Initializable {
      */
     private void startCountDown() {
         timer = new Timer();
-        timeLeft = 10;
+        timeLeft = ((LightningLevelModel)ourModel).getAllowedTime();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

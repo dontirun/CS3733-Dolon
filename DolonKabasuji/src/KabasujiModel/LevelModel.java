@@ -18,7 +18,7 @@ public abstract class LevelModel {
      *
      * @param LevelNum level to be configured
      */
-    public LevelModel(int LevelNum){
+    public LevelModel(int levelNum){
         this.levelNum = levelNum;
         bullpen = new Bullpen();
         board = new Board();
@@ -99,6 +99,15 @@ public abstract class LevelModel {
      * @return returns the board of the level
      */
     public Board getField() { return board; }
+
+    public void addPieceToBullpen(Piece p){
+        bullpen.addPiece(p);
+    }
+
+    public Bullpen getBullpen(){
+        return bullpen;
+    }
+
 }
 
 
