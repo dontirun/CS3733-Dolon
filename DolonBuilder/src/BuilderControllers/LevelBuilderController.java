@@ -61,23 +61,25 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public Button deletePieceButton;
     @FXML
-    public Button greenButton; // Return to menu
+    public Button greenButton; // create green release
     @FXML
-    public Button redButton; // Return to menu
+    public Button redButton; // create red release
     @FXML
-    public Button yellowButton; // Return to menu
+    public Button yellowButton; // create yellow release
     @FXML
-    public Button blackButton; // Return to menu
+    public Button blackButton; //create invalid tile
     @FXML
-    public Button whiteButton; // Return to menu
+    public Button whiteButton; // create white tile
+    @FXML
+    public Button hintButton; // create a hint
     @FXML
     public Button homeButton; // Return to menu
     @FXML
-    public Button loadButton; // Return to menu
+    public Button loadButton; // load a level
     @FXML
-    public Button resetButton; // Return to menu
+    public Button resetButton; // reset the level
     @FXML
-    public Button addPieceButton;
+    public Button addPieceButton; // add piece to bullpen
     @FXML
     public GridPane boardView; // Pane for board
     @FXML
@@ -749,7 +751,7 @@ public class LevelBuilderController implements Initializable {
             yellowButton.setStyle("-fx-background-color: transparent");
             whiteButton.setStyle("-fx-background-color: transparent");
             blackButton.setStyle("-fx-background-color: transparent");
-
+            hintButton.setStyle("-fx-background-color: transparent");
 
         }
         if (ae.getSource() == greenButton) {
@@ -760,6 +762,7 @@ public class LevelBuilderController implements Initializable {
             yellowButton.setStyle("-fx-background-color: transparent");
             whiteButton.setStyle("-fx-background-color: transparent");
             blackButton.setStyle("-fx-background-color: transparent");
+            hintButton.setStyle("-fx-background-color: transparent");
         }
         if (ae.getSource() == yellowButton) {
             color = Color.YELLOW;
@@ -769,6 +772,7 @@ public class LevelBuilderController implements Initializable {
             yellowButton.setStyle("-fx-background-color: darkblue");
             whiteButton.setStyle("-fx-background-color: transparent");
             blackButton.setStyle("-fx-background-color: transparent");
+            hintButton.setStyle("-fx-background-color: transparent");
         }
         if (ae.getSource() == whiteButton) {
             color = Color.WHITE;
@@ -777,6 +781,7 @@ public class LevelBuilderController implements Initializable {
             yellowButton.setStyle("-fx-background-color: transparent");
             whiteButton.setStyle("-fx-background-color: darkblue");
             blackButton.setStyle("-fx-background-color: transparent");
+            hintButton.setStyle("-fx-background-color: transparent");
         }
         if (ae.getSource() == blackButton) {
             color = Color.BLACK;
@@ -785,6 +790,17 @@ public class LevelBuilderController implements Initializable {
             yellowButton.setStyle("-fx-background-color: transparent");
             whiteButton.setStyle("-fx-background-color: transparent");
             blackButton.setStyle("-fx-background-color: darkblue");
+            hintButton.setStyle("-fx-background-color: transparent");
+        }
+
+        if (ae.getSource() == hintButton) {
+            color = Color.ORANGE;
+            redButton.setStyle("-fx-background-color:transparent");
+            greenButton.setStyle("-fx-background-color: transparent");
+            yellowButton.setStyle("-fx-background-color: transparent");
+            whiteButton.setStyle("-fx-background-color: transparent");
+            blackButton.setStyle("-fx-background-color: transparent");
+            hintButton.setStyle("-fx-background-color: darkblue");
         }
         System.out.println("color changed to " + color.toString());
     }
