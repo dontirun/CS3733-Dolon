@@ -60,10 +60,13 @@ public class LevelModel {
         switch (levelNum % 3) {
             case 0:
                 result = "puzzle";
+                break;
             case 1:
                 result = "lightning";
+                break;
             case 2:
                 result = "release";
+                break;
         }
         return result;
     }

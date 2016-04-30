@@ -140,7 +140,7 @@
             <TextField fx:id="movesRemainField" layoutX="642.0" layoutY="57.0" prefHeight="25.0" prefWidth="70.0" />
          </children>
       </Pane>
-      <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" onMouseClicked="#handleBoardClicked" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
+      <GridPane fx:id="boardView" layoutX="661.0" layoutY="130.0" prefHeight="550.0" prefWidth="550.0" style="-fx-background-color: white;">
       </GridPane>
       <ScrollPane layoutX="224.0" layoutY="188.0" prefHeight="492.0" prefWidth="437.0">
          <content>

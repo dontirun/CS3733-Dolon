@@ -3,6 +3,7 @@ package BuilderControllers;
 import BuilderModel.ReleaseTile;
 import BuilderModel.Tile;
 import UndoActionManager.ColorAction;
+import UndoActionManager.HintAction;
 import UndoActionManager.ReleaseTileAction;
 import UndoActionManager.TileAction;
 import javafx.geometry.Pos;
@@ -57,7 +58,6 @@ public class BoardController {
         }
 
 
-
         if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
             if (lbc.level.getMode() == "release") {
                 ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
@@ -74,8 +74,14 @@ public class BoardController {
                     lbc.redoHistory.clear();
                 }
             }
+        } else if (lbc.color == Color.ORANGE) {
+            HintAction ha = new HintAction(clickedTile, clickedPane);
+            if (ha.doAction()) {
+                System.out.println("hint action performed");
+                lbc.undoHistory.push(ha);
+                lbc.redoHistory.clear();
+            }
         } else {
-
             ColorAction ca = new ColorAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
             if (ca.doAction()) {
                 System.out.println("color action performed");
@@ -88,57 +94,57 @@ public class BoardController {
 
     }
 
-    /**
-     * Handles when the board is clicked and gets the tile located at the click
-     *
-     * @param event mouseevent that occurs
-     */
-    public void handleBoardClicked(MouseEvent event) {
-        try {
-            // if its not an int don't change the board
-            Integer.parseInt(lbc.levelNumber.getText());
-        } catch (Exception e) {
-            return;
-        }
-        //get x and y mouse coordinates
-        double x = event.getX();
-        double y = event.getY();
-        //find column and row of tile clicked
-        int col = (int) (x / 45.8333333);
-        int row = (int) (y / 45.8333333);
-
-        ReleaseTile clickedTile = (ReleaseTile) lbc.level.getTile(row, col);
-        GridSquare clickedPane = (GridSquare) lbc.tilePanes.get(row).get(col);
-
-        if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
-            if (lbc.level.getMode() == "release") {
-                ReleaseTileAction rta = new ReleaseTileAction(clickedTile, clickedPane, lbc.color);
-                if (rta.doAction()) {
-                    System.out.println("tile action performed");
-                    lbc.undoHistory.push(rta);
-                    lbc.redoHistory.clear();
-                }
-            } else {
-                TileAction ta = new TileAction(clickedTile, clickedPane, lbc.color);
-                if (ta.doAction()) {
-                    System.out.println("tile action performed");
-                    lbc.undoHistory.push(ta);
-                    lbc.redoHistory.clear();
-                }
-            }
-        } else {
-
-            ColorAction ca = new ColorAction(clickedTile, clickedPane, lbc.color);
-            if (ca.doAction()) {
-                System.out.println("color action performed");
-                lbc.undoHistory.push(ca);
-                lbc.redoHistory.clear();
-            }
-        }
-
-        // do nothing
-
-    }
+//    /**
+//     * Handles when the board is clicked and gets the tile located at the click
+//     *
+//     * @param event mouseevent that occurs
+//     */
+//    public void handleBoardClicked(MouseEvent event) {
+//        try {
+//            // if its not an int don't change the board
+//            Integer.parseInt(lbc.levelNumber.getText());
+//        } catch (Exception e) {
+//            return;
+//        }
+//        //get x and y mouse coordinates
+//        double x = event.getX();
+//        double y = event.getY();
+//        //find column and row of tile clicked
+//        int col = (int) (x / 45.8333333);
+//        int row = (int) (y / 45.8333333);
+//
+//        ReleaseTile clickedTile = (ReleaseTile) lbc.level.getTile(row, col);
+//        GridSquare clickedPane = (GridSquare) lbc.tilePanes.get(row).get(col);
+//
+//        if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
+//            if (lbc.level.getMode() == "release") {
+//                ReleaseTileAction rta = new ReleaseTileAction(clickedTile, clickedPane, lbc.color);
+//                if (rta.doAction()) {
+//                    System.out.println("tile action performed");
+//                    lbc.undoHistory.push(rta);
+//                    lbc.redoHistory.clear();
+//                }
+//            } else {
+//                TileAction ta = new TileAction(clickedTile, clickedPane, lbc.color);
+//                if (ta.doAction()) {
+//                    System.out.println("tile action performed");
+//                    lbc.undoHistory.push(ta);
+//                    lbc.redoHistory.clear();
+//                }
+//            }
+//        } else {
+//
+//            ColorAction ca = new ColorAction(clickedTile, clickedPane, lbc.color);
+//            if (ca.doAction()) {
+//                System.out.println("color action performed");
+//                lbc.undoHistory.push(ca);
+//                lbc.redoHistory.clear();
+//            }
+//        }
+//
+//        // do nothing
+//
+//    }
 
     /**
      * Updates the numbers on the tiles when setting release tile numbers
@@ -146,13 +152,13 @@ public class BoardController {
      * @param affectedColorTiles all the tiles affected by the update
      * @param affectedColorPanes all the panes affected by the update
      */
-    public static void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare>affectedColorPanes){
-        for(int i = 0; i< affectedColorPanes.size(); i++){
-            affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i+1));
-            affectedColorTiles.get(i).setNum(i+1);
+    public static void updateColorNums(ArrayList<ReleaseTile> affectedColorTiles, ArrayList<GridSquare> affectedColorPanes) {
+        for (int i = 0; i < affectedColorPanes.size(); i++) {
+            affectedColorPanes.get(i).getNumLabel().setText(Integer.toString(i + 1));
+            affectedColorTiles.get(i).setNum(i + 1);
             Color color = affectedColorTiles.get(i).getColor();
             affectedColorPanes.get(i).getNumLabel().setTextFill(color);
-            if(color == Color.YELLOW){
+            if (color == Color.YELLOW) {
                 affectedColorPanes.get(i).getNumLabel().setTextFill(Color.web("#d5ae27"));
             }
             affectedColorPanes.get(i).getNumLabel().autosize();
@@ -171,18 +177,18 @@ public class BoardController {
      * @param color color tile nums to be found
      * @return arraylist of specific color tiles
      */
-    public static ArrayList<ReleaseTile> getColorNumTiles(Color color){
+    public static ArrayList<ReleaseTile> getColorNumTiles(Color color) {
         ArrayList<ReleaseTile> result = null;
-        if(color == Color.RED){
+        if (color == Color.RED) {
             result = redNumTiles;
         }
-        if(color == Color.GREEN){
+        if (color == Color.GREEN) {
             result = greenNumTiles;
         }
-        if(color == Color.YELLOW){
+        if (color == Color.YELLOW) {
             result = yellowNumTiles;
         }
-        if(result== null){
+        if (result == null) {
             System.out.println("couldnt find corresponding arraylist");
         }
         return result;
@@ -194,18 +200,18 @@ public class BoardController {
      * @param color color pane nums to be found
      * @return arraylist of specific color panes
      */
-    public static ArrayList<GridSquare> getColorNumPanes(Color color){
+    public static ArrayList<GridSquare> getColorNumPanes(Color color) {
         ArrayList<GridSquare> result = null;
-        if(color == Color.RED){
+        if (color == Color.RED) {
             result = redNumPanes;
         }
-        if(color == Color.GREEN){
+        if (color == Color.GREEN) {
             result = greenNumPanes;
         }
-        if(color == Color.YELLOW){
+        if (color == Color.YELLOW) {
             result = yellowNumPanes;
         }
-        if(result== null){
+        if (result == null) {
             System.out.println("couldnt find corresponding arraylist");
         }
         return result;
@@ -214,7 +220,7 @@ public class BoardController {
     /**
      * clears the numbers from the panes and the tiles
      */
-    public static void clearColorNumPanes(){
+    public static void clearColorNumPanes() {
         redNumTiles.clear();
         redNumPanes.clear();
         greenNumTiles.clear();

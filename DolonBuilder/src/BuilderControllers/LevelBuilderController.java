@@ -572,12 +572,12 @@ public class LevelBuilderController implements Initializable {
      *
      * @param event mouse event
      */
-    public void handleBoardClicked(MouseEvent event) {
-
-
-        boardController.handleBoardClicked(event);
-
-    }
+//    public void handleBoardClicked(MouseEvent event) {
+//
+//
+//        boardController.handleBoardClicked(event);
+//
+//    }
 
     /**
      * Checks if rows input is valid and changes border color to reflect it

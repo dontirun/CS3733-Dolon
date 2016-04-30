@@ -26,6 +26,7 @@ public class ReleaseTileAction implements IAction {
     ArrayList<ReleaseTile> affectedColorTiles; //the array containing tiles with numbers of the affected color
     ArrayList<GridSquare> affectedColorPanes; //the array containing panes with numbers of the affected color
     int discardIndex;
+    boolean startHint;
 
     /**Creates a ReleaseTileAction     *
      * @param tile the tile corresponding with the pane clicked
@@ -46,6 +47,10 @@ public class ReleaseTileAction implements IAction {
      */
     @Override
     public boolean doAction() {
+        if (tile.getHint() == true) {
+            tile.setHint(false);
+            startHint = true;
+        }
         affectedColor = tile.getColor(); //get the color state of the tile
         if (affectedColor != Color.WHITE ) {//if the tile has a colored number on it
             affected = true;
@@ -93,6 +98,7 @@ public class ReleaseTileAction implements IAction {
      */
     @Override
     public boolean undoAction() {
+        tile.setHint(startHint);
         if(bw == Color.WHITE){ //if a whiteout action was done, make the tile invalid
             tile.setExists(false);
         }
@@ -112,6 +118,9 @@ public class ReleaseTileAction implements IAction {
 
     @Override
     public boolean redoAction() {
+        if (tile.getHint() == true) {
+            tile.setHint(false);
+        }
         if(bw == Color.WHITE){ //if a whiteout action was done, make the tile valid
             tile.setExists(true);
         }
@@ -155,12 +164,14 @@ public class ReleaseTileAction implements IAction {
      *
      */
     public void redrawPane() {
-        if (tile.getExists() == true) { //tile is valid
-            System.out.println("white");
-            pane.setStyle("-fx-background-color: white");
-            pane.setStyle("-fx-border-color: black");
-        } else {//tile is invalid
-            System.out.println("black");
+        if (tile.getExists() == true) {
+            if(tile.getHint()==true){
+                pane.setStyle("-fx-background-color: orange");
+            }else {
+                pane.setStyle("-fx-background-color: white");
+                pane.setStyle("-fx-border-color: black");
+            }
+        } else {
             pane.setStyle("-fx-background-color: black");
         }
     }

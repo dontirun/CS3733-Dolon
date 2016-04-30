@@ -39,18 +39,6 @@ public class ColorAction implements IAction {
         this.pane = pane;
         startColor = tile.getColor();
         this.endColor = color;
-//        if(color == Color.RED){
-//            affectedColorTiles = redNumTiles;
-//            affectedColorPanes = redNumPanes;
-//        }
-//        if(color == Color.GREEN){
-//            affectedColorTiles = greenNumTiles;
-//            affectedColorPanes = greenNumPanes;
-//        }
-//        if(color == Color.YELLOW){
-//            affectedColorTiles = yellowNumTiles;
-//            affectedColorPanes = yellowNumPanes;
-//        }
         affectedColorTiles = getColorNumTiles(color);
         affectedColorPanes = getColorNumPanes(color);
     }
