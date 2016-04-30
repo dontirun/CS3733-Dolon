@@ -8,14 +8,17 @@ public class Tile {
     Square square;
     boolean exists;
     int covered;
+    boolean hint;
 
     public Tile() {
         exists = true;
         covered = -1;
+        hint = false;
     }
     public Tile(boolean exists){
         this.exists = exists;
         covered = -1;
+        hint = false;
     }
 
     /**
@@ -34,6 +37,40 @@ public class Tile {
      */
     public int getCovered(){
         return covered;
+    }
+
+    /**
+     * Getter for hint
+     *
+     * @return  bool representing it being a hint
+     */
+    public boolean getHint(){
+        return hint;
+    }
+
+    /**
+     * Setter for hint
+     *
+     *
+     */
+    public void setHint(Boolean b){
+        this.hint = b;
+    }
+
+    /**
+     * Sets the reverese of the tile existing
+     */
+    public void flipHint(){
+        hint=!hint;
+    }
+
+    /**
+     * Setter for covered
+     *
+     * @param covered int representing it being covered, corresponding to unique Piece ID
+     */
+    public void setCovered(int covered) {
+        this.covered = covered;
     }
 
     /**
