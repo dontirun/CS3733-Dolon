@@ -5,12 +5,12 @@ import PieceFactory.PieceFactory;
 import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-//import org.loadui.testfx.GuiTest;
-//import org.loadui.testfx.controls.*;
-//import org.loadui.testfx.utils.*;
-//import org.loadui.testfx.MouseMotion;
-//import org.loadui.testfx.categories.*;
-//import static org.loadui.testfx.Assertions.*;
+import org.loadui.testfx.GuiTest;
+import org.loadui.testfx.controls.*;
+import org.loadui.testfx.utils.*;
+import org.loadui.testfx.MouseMotion;
+import org.loadui.testfx.categories.*;
+import static org.loadui.testfx.Assertions.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -49,34 +49,10 @@ import java.util.regex.Pattern;
 /**
  * Created by Arun on 4/29/2016.
  */
+
+
+
 public class BuilderTests extends TestCase {
-
-    /* GUI tests
-
-    //----------------------------------------------------------------------------------------------------------
-    protected Parent getRootNode() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        try (InputStream inputStream = getClass()
-                .getResourceAsStream("/views/levelbuilder.fxml")) {
-            return fxmlLoader.load(inputStream);
-        } catch (IOException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    @Test
-    public void startButtonTest() throws Exception {
-
-        click(".startButton");
-
-        // Wait for success with a 10s timeout
-       // waitUntil("#l", is(visible()), 10);
-
-        //String text = ((Label) find("#showLabel")).getText();
-       // verifyThat(text, containsString("OK"));
-    }
-
-*/
 
 
     //Piece Factory Class tests
