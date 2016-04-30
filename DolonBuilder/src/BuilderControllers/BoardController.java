@@ -7,7 +7,7 @@ import UndoActionManager.ReleaseTileAction;
 import UndoActionManager.TileAction;
 import javafx.geometry.Pos;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.lang.reflect.Array;
@@ -157,7 +157,8 @@ public class BoardController {
             }
             affectedColorPanes.get(i).getNumLabel().autosize();
             affectedColorPanes.get(i).getNumLabel().setStyle("-fx-font: 40 arial;");
-            affectedColorPanes.get(i).setStyle("-fx-border-color: black");
+            affectedColorPanes.get(i).setBorder(new Border(new BorderStroke(Color.BLACK,
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             // affectedColorPanes.get(i).getNumLabel().setStyle("-fx-stroke-width: 2px;");
             // affectedColorPanes.get(i).getNumLabel().setAlignment(Pos.CENTER_RIGHT);
         }
