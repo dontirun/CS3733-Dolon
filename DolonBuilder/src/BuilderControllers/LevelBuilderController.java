@@ -1066,31 +1066,77 @@ public class LevelBuilderController implements Initializable {
                     level.getBoardTiles().get(count).get(i).setExists(false);
                     tilePanes.get(count).get(i).setStyle("-fx-background-color: black");
 
-                } else if (tileInts[i] == 1) { // Valid blank tile
+                } else if (tileInts[i] == 1 || tileInts[i] == 91) { // Valid blank tile
                     level.getBoardTiles().get(count).get(i).setExists(true);
-                    tilePanes.get(count).get(i).setStyle("-fx-background-color: white");
-                    tilePanes.get(count).get(i).setStyle("-fx-border-color: black");
+                    if(tileInts[i] == 91){ // Set a hint tile
+                        tilePanes.get(count).get(i).setStyle("-fx-background-color: orange");
+                        level.getBoardTiles().get(count).get(i).setHint(true);
+                    }
+                    else{
+                        tilePanes.get(count).get(i).setStyle("-fx-background-color: white");
+                    }
+                    tilePanes.get(count).get(i).setBorder(new Border(new BorderStroke(Color.BLACK,
+                            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 
-                } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile.
-                    redTile[tileInts[i]-21] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
-                    redTile[tileInts[i]-21].setExists(true); // Set to valid tile
-                    redTile[tileInts[i]-21].setColor(Color.RED); // Set color
-                    redPane[tileInts[i]-21] = tilePanes.get(count).get(i);
-                    usedSlots[tileInts[i]-21] = true; // Set slot to used
+                } else if ((tileInts[i] > 20 && tileInts[i] < 27) || (tileInts[i] > 920 && tileInts[i] < 927)) { // Red release tile: 21-26 indicate the number on the tile.
+                    level.getBoardTiles().get(count).get(i).setExists(true);
 
-                } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
-                    greenTile[tileInts[i]-31] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
-                    greenTile[tileInts[i]-31].setExists(true); // Set to valid tile
-                    greenTile[tileInts[i]-31].setColor(Color.GREEN); // Set color
-                    greenPane[tileInts[i]-31] = tilePanes.get(count).get(i);
-                    usedSlots[tileInts[i]-25] = true; // Set slot to used
+                    if(tileInts[i] > 30){ // Hint tile
+                        level.getBoardTiles().get(count).get(i).setHint(true);
+                        tilePanes.get(count).get(i).setStyle("-fx-background-color: orange");
+                        redTile[tileInts[i]-921] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                        redTile[tileInts[i]-921].setExists(true); // Set to valid tile
+                        redTile[tileInts[i]-921].setColor(Color.RED); // Set color
+                        redPane[tileInts[i]-921] = tilePanes.get(count).get(i);
+                        usedSlots[tileInts[i]-921] = true; // Set slot to used
+                    }
+                    else{
+                        redTile[tileInts[i]-21] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                        redTile[tileInts[i]-21].setExists(true); // Set to valid tile
+                        redTile[tileInts[i]-21].setColor(Color.RED); // Set color
+                        redPane[tileInts[i]-21] = tilePanes.get(count).get(i);
+                        usedSlots[tileInts[i]-21] = true; // Set slot to used
+                    }
 
-                } else if (tileInts[i] > 40 && tileInts[i] < 47) { // Yellow release tile: 41-46 indicate the number on the tile.
-                    yellowTile[tileInts[i]-41] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
-                    yellowTile[tileInts[i]-41].setExists(true); // Set to valid tile
-                    yellowTile[tileInts[i]-41].setColor(Color.YELLOW); // Set color
-                    yellowPane[tileInts[i]-41] = tilePanes.get(count).get(i);
-                    usedSlots[tileInts[i]-29] = true;
+                } else if ((tileInts[i] > 30 && tileInts[i] < 37) || (tileInts[i] > 930 && tileInts[i] < 937)) { // Green release tile: 31-36 indicate the number on the tile.
+                    level.getBoardTiles().get(count).get(i).setExists(true);
+
+                    if(tileInts[i] > 40){ // Hint tile
+                        level.getBoardTiles().get(count).get(i).setHint(true);
+                        tilePanes.get(count).get(i).setStyle("-fx-background-color: orange");
+                        greenTile[tileInts[i]-931] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                        greenTile[tileInts[i]-931].setExists(true); // Set to valid tile
+                        greenTile[tileInts[i]-931].setColor(Color.GREEN); // Set color
+                        greenPane[tileInts[i]-931] = tilePanes.get(count).get(i);
+                        usedSlots[tileInts[i]-925] = true; // Set slot to used
+                    }
+                    else{
+                        greenTile[tileInts[i]-31] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                        greenTile[tileInts[i]-31].setExists(true); // Set to valid tile
+                        greenTile[tileInts[i]-31].setColor(Color.GREEN); // Set color
+                        greenPane[tileInts[i]-31] = tilePanes.get(count).get(i);
+                        usedSlots[tileInts[i]-25] = true; // Set slot to used
+                    }
+
+                } else if ((tileInts[i] > 40 && tileInts[i] < 47) || (tileInts[i] > 940 && tileInts[i] < 947)) { // Yellow release tile: 41-46 indicate the number on the tile.
+                    level.getBoardTiles().get(count).get(i).setExists(true);
+
+                    if(tileInts[i] > 50){ // Hint tile
+                        level.getBoardTiles().get(count).get(i).setHint(true);
+                        tilePanes.get(count).get(i).setStyle("-fx-background-color: orange");
+                        yellowTile[tileInts[i]-941] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                        yellowTile[tileInts[i]-941].setExists(true); // Set to valid tile
+                        yellowTile[tileInts[i]-941].setColor(Color.YELLOW); // Set color
+                        yellowPane[tileInts[i]-941] = tilePanes.get(count).get(i);
+                        usedSlots[tileInts[i]-929] = true;
+                    }
+                    else{
+                        yellowTile[tileInts[i]-41] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
+                        yellowTile[tileInts[i]-41].setExists(true); // Set to valid tile
+                        yellowTile[tileInts[i]-41].setColor(Color.YELLOW); // Set color
+                        yellowPane[tileInts[i]-41] = tilePanes.get(count).get(i);
+                        usedSlots[tileInts[i]-29] = true;
+                    }
 
                 }
             }
@@ -1196,17 +1242,36 @@ public class LevelBuilderController implements Initializable {
 
                     if(t.getExists()){ // If it exists, have to find out whether it's a release tile or not
                         if(((ReleaseTile)t).getColor() == Color.WHITE){ // Regular tile
-                            out.write("1");
+                            if(t.getHint()){
+                                out.write("91");
+                            }
+                            else{
+                                out.write("1");
+                            }
                         }
                         else if(((ReleaseTile)t).getColor() == Color.RED){ // Red tile
-                            System.out.println(Integer.toString(((ReleaseTile)t).getNum()));
-                            out.write("2" + Integer.toString(((ReleaseTile)t).getNum()));
+                            if(t.getHint()){
+                                out.write("92" + Integer.toString(((ReleaseTile)t).getNum()));
+                            }
+                            else{
+                                out.write("2" + Integer.toString(((ReleaseTile)t).getNum()));
+                            }
                         }
                         else if(((ReleaseTile)t).getColor() == Color.GREEN){ // Green tile
-                            out.write("3" + Integer.toString(((ReleaseTile)t).getNum()));
+                            if(t.getHint()){
+                                out.write("93" + Integer.toString(((ReleaseTile)t).getNum()));
+                            }
+                            else{
+                                out.write("3" + Integer.toString(((ReleaseTile)t).getNum()));
+                            }
                         }
                         else if(((ReleaseTile)t).getColor() == Color.YELLOW){ // Yellow tile
-                            out.write("4" + Integer.toString(((ReleaseTile)t).getNum()));
+                            if(t.getHint()){
+                                out.write("94" + Integer.toString(((ReleaseTile)t).getNum()));
+                            }
+                            else{
+                                out.write("4" + Integer.toString(((ReleaseTile)t).getNum()));
+                            }
                         }
                     }
                     else{
