@@ -37,15 +37,6 @@ public class Tile {
     }
 
     /**
-     * Sets whether the tile is covered or not
-     *
-     * @param covered status of covered
-     */
-    public void setCovered(int covered) {
-        this.covered = covered;
-    }
-
-    /**
      * Sets the square of the tile
      *
      * @param square the square of a piece

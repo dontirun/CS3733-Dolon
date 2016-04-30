@@ -52,13 +52,6 @@ public class ReleaseTile extends Tile {
         this.color=color;
     }
 
-    /** returns the square covering it if it has one, null otherwise
-     *
-     * @return square
-     */
-    public Square isCovered(){
-        return super.square;
-    }
 }
 
 

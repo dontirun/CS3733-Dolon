@@ -52,6 +52,7 @@ public abstract class Piece implements Serializable{
      * @param pieceID piece id used to construct the piece from the factory
      * @param c color of the piece
      */
+    /*
     public Piece(int pieceID, Color c){
         this.pieceID = pieceID;
         squares = new ArrayList<>();
@@ -59,6 +60,7 @@ public abstract class Piece implements Serializable{
         colorVals[1] = c.getGreen();
         colorVals[2] = c.getBlue();
     }
+    */
     /** rotates piece 90 degrees clockwise
      * Uses rotation matrix [0 1]
      *                     [-1 0]
@@ -158,6 +160,7 @@ public abstract class Piece implements Serializable{
      *
      * @return the piece board num, forget what this is
      */
+
     public int getPieceBoardNum() {
         return pieceBoardNum;
     }

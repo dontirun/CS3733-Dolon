@@ -7,7 +7,6 @@ import java.util.Queue;
  * Created by Walter on 4/16/2016.
  */
 public class LevelModel {
-    Tile[][] boardTiles;
     Board field;
     Bullpen bullpen;
     int levelNum;
@@ -112,11 +111,4 @@ public class LevelModel {
      */
     public Board getField() { return field; }
 
-
-    /**
-     * Don't know what this will be used for
-     */
-    public void assignRed() {
-
-    }
 }
