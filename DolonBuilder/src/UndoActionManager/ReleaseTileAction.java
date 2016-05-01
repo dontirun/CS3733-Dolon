@@ -3,7 +3,7 @@ package UndoActionManager;
 import BuilderControllers.GridSquare;
 import BuilderModel.ReleaseTile;
 import BuilderModel.Tile;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -167,12 +167,17 @@ public class ReleaseTileAction implements IAction {
         if (tile.getExists() == true) {
             if(tile.getHint()==true){
                 pane.setStyle("-fx-background-color: orange");
+                pane.setBorder(new Border(new BorderStroke(Color.BLACK,
+                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             }else {
                 pane.setStyle("-fx-background-color: white");
-                pane.setStyle("-fx-border-color: black");
+                pane.setBorder(new Border(new BorderStroke(Color.BLACK,
+                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             }
         } else {
             pane.setStyle("-fx-background-color: black");
+            pane.setBorder(new Border(new BorderStroke(Color.BLACK,
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         }
     }
 

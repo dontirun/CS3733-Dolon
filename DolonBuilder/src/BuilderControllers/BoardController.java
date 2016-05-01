@@ -209,6 +209,7 @@ public class BoardController {
     /**
      * clears the numbers from the panes and the tiles
      */
+    /*
     public static void clearColorNumPanes() {
         redNumTiles.clear();
         redNumPanes.clear();
@@ -217,6 +218,7 @@ public class BoardController {
         yellowNumTiles.clear();
         yellowNumPanes.clear();
     }
+    */
 
 
 }

@@ -1,6 +1,10 @@
+import BuilderControllers.GridSquare;
 import BuilderControllers.LevelBuilderController;
 import BuilderModel.*;
 import PieceFactory.PieceFactory;
+import javafx.geometry.*;
+import javafx.scene.Group;
+import javafx.scene.input.KeyCode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -43,11 +47,16 @@ public class testCases extends ApplicationTest {
 
     Stage stage;
 
+    //Gui/Controller testCases
+    //----------------------------------------------------------------------------------------------------------
     @Override
     public void start(Stage primaryStage) throws Exception {
         new BuilderMain().start(primaryStage);
         stage = primaryStage;
     }
+
+
+
 
     @Test
     public void startBuilderTest() throws Exception {
@@ -70,16 +79,127 @@ public class testCases extends ApplicationTest {
         assertTrue(board.getChildren().size() == 144);
     }
 
+
     @Test
-    public void loadLevel1() throws Exception {
+    //need to figure out how to do this
+    public void aboutBuilderTest() throws Exception {
+
+        // load into the about menu
+        /*
+        clickOn("#aboutButton");
+        assertEquals("About Kabasuji Builder", stage.getTitle());
+        stage.close();
+        */
+    }
+
+    @Test
+    public void startloadLevel1() throws Exception {
         // load into the level builder
         clickOn("#startButton");
 
         clickOn("#levelTextField");
         write("1");
         clickOn("#loadButton");
-
         verifyThat("#levelNumber", hasText("1"));
+        clickOn("#levelTextField");
+        press(KeyCode.BACK_SPACE);
+        press(KeyCode.DELETE);
+        write("2");
+        clickOn("#loadButton");
+        verifyThat("#levelNumber", hasText("2"));
+        clickOn("#saveButton");
+        press(KeyCode.ENTER);
+        //go back to home screen
+        clickOn("#homeButton");
+
+    }
+
+
+    @Test
+    public void starttestBoardLevel3() throws Exception {
+        // load into the level builder
+        clickOn("#startButton");
+
+        clickOn("#levelTextField");
+        write("3");
+        clickOn("#loadButton");
+        clickOn("#resetButton");
+        // making sure proper text on board
+        verifyThat("#levelNumber", hasText("3"));
+
+        // attempting to click on board tile and changing it to black
+        GridPane board = lookup("#boardView").query();
+        clickOn(board.getChildren().get(0));
+        assertEquals((((Pane)board.getChildren().get(0)).getStyle()),"-fx-background-color: black" );
+
+
+        //attempting to click on board tile and change it to a hint
+
+        clickOn("#hintButton");
+        clickOn(board.getChildren().get(0));
+        //shouldnt't change to a hint
+        assertEquals((((Pane)board.getChildren().get(0)).getStyle()),"-fx-background-color: black" );
+        clickOn("#whiteButton");
+        clickOn(board.getChildren().get(0));
+        //should change back to white
+        assertEquals((((Pane)board.getChildren().get(0)).getStyle()),"-fx-background-color: white" );
+        //now change to hint
+        clickOn("#hintButton");
+        clickOn(board.getChildren().get(0));
+        assertEquals((((Pane)board.getChildren().get(0)).getStyle()),"-fx-background-color: orange" );
+        //now add release numbers
+        clickOn("#redButton");
+        clickOn(board.getChildren().get(0));
+        clickOn(board.getChildren().get(1));
+        clickOn(board.getChildren().get(2));
+        clickOn(board.getChildren().get(3));
+        clickOn(board.getChildren().get(4));
+        clickOn(board.getChildren().get(5));
+        clickOn(board.getChildren().get(6));
+        assertEquals((((GridSquare)board.getChildren().get(0)).getNumLabel().getText()),"");
+        // these tile numbers should be red now
+        assertEquals((((GridSquare)board.getChildren().get(1)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(2)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(3)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(4)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(5)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(6)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        // checking the tile numbers
+        assertEquals((((GridSquare)board.getChildren().get(1)).getNumLabel().getText()),"1");
+        assertEquals((((GridSquare)board.getChildren().get(2)).getNumLabel().getText()),"2");
+        assertEquals((((GridSquare)board.getChildren().get(3)).getNumLabel().getText()),"3");
+        assertEquals((((GridSquare)board.getChildren().get(4)).getNumLabel().getText()),"4");
+        assertEquals((((GridSquare)board.getChildren().get(5)).getNumLabel().getText()),"5");
+        assertEquals((((GridSquare)board.getChildren().get(6)).getNumLabel().getText()),"6");
+
+        clickOn("#yellowButton");
+        clickOn(board.getChildren().get(0));
+        clickOn(board.getChildren().get(1));
+        clickOn(board.getChildren().get(2));
+        clickOn(board.getChildren().get(3));
+        clickOn(board.getChildren().get(4));
+        clickOn(board.getChildren().get(5));
+        clickOn(board.getChildren().get(6));
+
+
+        // everything except the 0th child should be red text which should be yellow
+        assertEquals((((GridSquare)board.getChildren().get(0)).getNumLabel().getTextFill().toString()),"0xd5ae27ff");
+        assertEquals((((GridSquare)board.getChildren().get(1)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(1)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(2)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(3)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(4)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(5)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+        assertEquals((((GridSquare)board.getChildren().get(6)).getNumLabel().getTextFill().toString()),"0xff0000ff");
+
+
+        //adding pieces tests without clicking on addpiecebutton for now
+        GridPane bullpen = lookup("#bullpenView").query();
+        PieceFactory pf = new PieceFactory();
+        final Piece pieceToDraw = pf.getPiece(3);
+        final Group bullpenViewGroup = new Group(); // Bullpen view group
+
+
     }
 
     //Piece Factory Class testCases

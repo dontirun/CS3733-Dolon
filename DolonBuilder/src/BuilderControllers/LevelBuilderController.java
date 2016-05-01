@@ -71,11 +71,15 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public Button loadButton; // load a level
     @FXML
+    public Button saveButton; // reset the level
+    @FXML
     public Button resetButton; // reset the level
     @FXML
     public Button addPieceButton; // add piece to bullpen
     @FXML
     public GridPane boardView; // Pane for board
+    @FXML
+    public GridPane pieceGrid; // Pane for board
     @FXML
     public GridPane bullpenView;
     @FXML
@@ -244,7 +248,7 @@ public class LevelBuilderController implements Initializable {
 
         final Stage pieceSelector = new Stage();
         ScrollPane gridScroll = new ScrollPane();
-        final GridPane pieceGrid = new GridPane();
+        pieceGrid = new GridPane();
 
         for (int i = 1; i < 36; i++) {
 
