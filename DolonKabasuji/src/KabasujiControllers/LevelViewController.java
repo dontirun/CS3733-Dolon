@@ -154,7 +154,7 @@ public class LevelViewController implements Initializable {
                 pane.setStyle("-fx-border-color: black");
                 pane.getStyleClass().add("board-cell");
 
-                boardView.add(pane, i, j);
+                boardView.add(pane, j, i);
                 tilePanes.get(i).set(j, pane);
                 //In case something is dragged over the pane
                 pane.setOnDragOver(new EventHandler<DragEvent>() {
