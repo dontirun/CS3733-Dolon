@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * Created by Arthur on 4/10/2016.
  */
 public abstract class LevelModel {
+
+
     int levelNum, maxStars, numStars;
     boolean isUnlocked;
     Bullpen bullpen;
@@ -109,6 +111,12 @@ public abstract class LevelModel {
         return bullpen;
     }
 
+    public void setLevelNum(int levelNum) {
+        this.levelNum = levelNum;
+    }
+    public int  getLevelNum() {
+        return levelNum;
+    }
 }
 
 

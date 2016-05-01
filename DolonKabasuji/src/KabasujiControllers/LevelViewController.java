@@ -668,6 +668,13 @@ public class LevelViewController implements Initializable {
             }
         }, 1000, 1000);
     }
-
+    @FXML
+    public void handleForwardLevel(){
+        try{
+            loadLevel(ourModel.getLevelNum()+1);
+        }catch(Exception e){
+            System.out.println("couldnt load level");
+        }
+    }
 
 }
