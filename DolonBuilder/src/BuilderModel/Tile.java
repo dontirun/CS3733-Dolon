@@ -10,11 +10,17 @@ public class Tile {
     int covered;
     boolean hint;
 
+    /**
+     * Constructor for Tile
+     */
     public Tile() {
         exists = true;
         covered = -1;
         hint = false;
     }
+    /**
+     * Constructor for Tile
+     */
     public Tile(boolean exists){
         this.exists = exists;
         covered = -1;

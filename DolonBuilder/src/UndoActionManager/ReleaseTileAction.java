@@ -116,6 +116,11 @@ public class ReleaseTileAction implements IAction {
         return true;
     }
 
+    /**
+     * Redo setting the validity of a tile
+     *
+     * @return
+     */
     @Override
     public boolean redoAction() {
         if (tile.getHint() == true) {

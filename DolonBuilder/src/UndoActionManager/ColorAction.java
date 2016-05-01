@@ -34,6 +34,13 @@ public class ColorAction implements IAction {
     ArrayList<ReleaseTile> affectedColorTiles;
     ArrayList<GridSquare> affectedColorPanes;
 
+    /**
+     * Constructor for the action
+     *
+     * @param tile
+     * @param pane
+     * @param color
+     */
     public ColorAction(ReleaseTile tile, GridSquare pane, Color color) {
         this.tile = tile;
         this.pane = pane;
@@ -43,6 +50,10 @@ public class ColorAction implements IAction {
         affectedColorPanes = getColorNumPanes(color);
     }
 
+    /**
+     * Complete a color action and change the color of the tile
+     * @return
+     */
     @Override
     public boolean doAction() {
         if (isValid()) {
@@ -69,6 +80,11 @@ public class ColorAction implements IAction {
         return false;
     }
 
+    /**
+     * Undo changing the color of a tile
+     *
+     * @return
+     */
     @Override
     public boolean undoAction() {
         System.out.println("undoing color action...");
@@ -98,6 +114,11 @@ public class ColorAction implements IAction {
         return true;
     }
 
+    /**
+     * Redo changing the color of a tile
+     *
+     * @return
+     */
     @Override
     public boolean redoAction() {
         System.out.println("redoing color action...");
@@ -121,6 +142,10 @@ public class ColorAction implements IAction {
         return true;
     }
 
+    /**
+     * Checks if it is valid for a tile to change colors
+     * @return
+     */
     @Override
     public boolean isValid() {
         //only allows giving a color num to valid tiles

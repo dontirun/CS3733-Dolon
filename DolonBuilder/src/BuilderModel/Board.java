@@ -11,6 +11,9 @@ public class Board {
     int numColumns, numRows;
     static int counter = 0;
 
+    /**
+     * Constructor method
+     */
     public Board() {
         //Initialize tiles
         tiles = new ArrayList<>();
@@ -19,6 +22,9 @@ public class Board {
         setNumColumns(12); //Default initialization is to 12 columns
     }
 
+    /**
+     * Constructor method
+     */
     public Board(int numRows, int numColumns) {
         tiles = new ArrayList<>();
         piecesOnBoard = new ArrayList<>();

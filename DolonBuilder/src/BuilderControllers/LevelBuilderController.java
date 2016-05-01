@@ -324,6 +324,12 @@ public class LevelBuilderController implements Initializable {
 
     }
 
+    /**
+     * Handles deleting a piece from the bullpen
+     *
+     * @param event
+     * @throws IOException
+     */
     public void handleDeletePieceAction  (ActionEvent event) throws IOException {
         if (selectedPiece == null) {
             return;

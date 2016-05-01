@@ -32,6 +32,14 @@ public class ResizeReleaseAction implements IAction {
     ArrayList<ArrayList<Tile>> tiles;
     ArrayList<ArrayList<Pane>> panes;;
 
+    /**
+     * Constructor
+     *
+     * @param tiles
+     * @param panes
+     * @param colsTextField
+     * @param rowsTextField
+     */
     public ResizeReleaseAction( ArrayList<ArrayList<Tile>> tiles,  ArrayList<ArrayList<Pane>> panes, TextField colsTextField, TextField rowsTextField) {
         this.tiles = tiles;
         this.panes = panes;
@@ -39,6 +47,11 @@ public class ResizeReleaseAction implements IAction {
         this.colsTextField = colsTextField;
     }
 
+    /**
+     * Resize the board
+     *
+     * @return
+     */
     @Override
     public boolean doAction() {
         undoHistory = new Stack<ReleaseTileAction>();
@@ -81,6 +94,10 @@ public class ResizeReleaseAction implements IAction {
         return true;
     }
 
+    /**
+     * Undo resizing the board
+     * @return
+     */
     @Override
     public boolean undoAction() {
         ReleaseTileAction rta;
@@ -92,6 +109,10 @@ public class ResizeReleaseAction implements IAction {
         return true;
     }
 
+    /**
+     * Redo resizing the board
+     * @return
+     */
     @Override
     public boolean redoAction() {
         ReleaseTileAction rta;
@@ -103,6 +124,10 @@ public class ResizeReleaseAction implements IAction {
         return true;
     }
 
+    /**
+     * Check if the action of resizing the board is valid
+     * @return
+     */
     @Override
     public boolean isValid() {
         return true;
