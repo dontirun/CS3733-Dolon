@@ -4,6 +4,8 @@ import BuilderModel.*;
 import PieceFactory.PieceFactory;
 import javafx.geometry.*;
 import javafx.scene.Group;
+import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -199,7 +201,13 @@ public class testCases extends ApplicationTest {
         final Piece pieceToDraw = pf.getPiece(3);
         final Group bullpenViewGroup = new Group(); // Bullpen view group
 
+        clickOn("#addPieceButton");
+        Scene pieceSelector = listTargetWindows().get(1).getScene();
+        javafx.scene.control.ScrollPane scroll = (ScrollPane) pieceSelector.getRoot();
+        GridPane grid = (GridPane) scroll.getContent();
+        clickOn(grid.getChildren().get(0));
 
+        assertTrue(bullpen.getChildren().size() == 1);
     }
 
     //Piece Factory Class testCases

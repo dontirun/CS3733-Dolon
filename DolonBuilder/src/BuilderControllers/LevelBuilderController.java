@@ -28,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -247,8 +248,10 @@ public class LevelBuilderController implements Initializable {
         // Set the pieces given for the board
 
         final Stage pieceSelector = new Stage();
+        pieceSelector.initModality(Modality.APPLICATION_MODAL);
+
         ScrollPane gridScroll = new ScrollPane();
-        pieceGrid = new GridPane();
+        GridPane pieceGrid = new GridPane();
 
         for (int i = 1; i < 36; i++) {
 
@@ -313,7 +316,9 @@ public class LevelBuilderController implements Initializable {
         }
 
         gridScroll.setContent(pieceGrid);
-        pieceSelector.setScene(new Scene(gridScroll, 640, 480));
+        Scene pieceSelect = new Scene(gridScroll, 640, 480);
+        pieceSelector.setTitle("Piece Selector");
+        pieceSelector.setScene(pieceSelect);
         pieceSelector.show();
 
 
