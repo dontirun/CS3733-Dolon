@@ -83,5 +83,9 @@
             </GridPane>
          </content>
       </ScrollPane>
+      <Button fx:id="rotateLeft" layoutX="18.0" layoutY="152.0" mnemonicParsing="false" onAction="#handleRotatePieceButtonAction" prefHeight="62.0" prefWidth="72.0" text="Rotate Left" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="rotateRight" layoutX="18.0" layoutY="214.0" mnemonicParsing="false" onAction="#handleRotatePieceButtonAction" prefHeight="62.0" prefWidth="72.0" text="Rotate Right" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="flipHoriz" layoutX="18.0" layoutY="276.0" mnemonicParsing="false" onAction="#handleFlipPieceButtonAction" prefHeight="62.0" prefWidth="72.0" text="Flip Horizontal" textAlignment="CENTER" wrapText="true" />
+      <Button fx:id="flipVert" layoutX="18.0" layoutY="338.0" mnemonicParsing="false" onAction="#handleFlipPieceButtonAction" prefHeight="62.0" prefWidth="72.0" text="Flip Vertical" textAlignment="CENTER" wrapText="true" />
    </children>
 </AnchorPane>

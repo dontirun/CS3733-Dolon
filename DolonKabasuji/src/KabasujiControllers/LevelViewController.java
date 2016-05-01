@@ -9,10 +9,12 @@ import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Lighting;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
@@ -57,7 +59,17 @@ public class LevelViewController implements Initializable {
     ImageView thirdStar;
     @FXML
     ImageView homeIcon;
+    @FXML
+    Button flipHoriz;
+    @FXML
+    Button flipVert;
+    @FXML
+    Button rotateLeft;
+    @FXML
+    Button rotateRight;
     Timer timer;
+    Piece selectedPiece; // For rotation/flipping
+    Group selectedGroup; // For rotation/flipping
 
     boolean placed = false;
     private int readInLevelNumber = 0;
@@ -111,6 +123,86 @@ public class LevelViewController implements Initializable {
         }
         //create a new scene with root and set the stage
 
+    }
+
+    /**
+     * Draws an individual rectangle for a given square (used for GUI elements)
+     *
+     * @param selectedSquare the square that makes up a group that is to be drawn
+     * @return individual square used in a group
+     */
+
+    public Rectangle drawPieceRectangle(Square selectedSquare){
+        Rectangle selectedRectangle = new Rectangle();
+        selectedRectangle.setX((selectedSquare.getRelCol()) * squareWidth); //Set X position based on the Relative Column
+        selectedRectangle.setY((-selectedSquare.getRelRow()) * squareWidth); //Set Y position based on the Relative Row
+        selectedRectangle.setWidth(squareWidth); //Set the width of each rectangle
+        selectedRectangle.setHeight(squareWidth); //Set the height of each rectangle
+        selectedRectangle.setFill(Color.RED); //Color the fill
+        selectedRectangle.setStroke(Color.BLACK); //Color the outline
+
+        return selectedRectangle;
+    }
+
+    /**
+     * Handles the action performed when the rotate buttons are pressed
+     *
+     * @param event action event
+     * @throws IOException
+     */
+    public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
+        if(selectedPiece == null){
+            return;
+        }
+
+        // if rotate left button is pressed
+        if (event.getSource() == rotateLeft) {
+            selectedPiece.rotatePieceLeft();
+        }
+
+        // if rotate right button is pressed
+        if (event.getSource() == rotateRight) {
+            selectedPiece.rotatePieceRight();
+        }
+
+        // clears the squares in the group and adds in the repositioned ones
+        selectedGroup.getChildren().clear();
+        for (Square selectedSquare : selectedPiece.squares) {
+            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+
+            selectedGroup.getChildren().add(selectedRectangle);
+        }
+    }
+
+    /**
+     * Handles the action performed when the rotate buttons are pressed
+     *
+     * @param event action event
+     * @throws IOException
+     */
+    public void handleFlipPieceButtonAction (ActionEvent event) throws IOException {
+        if(selectedPiece == null){
+            return;
+        }
+
+        // if flip horizontal button is pressed
+        if (event.getSource() == flipHoriz) {
+            selectedPiece.flipPieceHoriz();
+        }
+
+        // if flip vertical button is pressed
+        if (event.getSource() == flipVert) {
+            // highlighting the border of the selected button
+            selectedPiece.flipPieceVert();
+        }
+
+        // clears the squares in the group and adds in the repositioned ones
+        selectedGroup.getChildren().clear();
+        for (Square selectedSquare : selectedPiece.squares) {
+            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+
+            selectedGroup.getChildren().add(selectedRectangle);
+        }
     }
 
     /**
@@ -374,6 +466,7 @@ public class LevelViewController implements Initializable {
                             Piece ourPiece = new PieceFactory().getPiece(pieceID);
                             ourModel.addPieceToBullpen(ourPiece);
                             generateShapeFromPiece(ourPiece);
+
                             break;
 
                         case 4: // Tiles
