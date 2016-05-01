@@ -668,6 +668,10 @@ public class LevelViewController implements Initializable {
             }
         }, 1000, 1000);
     }
+
+    /**
+     * Handles moving to the next level
+     */
     @FXML
     public void handleForwardLevel(){
         try{

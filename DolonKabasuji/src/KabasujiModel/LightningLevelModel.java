@@ -21,10 +21,18 @@ public class LightningLevelModel extends LevelModel {
         this.allowedTime = 10;
     }
 
+    /**
+     * Set the amount of time allowed
+     * @param allowedTime
+     */
     public void setAllowedTime(int allowedTime){
         this.allowedTime = allowedTime;
     }
 
+    /**
+     * Gets the amount of time allowed
+     * @return
+     */
     public int getAllowedTime() {
         return allowedTime;
     }

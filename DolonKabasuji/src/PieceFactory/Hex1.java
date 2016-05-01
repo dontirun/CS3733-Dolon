@@ -13,6 +13,10 @@ public class Hex1 extends Piece{
         construct();
     }
 
+    /**
+     * Construct the unique hexonimo type and set each of the six squares
+     * to a position relative to the anchor
+     */
     protected void construct() {
         Square  s1 = new Square(0,2);
         Square  s2 = new Square(0,1);

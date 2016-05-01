@@ -198,6 +198,10 @@ public class StartScreenController {
         stage.showAndWait();
     }
 
+    /**
+     * Gets the game menu
+     * @return the controller's associated game menu
+     */
     public GameMenu getMenu(){
         return menu;
     }

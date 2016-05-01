@@ -103,17 +103,34 @@ public abstract class LevelModel {
      */
     public Board getField() { return board; }
 
+    /**
+     * Adds a piece to the bullpen
+     * @param p
+     */
     public void addPieceToBullpen(Piece p){
         bullpen.addPiece(p);
     }
 
+    /**
+     * Gets the bullpen
+     * @return
+     */
     public Bullpen getBullpen(){
         return bullpen;
     }
 
+    /**
+     * Sets the level number of the model
+     * @param levelNum
+     */
     public void setLevelNum(int levelNum) {
         this.levelNum = levelNum;
     }
+
+    /**
+     * Gets the level number of the model
+     * @return
+     */
     public int  getLevelNum() {
         return levelNum;
     }
