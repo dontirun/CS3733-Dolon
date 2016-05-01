@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.*;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
@@ -462,10 +463,13 @@ public class LevelViewController implements Initializable {
                             }
                             break;
                         case 3: // Pieces
+                            /*
                             int pieceID = Integer.parseInt(dataLine);
                             Piece ourPiece = new PieceFactory().getPiece(pieceID);
                             ourModel.addPieceToBullpen(ourPiece);
                             generateShapeFromPiece(ourPiece);
+                            */
+                            pieces.add(Integer.parseInt(dataLine));
 
                             break;
 
@@ -560,6 +564,49 @@ public class LevelViewController implements Initializable {
                             break;
                     }
                 }
+            }
+
+            // Add pieces to bullpen
+            ourPieceFactory = new PieceFactory(); // Generate pieceFactory
+            for(int i: pieces){
+                final Piece pieceToDraw = ourPieceFactory.getPiece(i); // Piece to be loaded
+                final Group bullpenViewGroup = new Group(); // Bullpen view group
+
+                // Draw each square of the piece
+                // Draw each square and add it to the bullpen group
+                for (Square selectedSquare : pieceToDraw.squares) {
+                    Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                    bullpenViewGroup.getChildren().add(selectedRectangle);
+                }
+
+                // Add to bullpen
+                bullpenView.add(bullpenViewGroup, numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+                bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
+                bullpenView.setHalignment(bullpenViewGroup, HPos.CENTER);
+                bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
+
+                // when piece is clicked on add it to bullpen
+                bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        if (selectedPiece == pieceToDraw) {
+                            selectedPiece = null;
+                            bullpenViewGroup.setEffect(null);
+                        }
+                        else {
+                            if (selectedPiece != null) {
+                                // remove visual effect of previous selected piece
+                                selectedGroup.setEffect(null);
+                            }
+                            selectedPiece = pieceToDraw;
+                            selectedGroup = bullpenViewGroup;
+                            System.out.println("piece selected");
+                            Lighting light = new Lighting();
+                            bullpenViewGroup.setEffect(light);
+                        }
+                    }
+                });
+
+                numberOfPiecesDrawn++;
             }
 
         }
