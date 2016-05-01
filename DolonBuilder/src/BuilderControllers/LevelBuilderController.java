@@ -326,14 +326,21 @@ public class LevelBuilderController implements Initializable {
 
         // Get list of IDs
         ArrayList<Integer> pieceNums = bullpen.getPieceIDs();
+        ArrayList<Piece> pieces = bullpen.getPieces();
+        ArrayList<Piece> pieceCopy = new ArrayList<Piece>(); // Pieces are copied here
+
+        for(Piece p: pieces){
+            pieceCopy.add(p);
+        }
+
         resetPieces();
 
-        for(int i: pieceNums){
-            final Piece pieceToDraw = ourPieceFactory.getPiece(i); // Piece to be loaded
+        for(Piece p: pieceCopy){
+            final Piece pieceToDraw = p;
             final Group bullpenViewGroup = new Group(); // Bullpen view group
 
             // Draw each square and add it to the bullpen group
-            for (Square selectedSquare : pieceToDraw.squares) {
+            for (Square selectedSquare : p.squares) {
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
                 bullpenViewGroup.getChildren().add(selectedRectangle);
             }
@@ -369,6 +376,7 @@ public class LevelBuilderController implements Initializable {
 
             numberOfBullpenPieces++;
         }
+
     }
 
 
