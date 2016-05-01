@@ -47,6 +47,11 @@ public class PuzzleLevelModel extends LevelModel {
             default:
                 stars = 0;
         }
+
+        if(stars > maxStars){ // Update highest star count if we have surpassed the current highest
+            maxStars = stars;
+        }
+
         return true;
     }
 }

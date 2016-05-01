@@ -45,6 +45,11 @@ public class LightningLevelModel extends LevelModel {
         }else{
             stars = 0;
         }
+
+        if(stars > maxStars){ // Update highest star count if we have surpassed the current highest
+            maxStars = stars;
+        }
+
         return true;
     }
 }

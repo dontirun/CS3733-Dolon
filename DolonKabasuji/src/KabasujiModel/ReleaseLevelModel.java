@@ -20,6 +20,10 @@ public class ReleaseLevelModel extends LevelModel {
      */
     public boolean updateStars() {
 
+        if(stars > maxStars){ // Update highest star count if we have surpassed the current highest
+            maxStars = stars;
+        }
+
         return true;
     }
 }
