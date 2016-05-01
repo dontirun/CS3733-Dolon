@@ -320,8 +320,55 @@ public class LevelBuilderController implements Initializable {
             return;
         }
 
+        // Remove piece
         bullpenView.getChildren().remove(selectedGroup);
         bullpen.removePiece(selectedPiece.getUniqueID());
+
+        // Get list of IDs
+        ArrayList<Integer> pieceNums = bullpen.getPieceIDs();
+        resetPieces();
+
+        for(int i: pieceNums){
+            final Piece pieceToDraw = ourPieceFactory.getPiece(i); // Piece to be loaded
+            final Group bullpenViewGroup = new Group(); // Bullpen view group
+
+            // Draw each square and add it to the bullpen group
+            for (Square selectedSquare : pieceToDraw.squares) {
+                Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                bullpenViewGroup.getChildren().add(selectedRectangle);
+            }
+
+            // Add the actual piece object to the bullpen
+            AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen); // Create action
+            action.doAction(); // Do action- add to bullpen
+            bullpenView.add(bullpenViewGroup, numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
+            bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
+            bullpenView.setHalignment(bullpenViewGroup, HPos.CENTER);
+            bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
+
+            // when piece is clicked on add it to bullpen
+            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    if (selectedPiece == pieceToDraw) {
+                        selectedPiece = null;
+                        bullpenViewGroup.setEffect(null);
+                    }
+                    else {
+                        if (selectedPiece != null) {
+                            // remove visual effect of previous selected piece
+                            selectedGroup.setEffect(null);
+                        }
+                        selectedPiece = pieceToDraw;
+                        selectedGroup = bullpenViewGroup;
+                        System.out.println("piece selected");
+                        Lighting light = new Lighting();
+                        bullpenViewGroup.setEffect(light);
+                    }
+                }
+            });
+
+            numberOfBullpenPieces++;
+        }
     }
 
 
