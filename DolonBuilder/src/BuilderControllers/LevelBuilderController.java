@@ -4,8 +4,6 @@ import BuilderModel.*;
 import PieceFactory.*;
 import UndoActionManager.AddPieceAction;
 import UndoActionManager.IAction;
-import UndoActionManager.AddPieceAction;
-import UndoActionManager.ResizeAction;
 import UndoActionManager.ResizeReleaseAction;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,7 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -31,9 +28,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -692,16 +686,7 @@ public class LevelBuilderController implements Initializable {
      * @param event action event
      */
     public void handleResizeButton(ActionEvent event) {
-        if(level.getMode()!="release"){
-            ResizeAction ra = new ResizeAction(level.getBoardTiles(), tilePanes, colsTextField, rowsTextField);
-            if (ra.doAction()) {
-                System.out.println("resize action performed");
-                undoHistory.push(ra);
-                redoHistory.clear();
-            }
 
-
-        }else{
             ResizeReleaseAction rla = new ResizeReleaseAction(level.getBoardTiles(), tilePanes, colsTextField, rowsTextField);
             if (rla.doAction()) {
                 System.out.println("resize action performed");
@@ -709,7 +694,7 @@ public class LevelBuilderController implements Initializable {
                 redoHistory.clear();
             }
 
-        }
+
     }
 
     /**

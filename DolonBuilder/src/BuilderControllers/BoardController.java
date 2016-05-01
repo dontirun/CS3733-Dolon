@@ -5,13 +5,9 @@ import BuilderModel.Tile;
 import UndoActionManager.ColorAction;
 import UndoActionManager.HintAction;
 import UndoActionManager.ReleaseTileAction;
-import UndoActionManager.TileAction;
-import javafx.geometry.Pos;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -59,21 +55,14 @@ public class BoardController {
 
 
         if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
-            if (lbc.level.getMode() == "release") {
+
                 ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
                 if (rta.doAction()) {
                     System.out.println("tile action performed");
                     lbc.undoHistory.push(rta);
                     lbc.redoHistory.clear();
                 }
-            } else {
-                TileAction ta = new TileAction(clickedTile, clickedPane, lbc.color);
-                if (ta.doAction()) {
-                    System.out.println("tile action performed");
-                    lbc.undoHistory.push(ta);
-                    lbc.redoHistory.clear();
-                }
-            }
+
         } else if (lbc.color == Color.ORANGE) {
             HintAction ha = new HintAction(clickedTile, clickedPane);
             if (ha.doAction()) {
