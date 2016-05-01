@@ -183,6 +183,13 @@ public class testCases extends ApplicationTest {
         clickOn(board.getChildren().get(5));
         clickOn(board.getChildren().get(6));
 
+        clickOn("#undoButton");
+        clickOn("#redoButton");
+        clickOn("#undoButton");
+        clickOn("#undoButton");
+        clickOn("#redoButton");
+        clickOn("#redoButton");
+
 
         // everything except the 0th child should be red text which should be yellow
         assertEquals((((GridSquare)board.getChildren().get(0)).getNumLabel().getTextFill().toString()),"0xd5ae27ff");
@@ -205,9 +212,20 @@ public class testCases extends ApplicationTest {
         Scene pieceSelector = listTargetWindows().get(1).getScene();
         javafx.scene.control.ScrollPane scroll = (ScrollPane) pieceSelector.getRoot();
         GridPane grid = (GridPane) scroll.getContent();
-        clickOn(grid.getChildren().get(0));
+        clickOn(grid.getChildren().get(1));
 
         assertTrue(bullpen.getChildren().size() == 1);
+
+        // checking rotating and flip functionalities
+        clickOn(bullpen.getChildren().get(0));
+        clickOn("#rotateLeftButton");
+        clickOn("#flipVerticalButton");
+        clickOn("#rotateRightButton");
+        clickOn("#flipHorizontalButton");
+        clickOn("#deletePieceButton");
+        assertTrue(bullpen.getChildren().size() == 0);
+
+
     }
 
     //Piece Factory Class testCases

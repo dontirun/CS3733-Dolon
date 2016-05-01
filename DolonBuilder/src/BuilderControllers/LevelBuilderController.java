@@ -46,6 +46,10 @@ public class LevelBuilderController implements Initializable {
     BoardController boardController;
     LevelModel level;
     @FXML
+    public Button undoButton;
+    @FXML
+    public Button redoButton;
+    @FXML
     public Button rotateLeftButton;
     @FXML
     public Button rotateRightButton;
