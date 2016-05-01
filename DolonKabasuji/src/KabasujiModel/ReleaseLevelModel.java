@@ -12,4 +12,14 @@ public class ReleaseLevelModel extends LevelModel {
     public ReleaseLevelModel(int levelNum){
         super(levelNum);
     }
+
+    @Override
+    /**
+     * Updates star count
+     * @return true if successful
+     */
+    public boolean updateStars() {
+
+        return true;
+    }
 }

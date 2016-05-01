@@ -11,21 +11,42 @@ public class PuzzleLevelModel extends LevelModel {
      *
      * @param levelNum number of the level
      */
-    public PuzzleLevelModel(int levelNum){
+    public PuzzleLevelModel(int levelNum) {
         super(levelNum);
     }
 
-    public PuzzleLevelModel(int levelNum, int totalMoves){
+    public PuzzleLevelModel(int levelNum, int totalMoves) {
         super(levelNum);
         this.totalMoves = totalMoves;
     }
 
-    public void setTotalMoves(int totalMoves){
-        this.totalMoves =  totalMoves;
+    public void setTotalMoves(int totalMoves) {
+        this.totalMoves = totalMoves;
     }
 
-    public int getTotalMoves(){
+    public int getTotalMoves() {
         return totalMoves;
     }
 
+    @Override
+    /**
+     * Updates star count
+     * @return true if successful
+     */
+    public boolean updateStars() {
+        switch(board.tilesOnBoard()-board.piecesOnBoard.size()*6){
+            case 0:
+                stars= 3;
+                break;
+            case 6:
+                stars= 2;
+                break;
+            case 12:
+                stars = 1;
+                break;
+            default:
+                stars = 0;
+        }
+        return true;
+    }
 }

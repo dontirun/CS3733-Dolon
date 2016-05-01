@@ -12,11 +12,12 @@ public abstract class LevelModel {
     boolean isUnlocked;
     Bullpen bullpen;
     Board board;
+    int stars;
 
     /**
      * Takes in LevelModel number to configure the level.
      *
-     * @param LevelNum level to be configured
+     * @param levelNum level to be configured
      */
     public LevelModel(int levelNum){
         this.levelNum = levelNum;

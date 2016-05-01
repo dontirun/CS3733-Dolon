@@ -28,4 +28,23 @@ public class LightningLevelModel extends LevelModel {
     public int getAllowedTime() {
         return allowedTime;
     }
+
+    @Override
+    /**
+     * Updates star count
+     * @return true if successful
+     */
+    public boolean updateStars() {
+        int tilesNotCovered = board.tilesOnBoard()-board.piecesOnBoard.size()*6;
+        if(tilesNotCovered==0){
+            stars=3;
+        }else if(tilesNotCovered<6){
+            stars = 2;
+        }else if (tilesNotCovered<12){
+            stars =1;
+        }else{
+            stars = 0;
+        }
+        return true;
+    }
 }

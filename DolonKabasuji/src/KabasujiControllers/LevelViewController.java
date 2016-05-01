@@ -306,6 +306,7 @@ public class LevelViewController implements Initializable {
                                 getNodeByRowColumnIndex(currentRow + selectedSquare.getRelRow(), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
                             }
                             success = true;
+
                         }
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
@@ -667,5 +668,6 @@ public class LevelViewController implements Initializable {
             }
         }, 1000, 1000);
     }
+
 
 }

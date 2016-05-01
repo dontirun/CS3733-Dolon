@@ -204,4 +204,20 @@ public class Board {
             }
         }
     }
+
+    /** Counts the number of valid tiles on the board
+     *
+     * @return number of valid (existing) tiles on the board
+     */
+    public int tilesOnBoard(){
+        int validTiles = 0;
+        for (ArrayList<Tile> a : tiles){ //Iterate over all the rows
+            for (Tile t : a) { //Iterate over all the columns
+                if (t.getExists()==true){  //If pieceNums Unique ID and the covered int are the same
+                    validTiles++;
+                }
+            }
+        }
+        return validTiles;
+    }
 }
