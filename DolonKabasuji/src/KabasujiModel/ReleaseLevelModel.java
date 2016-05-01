@@ -1,5 +1,9 @@
 package KabasujiModel;
 
+import javafx.scene.paint.Color;
+
+import java.util.ArrayList;
+
 /**
  * Created by Arthur on 4/10/2016.
  */
@@ -19,6 +23,31 @@ public class ReleaseLevelModel extends LevelModel {
      * @return true if successful
      */
     public boolean updateStars() {
+        int coveredRed = 0;
+        int coveredGreen = 0;
+        int coveredYellow = 0;
+        for (ArrayList<Tile> a : board.tiles){ //Iterate over all the rows
+            for (Tile t : a) { //Iterate over all the columns
+                ReleaseTile r = (ReleaseTile)t;
+                if(r.getCovered()!= -1){ //if tile covered by a piece
+                    if(r.getColor()== Color.RED){
+                        coveredRed++;
+                    }else if(r.getColor()==Color.GREEN){
+                        coveredGreen++;
+                    }else if(r.getColor()==Color.YELLOW){
+                        coveredYellow++;
+                    }
+                }
+            }
+        }
+
+
+        int stars = 0;
+        //add a star for each full set
+        if(coveredRed==6) stars++;
+        if(coveredGreen==6) stars++;
+        if(coveredYellow==6) stars++;
+        this.stars= stars;
 
         if(stars > maxStars){ // Update highest star count if we have surpassed the current highest
             maxStars = stars;

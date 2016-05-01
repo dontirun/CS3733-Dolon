@@ -47,7 +47,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="forwardLevel" layoutX="731.0" layoutY="17.0" mnemonicParsing="false" onAction="#handleButtonAction" style="-fx-background-color: transparent;">
+            <Button fx:id="forwardLevel" layoutX="731.0" layoutY="17.0" mnemonicParsing="false" onAction="#handleForwardLevel" style="-fx-background-color: transparent;">
                <graphic>
                   <ImageView fx:id="forwardArrow" fitHeight="38.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                      <image>
