@@ -12,16 +12,15 @@ import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.scene.control.Button;
 
 import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+
 import KabasujiModel.*;
 
 /**
@@ -61,7 +60,9 @@ public class LevelViewController implements Initializable {
     Timer timer;
 
     boolean placed = false;
+    private int readInLevelNumber = 0;
 
+    ArrayList<ArrayList<Pane>> tilePanes;
     private final static DataFormat pieceShape = new DataFormat("piece");
     private final static double squareWidth = 45.8333333;
     PieceFactory ourPieceFactory;
@@ -125,25 +126,36 @@ public class LevelViewController implements Initializable {
 
         // Set constraints (size of the cells)
         for (int i = 0; i < columns; i++) {
-            ColumnConstraints column = new ColumnConstraints(45.8333333);
+            ColumnConstraints column = new ColumnConstraints(squareWidth);
             boardView.getColumnConstraints().add(column);
         }
 
         for (int i = 0; i < rows; i++) {
-            RowConstraints row = new RowConstraints(45.8333333);
+            RowConstraints row = new RowConstraints(squareWidth);
             boardView.getRowConstraints().add(row);
         }
 
+        // Draw grid on board
+        tilePanes = new ArrayList<>();
         // Set grid (will later look at the grid for the level and set it that way)
         //Iterate over the board and draw everything appropriate
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
-                final Pane pane = new Pane();
+        for (int i = 0; i < rows; i++) {
+            ArrayList<Pane> tempArrayList = new ArrayList<>();
+
+            for (int x = 0; x < columns; x++) {
+                tempArrayList.add(new Pane());
+            }
+
+            tilePanes.add(tempArrayList);
+            for (int j = 0; j < columns; j++) {
+                final GridSquare pane = new GridSquare();
                 pane.setMinSize(0, 0);
                 pane.setStyle("-fx-background-color: white");
                 pane.setStyle("-fx-border-color: black");
                 pane.getStyleClass().add("board-cell");
+
                 boardView.add(pane, i, j);
+                tilePanes.get(i).set(j, pane);
                 //In case something is dragged over the pane
                 pane.setOnDragOver(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
@@ -285,11 +297,20 @@ public class LevelViewController implements Initializable {
         // Variables for level information
         // NOTE: will most likely be moved to more global variables
         int lvNum = 0;
-        int rows = 0;
-        int columns = 0;
         int metric = 0;
+        int count = 0;
         ArrayList<Integer> pieces = new ArrayList<>();
         ArrayList<String> tiles = new ArrayList<>();
+
+        // Release metrics so that release tiles are added properly
+        ReleaseTile redTile[] = new ReleaseTile[6];
+        ReleaseTile greenTile[] = new ReleaseTile[6];
+        ReleaseTile yellowTile[] = new ReleaseTile[6];
+        Pane redPane[] = new Pane[6];
+        Pane greenPane[] = new Pane[6];
+        Pane yellowPane[] = new Pane[6];
+        boolean usedSlots[] = new boolean[18];
+        Arrays.fill(usedSlots, Boolean.FALSE);
 
         // Starts at 0 because file begins with ### and will automatically increment
         int readCount = 0; // Determines what part of the files is being parsed
@@ -354,8 +375,95 @@ public class LevelViewController implements Initializable {
                             ourModel.addPieceToBullpen(ourPiece);
                             generateShapeFromPiece(ourPiece);
                             break;
+
                         case 4: // Tiles
-                            tiles.add(dataLine);
+
+                            tiles.add(dataLine); //Add elements to tile lines
+                            String tileLines[] = dataLine.split(" "); //Split data along spaces
+                            int[] tileInts = new int[tileLines.length]; //Size the tile ints properly
+                            //Iterate over the tileLines
+                            for (int i = 0; i < tileLines.length; i++){
+                                tileInts[i] = Integer.parseInt(tileLines[i]); //Parse the tiles as ints
+                            }
+                            //Set values
+                            System.out.println("We have the board elements");
+                            ArrayList<Pane> tempPaneLine = new ArrayList<>();
+                            for (int i = 0; i < columns; i++){ //Iterate over all of the array elemnts
+                                int offset; //For appropriate tile elements
+                                //Determine what type of tile needs to be set
+                                Tile tempTile = new Tile(); //A tile, defaults to existing
+                                Pane tempPane = new Pane();
+                                if (tileInts[i] == 0) { //Null tile
+                                    tempTile.setExists(false); //Set that it doesn't exist
+                                    tempPane.setStyle("-fx-background-color: black");
+                                    ourModel.getField().setBoardTile(tempTile, count, i); //Set the tile to be empty there
+
+                                }
+                                else if (tileInts[i] == 1 || tileInts[i] == 91) { //Valid blank tile
+                                    if (tileInts[i] == 91){
+                                        tempPane.setStyle("-fx-background-color: orange");
+                                        tempTile.setHint(true);
+                                    }
+                                    else {
+                                        tempPane.setStyle("-fx-background-color: white");
+                                    }
+                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                }
+                                //Red release tile: 21-26 indicate
+                                else if ((tileInts[i] > 20 && tileInts[i] < 27) || (tileInts[i] > 920 && tileInts[i] < 927)){
+                                    if (tileInts[i] > 900) {//definitely a hint
+                                        offset = 921;
+                                        tempTile.setHint(true);
+                                        tempPane.setStyle("-fx-background-color: orange");
+                                    }
+                                    else {
+                                        offset = 21;
+                                        tempPane.setStyle("-fx-background-color: white");
+                                    }
+                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    redTile[tileInts[i] - offset] = (ReleaseTile)tempTile;
+                                    redPane[tileInts[i] - offset] = tempPane;
+                                    redTile[tileInts[i] - offset].setColor(Color.RED);
+                                    usedSlots[tileInts[i] - offset] = true;
+                                }
+                                //Green release tile: 31-36 indicate
+                                else if ((tileInts[i] > 30 && tileInts[i] < 37) || (tileInts[i] > 930 && tileInts[i] < 937)) {
+                                    if (tileInts[i] > 900) {//definitely a hint
+                                        offset = 931;
+                                        tempTile.setHint(true);
+                                        tempPane.setStyle("-fx-background-color: orange");
+                                    }
+                                    else {  //Not a hint
+                                        offset = 31;
+                                        tempPane.setStyle("-fx-background-color: white");
+                                    }
+                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    greenTile[tileInts[i] - offset] = (ReleaseTile)tempTile;
+                                    greenPane[tileInts[i] - offset] = tempPane;
+                                    greenTile[tileInts[i] - offset].setColor(Color.GREEN);
+                                    usedSlots[tileInts[i] - offset + 6] = true; //Add 6 because new range of elements
+                                }
+                                //Yellow release tile: 41-46 indicate
+                                else if ((tileInts[i] > 40 && tileInts[i] < 47) || (tileInts[i] > 940 && tileInts[i] < 947)) {
+                                    if (tileInts[i] > 900) {//definitely a hint
+                                        offset = 941;
+                                        tempTile.setHint(true);
+                                        tempPane.setStyle("-fx-background-color: orange");
+                                    } else {  //Not a hint
+                                        offset = 41;
+                                        tempPane.setStyle("-fx-background-color: white");
+                                    }
+                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    yellowTile[tileInts[i] - offset] = (ReleaseTile) tempTile;
+                                    yellowPane[tileInts[i] - offset] = tempPane;
+                                    yellowTile[tileInts[i] - offset].setColor(Color.YELLOW);
+                                    usedSlots[tileInts[i] - offset + 12] = true; //Add 12 because new range of elements
+                                }
+                                tilePanes.get(count).get(i).setStyle(tempPane.getStyle());
+                                tilePanes.get(count).get(i).setBorder(new Border(new BorderStroke(Color.BLACK,
+                                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                            }
+                            count++;
                             break;
                     }
                 }
@@ -363,73 +471,9 @@ public class LevelViewController implements Initializable {
 
         }
         catch (FileNotFoundException e) {
-            return;
         }
-        catch (NullPointerException e){
-            return;
-        }
-
-        // Set the specific tiles of the board (non-square board shapes)
-        int count = 0;
-        for (String s : tiles) {
-            // Break up lines and convert to int
-            String[] tileLines = s.split(" ");
-            int[] tileInts = new int[tileLines.length];
-
-            for (int i = 0; i < tileLines.length; i++) {
-                tileInts[i] = Integer.parseInt(tileLines[i]);
-            }
-
-            // Set values
-            for (int i = 0; i < columns; i++) {
-                // Determine what type of tile needs to be set
-                if (tileInts[i] == 0) { // No-Tile
-                    /*
-                    level.getBoardTiles().get(count).get(i).setExists(false);
-                    tilePanes.get(count).get(i).setStyle("-fx-background-color: black");
-                    */
-
-                } else if (tileInts[i] == 1) { // Valid blank tile
-                    /*
-                    level.getBoardTiles().get(count).get(i).setExists(true);
-                    tilePanes.get(count).get(i).setStyle("-fx-background-color: white");
-                    tilePanes.get(count).get(i).setStyle("-fx-border-color: black");
-                    */
-
-                } else if (tileInts[i] > 20 && tileInts[i] < 27) { // Red release tile: 21-26 indicate the number on the tile
-                    /*
-                    redTile[tileInts[i]-21] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
-                    redTile[tileInts[i]-21].setExists(true); // Set to valid tile
-                    redTile[tileInts[i]-21].setColor(Color.RED); // Set color
-                    redPane[tileInts[i]-21] = tilePanes.get(count).get(i);
-                    usedSlots[tileInts[i]-21] = true; // Set slot to used
-                    */
-
-                } else if (tileInts[i] > 30 && tileInts[i] < 37) { // Green release tile: 31-36 indicate the number on the tile.
-                    /*
-                    greenTile[tileInts[i]-31] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
-                    greenTile[tileInts[i]-31].setExists(true); // Set to valid tile
-                    greenTile[tileInts[i]-31].setColor(Color.GREEN); // Set color
-                    greenPane[tileInts[i]-31] = tilePanes.get(count).get(i);
-                    usedSlots[tileInts[i]-25] = true; // Set slot to used
-                    */
-
-                } else if (tileInts[i] > 40 && tileInts[i] < 47) { // Yellow release tile: 41-46 indicate the number on the tile.
-                    /*
-                    yellowTile[tileInts[i]-41] = (ReleaseTile)level.getBoardTiles().get(count).get(i);
-                    yellowTile[tileInts[i]-41].setExists(true); // Set to valid tile
-                    yellowTile[tileInts[i]-41].setColor(Color.YELLOW); // Set color
-                    yellowPane[tileInts[i]-41] = tilePanes.get(count).get(i);
-                    usedSlots[tileInts[i]-29] = true;
-                    */
-
-                }
-            }
-
-            // Increment count
-            count++;
-        }
-
+//        catch (NullPointerException e){
+//        }
         /* Copied from builder, must be adapted
         // Add the release tiles to the board and draw them
         for(int i = 0; i < 6; i++){

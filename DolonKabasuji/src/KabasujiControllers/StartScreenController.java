@@ -54,8 +54,8 @@ public class StartScreenController {
      */
     @FXML
     public void initialize() {
-        if (this.menu == null) {
-            this.menu = new GameMenu();
+        if (menu == null) {
+            menu = new GameMenu();
         }
 
         // Initializes level accessibility on load
@@ -112,13 +112,13 @@ public class StartScreenController {
         stage = (Stage) startKButton.getScene().getWindow();
 
         //load up OTHER FXML document
-        if (lockIcon.isVisible() == false) {
+        if (!lockIcon.isVisible()) {
             root = null;
             switch (menu.getLevelNumber() % 3) {
                 case 1:
+                    System.out.println("Hi there!");
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
                     root = (Parent)fxmlLoader.load();
-
                     // Pass a value to the levelview and load level
                     LevelViewController lvController = fxmlLoader.<LevelViewController>getController();
                     lvController.loadLevel(menu.getLevelNumber());
@@ -196,6 +196,10 @@ public class StartScreenController {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(aboutKButton.getScene().getWindow());
         stage.showAndWait();
+    }
+
+    public GameMenu getMenu(){
+        return menu;
     }
 
 }
