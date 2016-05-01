@@ -9,7 +9,7 @@ public class BuilderMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("views/startscreen.fxml")); // Load scene
-        primaryStage.setTitle("(Dolon) Kabasuji Level Builder"); // Title
+        primaryStage.setTitle("Kabasuji Level Builder Start Screen"); // Title
         primaryStage.setScene(new Scene(root, 1280, 720)); // Set stage size
         primaryStage.show(); // Show scene
     }

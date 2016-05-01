@@ -34,10 +34,10 @@ public class StartScreenController {
         if(event.getSource() == startButton){
             stage = (Stage) startButton.getScene().getWindow(); // Gets button stage reference
             root = FXMLLoader.load(getClass().getResource("/views/levelbuilder.fxml")); // Get other FXML document
-
             // Create new scene with root and set stage
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setTitle("Kabasuji Builder");
             stage.show();
         }
         else{ // Open about window
