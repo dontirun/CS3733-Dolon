@@ -46,6 +46,8 @@ public class LevelBuilderController implements Initializable {
     BoardController boardController;
     LevelModel level;
     @FXML
+    public Button resizeBoard;
+    @FXML
     public Button undoButton;
     @FXML
     public Button redoButton;
@@ -632,8 +634,9 @@ public class LevelBuilderController implements Initializable {
      * @param event action event
      */
     public void handleSaveButtonAction(ActionEvent event) throws IOException{
-        saveLevel(Integer.parseInt(levelTextField.getText()), true);
         saveLevel(Integer.parseInt(levelTextField.getText()), false);
+        saveLevel(Integer.parseInt(levelTextField.getText()), true);
+
     }
 
     /**
@@ -1085,25 +1088,25 @@ public class LevelBuilderController implements Initializable {
             bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
 
             // when piece is clicked on add it to bullpen
-            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    if (selectedPiece == pieceToDraw) {
-                        selectedPiece = null;
-                        bullpenViewGroup.setEffect(null);
-                    }
-                    else {
-                        if (selectedPiece != null) {
-                            // remove visual effect of previous selected piece
-                            selectedGroup.setEffect(null);
-                        }
-                        selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup;
-                        System.out.println("piece selected");
-                        Lighting light = new Lighting();
-                        bullpenViewGroup.setEffect(light);
-                    }
-                }
-            });
+//            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+//                public void handle(MouseEvent event) {
+//                    if (selectedPiece == pieceToDraw) {
+//                        selectedPiece = null;
+//                        bullpenViewGroup.setEffect(null);
+//                    }
+//                    else {
+//                        if (selectedPiece != null) {
+//                            // remove visual effect of previous selected piece
+//                            selectedGroup.setEffect(null);
+//                        }
+//                        selectedPiece = pieceToDraw;
+//                        selectedGroup = bullpenViewGroup;
+//                        System.out.println("piece selected");
+//                        Lighting light = new Lighting();
+//                        bullpenViewGroup.setEffect(light);
+//                    }
+//                }
+//            });
 
             numberOfBullpenPieces++;
         }

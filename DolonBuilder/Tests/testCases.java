@@ -112,6 +112,20 @@ public class testCases extends ApplicationTest {
         clickOn("#saveButton");
         press(KeyCode.ENTER);
         //go back to home screen
+        clickOn("#timerField");
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("no");
+
+        //legal size
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("11");
+
         clickOn("#homeButton");
 
     }
@@ -202,7 +216,7 @@ public class testCases extends ApplicationTest {
         assertEquals((((GridSquare)board.getChildren().get(6)).getNumLabel().getTextFill().toString()),"0xff0000ff");
 
 
-        //adding pieces tests without clicking on addpiecebutton for now
+        //adding manulating  and removing pieces tests
         GridPane bullpen = lookup("#bullpenView").query();
         PieceFactory pf = new PieceFactory();
         final Piece pieceToDraw = pf.getPiece(3);
@@ -214,7 +228,19 @@ public class testCases extends ApplicationTest {
         GridPane grid = (GridPane) scroll.getContent();
         clickOn(grid.getChildren().get(1));
 
-        assertTrue(bullpen.getChildren().size() == 1);
+        clickOn("#addPieceButton");
+        Scene pieceSelector1 = listTargetWindows().get(1).getScene();
+        javafx.scene.control.ScrollPane scroll1 = (ScrollPane) pieceSelector1.getRoot();
+        GridPane grid1 = (GridPane) scroll1.getContent();
+        clickOn(grid1.getChildren().get(2));
+
+        clickOn("#addPieceButton");
+        Scene pieceSelector2 = listTargetWindows().get(1).getScene();
+        javafx.scene.control.ScrollPane scroll2 = (ScrollPane) pieceSelector2.getRoot();
+        GridPane grid2 = (GridPane) scroll2.getContent();
+        clickOn(grid2.getChildren().get(5));
+
+        assertTrue(bullpen.getChildren().size() == 3);
 
         // checking rotating and flip functionalities
         clickOn(bullpen.getChildren().get(0));
@@ -223,8 +249,60 @@ public class testCases extends ApplicationTest {
         clickOn("#rotateRightButton");
         clickOn("#flipHorizontalButton");
         clickOn("#deletePieceButton");
-        assertTrue(bullpen.getChildren().size() == 0);
+        assertTrue(bullpen.getChildren().size() == 2);
 
+        // clicking on varying bullpen pieces
+        clickOn(bullpen.getChildren().get(0));
+        clickOn(bullpen.getChildren().get(1));
+
+        //changing board size stuff
+        clickOn("#rowsTextField");
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("6");
+        clickOn("#colsTextField");
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("5");
+
+        clickOn("#resizeBoard");
+
+        //illegal size
+        clickOn("#rowsTextField");
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("420");
+        //legal size
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("11");
+
+        //illegal size
+        clickOn("#colsTextField");
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("no");
+
+        //legal size
+        push(KeyCode.DELETE);
+        push(KeyCode.DELETE);
+        push(KeyCode.BACK_SPACE);
+        push(KeyCode.BACK_SPACE);
+        write("11");
+
+        clickOn("#resizeBoard");
 
     }
 

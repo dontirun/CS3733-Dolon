@@ -96,7 +96,7 @@
                </font>
             </Label>
             <TextField fx:id="colsTextField" prefHeight="25.0" prefWidth="51.0" text="12" />
-            <Button mnemonicParsing="false" onAction="#handleResizeButton" text="Resize Board">
+            <Button fx:id="resizeBoard" mnemonicParsing="false" onAction="#handleResizeButton" text="Resize Board">
                <HBox.margin>
                   <Insets left="32.0" />
                </HBox.margin>
