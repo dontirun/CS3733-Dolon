@@ -425,11 +425,11 @@ public class LevelViewController implements Initializable {
 
         // Release metrics so that release tiles are added properly
         ReleaseTile redTile[] = new ReleaseTile[6];
-        ReleaseTile greenTile[] = new ReleaseTile[6];
-        ReleaseTile yellowTile[] = new ReleaseTile[6];
-        Pane redPane[] = new Pane[6];
-        Pane greenPane[] = new Pane[6];
-        Pane yellowPane[] = new Pane[6];
+        ReleaseTile  greenTile[] = new ReleaseTile[6];
+        ReleaseTile  yellowTile[] = new ReleaseTile[6];
+        GridSquare redPane[] = new GridSquare[6];
+        GridSquare greenPane[] = new GridSquare[6];
+        GridSquare yellowPane[] = new GridSquare[6];
         boolean usedSlots[] = new boolean[18];
         Arrays.fill(usedSlots, Boolean.FALSE);
 
@@ -542,15 +542,16 @@ public class LevelViewController implements Initializable {
                             for (int i = 0; i < columns; i++){ //Iterate over all of the array elemnts
                                 int offset; //For appropriate tile elements
                                 //Determine what type of tile needs to be set
-                                Tile tempTile = new Tile(); //A tile, defaults to existing
-                                Pane tempPane = new Pane();
+                                GridSquare tempPane = new GridSquare();
                                 if (tileInts[i] == 0) { //Null tile
+                                    Tile tempTile = new Tile();
                                     tempTile.setExists(false); //Set that it doesn't exist
                                     tempPane.setStyle("-fx-background-color: black");
                                     ourModel.getField().setBoardTile(tempTile, count, i); //Set the tile to be empty there
 
                                 }
                                 else if (tileInts[i] == 1 || tileInts[i] == 91) { //Valid blank tile
+                                    Tile tempTile = new Tile();
                                     if (tileInts[i] == 91){
                                         tempPane.setStyle("-fx-background-color: orange");
                                         tempTile.setHint(true);
@@ -562,14 +563,23 @@ public class LevelViewController implements Initializable {
                                 }
                                 //Red release tile: 21-26 indicate
                                 else if ((tileInts[i] > 20 && tileInts[i] < 27) || (tileInts[i] > 920 && tileInts[i] < 927)){
+                                    ReleaseTile tempTile = new ReleaseTile();
                                     if (tileInts[i] > 900) {//definitely a hint
                                         offset = 921;
                                         tempTile.setHint(true);
+                                        tempTile.setNum(tileInts[i]-offset + 1);
+                                        tempTile.setColor(Color.RED);
                                         tempPane.setStyle("-fx-background-color: orange");
+                                        tempPane.setNumber(tileInts[i]-offset + 1);
+                                        tempPane.numLabel.setTextFill(Color.RED);
                                     }
                                     else {
                                         offset = 21;
+                                        tempTile.setNum(tileInts[i]-offset + 1);
+                                        tempTile.setColor(Color.RED);
                                         tempPane.setStyle("-fx-background-color: white");
+                                        tempPane.setNumber(tileInts[i]-offset + 1);
+                                        tempPane.numLabel.setTextFill(Color.RED);
                                     }
                                     ourModel.getField().setBoardTile(tempTile, count, i);
                                     redTile[tileInts[i] - offset] = (ReleaseTile)tempTile;
@@ -579,14 +589,23 @@ public class LevelViewController implements Initializable {
                                 }
                                 //Green release tile: 31-36 indicate
                                 else if ((tileInts[i] > 30 && tileInts[i] < 37) || (tileInts[i] > 930 && tileInts[i] < 937)) {
+                                    ReleaseTile tempTile = new ReleaseTile();
                                     if (tileInts[i] > 900) {//definitely a hint
                                         offset = 931;
+                                        tempTile.setNum(tileInts[i]-offset + 1);
+                                        tempTile.setColor(Color.RED);
                                         tempTile.setHint(true);
                                         tempPane.setStyle("-fx-background-color: orange");
+                                        tempPane.setNumber(tileInts[i]-offset + 1);
+                                        tempPane.numLabel.setTextFill(Color.GREEN);
                                     }
                                     else {  //Not a hint
                                         offset = 31;
+                                        tempTile.setNum(tileInts[i]-offset + 1);
+                                        tempTile.setColor(Color.RED);
                                         tempPane.setStyle("-fx-background-color: white");
+                                        tempPane.setNumber(tileInts[i]-offset + 1);
+                                        tempPane.numLabel.setTextFill(Color.GREEN);
                                     }
                                     ourModel.getField().setBoardTile(tempTile, count, i);
                                     greenTile[tileInts[i] - offset] = (ReleaseTile)tempTile;
@@ -596,12 +615,20 @@ public class LevelViewController implements Initializable {
                                 }
                                 //Yellow release tile: 41-46 indicate
                                 else if ((tileInts[i] > 40 && tileInts[i] < 47) || (tileInts[i] > 940 && tileInts[i] < 947)) {
+                                    ReleaseTile tempTile = new ReleaseTile();
                                     if (tileInts[i] > 900) {//definitely a hint
                                         offset = 941;
+                                        tempTile.setNum(tileInts[i]-offset + 1);
+                                        tempTile.setColor(Color.RED);
                                         tempTile.setHint(true);
                                         tempPane.setStyle("-fx-background-color: orange");
+                                        tempPane.setNumber(tileInts[i]-offset + 1);
+                                        // the goldish color replacing yellow
+                                        tempPane.numLabel.setTextFill(Color.web("#d5ae27"));
                                     } else {  //Not a hint
                                         offset = 41;
+                                        tempTile.setNum(tileInts[i]-offset + 1);
+                                        tempTile.setColor(Color.RED);
                                         tempPane.setStyle("-fx-background-color: white");
                                     }
                                     ourModel.getField().setBoardTile(tempTile, count, i);
@@ -611,6 +638,16 @@ public class LevelViewController implements Initializable {
                                     usedSlots[tileInts[i] - offset + 12] = true; //Add 12 because new range of elements
                                 }
                                 tilePanes.get(count).get(i).setStyle(tempPane.getStyle());
+                                // only if a release tile
+                                if (tempPane.getNumber() > 0) {
+                                    ((GridSquare)tilePanes.get(count).get(i)).setNumber(tempPane.getNumber());
+                                    ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setTextFill(((ReleaseTile)ourModel.getField().getBoardTile(count,i)).getColor());
+                                    ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().autosize();
+                                    ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setStyle("-fx-font: 40 arial;");
+                                    if(((ReleaseTile)ourModel.getField().getBoardTile(count,i)).getColor() == Color.YELLOW){
+                                        ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setTextFill(Color.web("#d5ae27"));
+                                    }
+                                }
                                 tilePanes.get(count).get(i).setBorder(new Border(new BorderStroke(Color.BLACK,
                                         BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
                             }

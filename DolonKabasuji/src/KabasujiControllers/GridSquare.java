@@ -36,6 +36,11 @@ public class GridSquare extends Pane{
 
         }
 
+        public int getNumber(){
+            return this.num;
+        }
+
+
     /**
      * Gets the number label, unsure why needed
      *

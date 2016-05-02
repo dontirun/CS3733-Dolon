@@ -636,7 +636,7 @@ public class LevelBuilderController implements Initializable {
      */
     public void handleSaveButtonAction(ActionEvent event) throws IOException{
         saveLevel(Integer.parseInt(levelTextField.getText()), false);
-        saveLevel(Integer.parseInt(levelTextField.getText()), true);
+        //saveLevel(Integer.parseInt(levelTextField.getText()), true);
 
     }
 
@@ -1021,8 +1021,8 @@ public class LevelBuilderController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "/levels/lvl" + levelNum + ".bdsm";
-            FileReader input = new FileReader(getClass().getResource(filepath).getPath()); // Read in file
+            String filepath = "../BuilderLevels/lvl" + levelNum + ".bdsm";
+            FileReader input = new FileReader(filepath); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
 
@@ -1244,7 +1244,7 @@ public class LevelBuilderController implements Initializable {
     public void saveLevel(int levelNum, boolean isOut) throws FileNotFoundException {
 
         String filepath = "/levels/lvl" + levelNum + ".bdsm";
-        String projFilepath = "DolonBuilder/resources/levels/lvl" + levelNum + ".bdsm";
+        String projFilepath = "../BuilderLevels/lvl" + levelNum + ".bdsm";
 
         try{
             FileWriter out;
