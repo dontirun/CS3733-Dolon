@@ -13,7 +13,7 @@ public abstract class Piece implements Serializable{
     public int pieceID;
     public int uniqueID;
     public int DEBUG = 1;
-    private double[] colorVals = {1, 0, 0};
+    private double[] colorVals = {0.157, 0.635, 0.859};
 
     /**
      * Getter for the unique id

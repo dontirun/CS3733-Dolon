@@ -169,6 +169,7 @@ public class LevelViewController implements Initializable {
         selectedGroup.getChildren().clear();
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+            selectedRectangle.setFill(Color.rgb(40, 162, 219));
 
             selectedGroup.getChildren().add(selectedRectangle);
         }
@@ -199,6 +200,7 @@ public class LevelViewController implements Initializable {
         selectedGroup.getChildren().clear();
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+            selectedRectangle.setFill(Color.rgb(40, 162, 219));
 
             selectedGroup.getChildren().add(selectedRectangle);
         }
@@ -275,10 +277,10 @@ public class LevelViewController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
                                 if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)){
-                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #4d0000");
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #0c3142");
                                 }
                                 else{
-                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #bee3f4");
                                 }
                             }
                             //System.out.println("Drag Entered is valid move");
@@ -303,7 +305,7 @@ public class LevelViewController implements Initializable {
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 //
                                 if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
-                                    pane.setStyle("-fx-background-color: red");
+                                    pane.setStyle("-fx-background-color: #28a2db");
                                 }
                                 else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
                                     if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){
