@@ -226,4 +226,10 @@ public class Board {
         }
         return validTiles;
     }
+
+    public void printBoardAsDebug(){
+        for(int x = 0; x < numRows; x++){
+            
+        }
+    }
 }

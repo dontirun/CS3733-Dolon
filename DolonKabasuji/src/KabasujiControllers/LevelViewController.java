@@ -255,8 +255,9 @@ public class LevelViewController implements Initializable {
                         // need to add something to prevent adding to an occupied tile
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().getBoardTile(currentRow, currentColumn).getExists() &&
-                                ourModel.getField().getBoardTile(currentRow, currentColumn).getCovered() < 0) {
+                        Dragboard db = event.getDragboard();
+                        Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                        if (ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
                             event.acceptTransferModes(TransferMode.MOVE);
                         }
                         event.consume();
@@ -268,10 +269,8 @@ public class LevelViewController implements Initializable {
                         Dragboard db = event.getDragboard();
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().getBoardTile(currentRow, currentColumn).getExists() &&
-                                ourModel.getField().getBoardTile(currentRow, currentColumn).getCovered() < 0) {
-
-                            Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                        Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                        if (ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
                             System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
                                 getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
@@ -284,17 +283,24 @@ public class LevelViewController implements Initializable {
                 pane.setOnDragExited(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         System.out.println(event.isDropCompleted());
-                        if (!placed) {
-                            Dragboard db = event.getDragboard();
-                            int currentRow = GridPane.getRowIndex(pane);
-                            int currentColumn = GridPane.getColumnIndex(pane);
-                            Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                            for (Square selectedSquare : droppedPiece.squares) {
-                                Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                event.consume();
+                        Dragboard db = event.getDragboard();
+                        int currentRow = GridPane.getRowIndex(pane);
+                        int currentColumn = GridPane.getColumnIndex(pane);
+                        Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                        for (Square selectedSquare : droppedPiece.squares) {
+                            Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                            if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
+                                // do nothing
                             }
+                            else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
+                                pane.setStyle("-fx-background-color: white");
+                            }
+                            else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol()).getExists() == false)) {
+                                pane.setStyle("-fx-background-color: black");
+                            }
+
+                            event.consume();
                         }
-                        placed = false;
                     }
                 });
 
@@ -309,13 +315,11 @@ public class LevelViewController implements Initializable {
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: "+color.toString());
+                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
                             }
+                            ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
                             // Only place if it's a valid move
-                            if(ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)){
-                                success = true;
-                                ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
-                            }
+                            success = true;
 
                         }
                         event.setDropCompleted(success);
