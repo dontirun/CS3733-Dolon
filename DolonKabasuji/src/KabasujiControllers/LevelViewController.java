@@ -10,6 +10,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
@@ -169,7 +170,7 @@ public class LevelViewController implements Initializable {
         selectedGroup.getChildren().clear();
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-            selectedRectangle.setFill(Color.rgb(40, 162, 219));
+            selectedRectangle.setFill(selectedPiece.getColor());
 
             selectedGroup.getChildren().add(selectedRectangle);
         }
@@ -198,9 +199,10 @@ public class LevelViewController implements Initializable {
 
         // clears the squares in the group and adds in the repositioned ones
         selectedGroup.getChildren().clear();
+
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-            selectedRectangle.setFill(Color.rgb(40, 162, 219));
+            selectedRectangle.setFill(selectedPiece.getColor());
 
             selectedGroup.getChildren().add(selectedRectangle);
         }
@@ -215,6 +217,7 @@ public class LevelViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         boardView.getStyleClass().add("board");
 
         // Set constraints (size of the cells)
