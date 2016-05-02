@@ -383,7 +383,7 @@ public class LevelViewController implements Initializable {
         // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
     }
 
-    private void makeDeletable(final Node node, Piece piece, int row, int column) {
+    private void makeDeletable(final Node node, final Piece piece, final int row, final int column) {
 
 
         node.setOnMouseClicked(new EventHandler<MouseEvent>() {
