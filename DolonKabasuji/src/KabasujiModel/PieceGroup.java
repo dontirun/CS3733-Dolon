@@ -13,6 +13,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
+import static KabasujiControllers.LevelViewController.pieceShape;
+
 
 /**
  * Created by Arthur on 4/25/2016.
@@ -21,12 +23,10 @@ public class PieceGroup {
     private Piece piece;
     private static final double RectangleSize = 45.83333333;
     private final BooleanProperty dragModeActiveProperty = new SimpleBooleanProperty(this, "dragModeActive", true);
-    private static DataFormat pieceShape;
     private Group pieceGroup;
-    public PieceGroup(Piece piece, final DataFormat pieceShape){
+    public PieceGroup(Piece piece){
         super();
         this.piece = piece;
-        this.pieceShape = pieceShape;
         generateShapeFromPiece(this.piece);
     }
 
@@ -53,11 +53,12 @@ public class PieceGroup {
             public void handle(MouseEvent event) {
                 /* drag was detected, start a drag-and-drop gesture*/
                 /* allow any transfer mode */
-                Dragboard db = pieceGroup.startDragAndDrop(TransferMode.ANY);
+                Dragboard db = pieceGroup.startDragAndDrop(TransferMode.MOVE);
                 /* Put a string on a dragboard */
                 ClipboardContent content = new ClipboardContent();
                 content.put(pieceShape, piece); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
                 db.setContent(content);
+                System.out.println("Drag Detected");
                 event.consume();
             }
         });
@@ -69,6 +70,7 @@ public class PieceGroup {
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     pieceGroup.setVisible(false);
                 }
+                System.out.println("Drag Done");
                 event.consume();
             }
         });

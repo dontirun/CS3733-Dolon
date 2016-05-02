@@ -42,7 +42,9 @@ public class Board {
      */
     public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
+            p.flipPieceVert();
             piecesOnBoard.add(p);
+            System.out.println("this works");
             for (Square s : p.squares){
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
@@ -102,7 +104,7 @@ public class Board {
                 return false;
             }
             //If it's a tile that's covered by another piece
-            if (getBoardTile(tileRow, tileColumn).getCovered() > 0) {
+            if (getBoardTile(tileRow + squareRowOffset, tileColumn + squareColumnOffset).getCovered() > 0) {
                 return false;
             }
         }
@@ -229,7 +231,19 @@ public class Board {
 
     public void printBoardAsDebug(){
         for(int x = 0; x < numRows; x++){
-            
+            String tempString = "";
+            for (int y = 0; y < numColumns; y++) {
+                if (!getBoardTile(x, y).getExists()) {
+                    tempString += "0 ";
+                }
+                else if (getBoardTile(x, y).getCovered() > -1){
+                    tempString += getBoardTile(x, y).getCovered() + " ";
+                }
+                else if (getBoardTile(x, y).getExists()) {
+                    tempString += "_ ";
+                }
+            }
+            System.out.println(tempString);
         }
     }
 }

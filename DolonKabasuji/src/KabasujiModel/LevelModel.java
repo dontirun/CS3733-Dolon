@@ -112,12 +112,30 @@ public abstract class LevelModel {
     }
 
     /**
+     * Removes a piece from the bullpen
+     *
+     * @param uniqueID unique id of the piece
+     */
+    public void removePieceFromBullpen(int uniqueID) { bullpen.removePiece(uniqueID);}
+
+    /**
      * Gets all of the pieces on the bullpen
      * @return pieces on the board
      */
     public ArrayList<Piece> getPiecesOnBoard(){
         return board.piecesOnBoard;
     }
+
+    /**
+     * Gets the number of stars obtained for the level
+     *
+     * @return number of stars
+     */
+    public int getStars() {
+        return stars;
+    }
+
+
     /**
      * Gets the bullpen
      * @return

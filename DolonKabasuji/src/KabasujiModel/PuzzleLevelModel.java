@@ -4,7 +4,27 @@ package KabasujiModel;
  * Created by Arthur on 4/10/2016.
  */
 public class PuzzleLevelModel extends LevelModel {
-    int totalMoves = 0, movesUsed = 0;
+    int totalMoves = 0;
+
+    /**
+     * Gets the number of moves used
+     *
+     * @return number of moves used
+     */
+    public int getMovesUsed() {
+        return movesUsed;
+    }
+
+    /**
+     * Sets the number of moves used
+     *
+     * @param movesUsed number of moves used
+     */
+    public void setMovesUsed(int movesUsed) {
+        this.movesUsed = movesUsed;
+    }
+
+    int movesUsed = 0;
 
     /**
      * Constructor for puzzle level
@@ -34,14 +54,17 @@ public class PuzzleLevelModel extends LevelModel {
      * @return true if successful
      */
     public boolean updateStars() {
-        switch(board.tilesOnBoard()-board.piecesOnBoard.size()*6){
+        // don't think this is correct according to specs, supposed to be based on how many pieces are left
+        // board.tilesOnBoard()-board.piecesOnBoard.size()*6
+        System.out.println(bullpen.getPieces().size());
+        switch(bullpen.getPieces().size()){
             case 0:
                 stars= 3;
                 break;
-            case 6:
+            case 1:
                 stars= 2;
                 break;
-            case 12:
+            case 2:
                 stars = 1;
                 break;
             default:

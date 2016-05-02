@@ -58,17 +58,17 @@
             </Button>
             <ImageView fx:id="firstStar" fitHeight="53.0" fitWidth="55.0" layoutX="466.0" layoutY="69.0">
                <image>
-                  <Image url="@../images/slice05_05.png" />
+                  <Image url="@../images/emptyStar.png" />
                </image>
             </ImageView>
             <ImageView fx:id="thirdStar" fitHeight="53.0" fitWidth="55.0" layoutX="585.0" layoutY="68.0">
                <image>
-                  <Image url="@../images/slice05_05.png" />
+                  <Image url="@../images/emptyStar.png" />
                </image>
             </ImageView>
             <ImageView fx:id="secondStar" fitHeight="53.0" fitWidth="55.0" layoutX="527.0" layoutY="69.0">
                <image>
-                  <Image url="@../images/slice05_05.png" />
+                  <Image url="@../images/emptyStar.png" />
                </image>
             </ImageView>
             <Label fx:id="allowedLabel" layoutX="688.0" layoutY="73.0" prefHeight="46.0" prefWidth="82.0" text="Moves Allowed" />
