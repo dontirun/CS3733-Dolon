@@ -2,6 +2,7 @@ package PieceFactory;
 
 import KabasujiModel.Piece;
 import KabasujiModel.Square;
+import javafx.scene.paint.Color;
 
 /**
  * Created by Arun on 4/16/2016.
@@ -31,9 +32,9 @@ public class Hex1 extends Piece{
         squares.add(s4);
         squares.add(s5);
         squares.add(s6);
-
+        setColor(Color.AQUAMARINE);
         // only print this if debug is on
-        if (DEBUG == 1 ){
+        if (DEBUG == 1){
             System.out.println("Creating Piece with ID "+pieceID);
         }
         // add accessories

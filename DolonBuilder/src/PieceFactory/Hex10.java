@@ -2,6 +2,7 @@ package PieceFactory;
 
 import BuilderModel.Piece;
 import BuilderModel.Square;
+import javafx.scene.paint.Color;
 
 /**
  * Created by Arun on 4/16/2016.
@@ -32,7 +33,7 @@ public class Hex10 extends Piece{
         squares.add(s4);
         squares.add(s5);
         squares.add(s6);
-
+        setColor(Color.DARKMAGENTA);
         // only print this if debug is on
         if (DEBUG == 1 ){
             System.out.println("Creating Piece with ID "+pieceID);
