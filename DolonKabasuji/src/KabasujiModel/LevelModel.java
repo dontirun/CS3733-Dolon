@@ -112,6 +112,13 @@ public abstract class LevelModel {
     }
 
     /**
+     * Gets all of the pieces on the bullpen
+     * @return pieces on the board
+     */
+    public ArrayList<Piece> getPiecesOnBoard(){
+        return board.piecesOnBoard;
+    }
+    /**
      * Gets the bullpen
      * @return
      */

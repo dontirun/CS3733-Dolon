@@ -78,7 +78,6 @@ public class LevelViewController implements Initializable {
     ArrayList<ArrayList<Pane>> tilePanes;
     private final static DataFormat pieceShape = new DataFormat("piece");
     private final static double squareWidth = 45.8333333;
-    PieceFactory ourPieceFactory;
     LevelModel ourModel;
     int timeLeft;
 
@@ -252,8 +251,12 @@ public class LevelViewController implements Initializable {
                 //In case something is dragged over the pane
                 pane.setOnDragOver(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
+
                         // need to add something to prevent adding to an occupied tile
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
+                        int currentRow = GridPane.getRowIndex(pane);
+                        int currentColumn = GridPane.getColumnIndex(pane);
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().getBoardTile(currentRow, currentColumn).getExists() &&
+                                ourModel.getField().getBoardTile(currentRow, currentColumn).getCovered() < 0) {
                             event.acceptTransferModes(TransferMode.MOVE);
                         }
                         event.consume();
@@ -263,11 +266,13 @@ public class LevelViewController implements Initializable {
                 pane.setOnDragEntered(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         Dragboard db = event.getDragboard();
-                        if (event.getGestureSource() != pane &&
-                                event.getDragboard().hasContent(pieceShape)) {
-                            int currentRow = GridPane.getRowIndex(pane);
-                            int currentColumn = GridPane.getColumnIndex(pane);
+                        int currentRow = GridPane.getRowIndex(pane);
+                        int currentColumn = GridPane.getColumnIndex(pane);
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().getBoardTile(currentRow, currentColumn).getExists() &&
+                                ourModel.getField().getBoardTile(currentRow, currentColumn).getCovered() < 0) {
+
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                            System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
                                 getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
                             }
@@ -285,7 +290,7 @@ public class LevelViewController implements Initializable {
                             int currentColumn = GridPane.getColumnIndex(pane);
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: WHITE");
+                                Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 event.consume();
                             }
                         }
@@ -302,12 +307,14 @@ public class LevelViewController implements Initializable {
                             int currentRow = GridPane.getRowIndex(pane);
                             int currentColumn = GridPane.getColumnIndex(pane);
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                            Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
+                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: "+color.toString());
                             }
                             // Only place if it's a valid move
                             if(ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)){
                                 success = true;
+                                ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
                             }
 
                         }
