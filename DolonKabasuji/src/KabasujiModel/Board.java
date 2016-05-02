@@ -44,7 +44,7 @@ public class Board {
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
             p.flipPieceVert();
             piecesOnBoard.add(p);
-            System.out.println("this works");
+            //System.out.println("this works");
             for (Square s : p.squares){
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
@@ -108,6 +108,23 @@ public class Board {
                 return false;
             }
         }
+        return true;
+    }
+
+    /**
+     * Checks to see if an intended location is out of bounds
+     *
+     * @param tileRow specific row to check
+     * @param tileCol specific column to check
+     */
+    public boolean isInBounds(int tileRow, int tileCol){
+        if(tileRow < 0 || tileRow > numRows){ // Check row
+            return false;
+        }
+        if(tileCol < 0 || tileRow > numColumns){ // Check column
+            return false;
+        }
+
         return true;
     }
 

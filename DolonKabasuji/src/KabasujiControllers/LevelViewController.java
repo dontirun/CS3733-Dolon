@@ -270,12 +270,18 @@ public class LevelViewController implements Initializable {
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                            System.out.println(droppedPiece.uniqueID);
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
+                            //System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
+                                // Imitate transparency
+                                if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)){
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #4d0000");
+                                }
+                                else{
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
+                                }
                             }
-                            System.out.println("Drag Entered is valid move");
+                            //System.out.println("Drag Entered is valid move");
                         }
 
                         event.consume();
@@ -291,15 +297,21 @@ public class LevelViewController implements Initializable {
                         //Get the piece in the dragboard
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //Iterate over all of the squares
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 //Get the board's view
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 //
                                 if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
-                                    // do nothing
-                                } else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
-                                    pane.setStyle("-fx-background-color: white");
+                                    pane.setStyle("-fx-background-color: red");
+                                }
+                                else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
+                                    if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){
+                                        pane.setStyle("-fx-background-color: orange");
+                                    }
+                                    else{
+                                        pane.setStyle("-fx-background-color: white");
+                                    }
                                 } else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)) {
                                     pane.setStyle("-fx-background-color: black");
                                 }

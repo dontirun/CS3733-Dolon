@@ -7,7 +7,7 @@ import KabasujiModel.Piece;
  */
 public class PieceFactory {
 
-    static int counter = -1;
+    static int counter = 0;
 
     public Piece getPiece(int pieceNum){
         counter++;
