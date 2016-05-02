@@ -10,7 +10,6 @@ import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
-import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
@@ -26,6 +25,8 @@ import java.net.URL;
 import java.util.*;
 
 import KabasujiModel.*;
+
+import static java.util.Collections.copy;
 
 /**
  * Created by Arthur on 4/10/2016.
@@ -87,7 +88,7 @@ public class LevelViewController implements Initializable {
     int columns = 12;
 
     int gridW = 2;
-    int gridH = 18;
+    int gridH;
     int numberOfPiecesDrawn;
 
     /**
@@ -275,7 +276,7 @@ public class LevelViewController implements Initializable {
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
                             //System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
@@ -302,7 +303,7 @@ public class LevelViewController implements Initializable {
                         //Get the piece in the dragboard
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //Iterate over all of the squares
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 //Get the board's view
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
@@ -332,6 +333,9 @@ public class LevelViewController implements Initializable {
                         boolean success = false;
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
+                        System.out.println("on drag dropped column " + currentColumn);
+                        System.out.println("on drag dropped row " + currentRow);
+
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //If we have a piece with us
                         if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
@@ -339,7 +343,9 @@ public class LevelViewController implements Initializable {
 
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
+                                GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                tilePane.setStyle("-fx-background-color: RED");
+                                makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
                             }
                             ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
                             ourModel.getField().printBoardAsDebug();
@@ -377,6 +383,47 @@ public class LevelViewController implements Initializable {
         // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
     }
 
+    private void makeDeletable(final Node node, Piece piece, int row, int column) {
+
+
+        node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                MouseButton button = event.getButton();
+                if(button==MouseButton.PRIMARY){
+                    // do nothing
+                }else if(button==MouseButton.SECONDARY){
+                    System.out.println(piece.getUniqueID());
+                    ourModel.getField().removePiece(piece.getUniqueID());
+                    System.out.println("Make deletable column" + column);
+                    System.out.println("Make deletable row:" + row);
+                    piece.flipPieceVert();
+                    for (Square squareToRemove : piece.squares) {
+                        GridSquare tilePaneToClear = (GridSquare) getNodeByRowColumnIndex(row + (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
+                        System.out.println(ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint());
+                        if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1)) {
+                            tilePaneToClear.setStyle("-fx-background-color: #28a2db");
+                        }
+                        else if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == true)) {
+                            if((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint() == true)){
+                                tilePaneToClear.setStyle("-fx-background-color: orange");
+                            }
+                            else{
+                                tilePaneToClear.setStyle("-fx-background-color: white");
+                            }
+                        } else if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == false)) {
+                            tilePaneToClear.setStyle("-fx-background-color: black");
+                        }
+                        tilePaneToClear.setOnMouseClicked(null);
+                    }
+                }
+                else if(button==MouseButton.MIDDLE){
+                    // do nothing
+                }
+                event.consume();
+            }
+        });
+    }
 
     /**
      * Draw a piece on the board given the information about the piece
@@ -518,7 +565,7 @@ public class LevelViewController implements Initializable {
                             bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
                             bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
                             bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
-
+                            gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
 
                             currentPiece.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                                 public void handle(MouseEvent event) {

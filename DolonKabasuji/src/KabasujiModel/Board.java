@@ -112,6 +112,29 @@ public class Board {
     }
 
     /**
+     * Checks if the piece is out of bounds
+     *
+     * @param p piece used to take device results
+     * @param tileRow specific row to base the anchor around
+     * @param tileColumn specific column to base the anchor around
+     * @return
+     */
+    public boolean isOutOfBounds(Piece p, int tileRow, int tileColumn) {
+        for (Square s: p.squares) {
+            int squareColumnOffset = s.getRelCol();
+            int squareRowOffset = (s.getRelRow()*-1);
+            if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0) { //We're out of bounds vertically
+                return false;
+            }
+            //If it's out of bounds with rows
+            if (squareRowOffset + tileRow > (numRows - 1) || squareRowOffset + tileRow < 0) { //We're out of bounds horizontally
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Checks to see if an intended location is out of bounds
      *
      * @param tileRow specific row to check

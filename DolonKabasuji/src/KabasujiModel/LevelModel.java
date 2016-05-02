@@ -118,6 +118,7 @@ public abstract class LevelModel {
      */
     public void removePieceFromBullpen(int uniqueID) { bullpen.removePiece(uniqueID);}
 
+
     /**
      * Gets all of the pieces on the bullpen
      * @return pieces on the board
