@@ -89,7 +89,7 @@ public class Board {
     public boolean isValidMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
         for (Square s: p.squares){
             int squareColumnOffset = s.getRelCol();
-            int squareRowOffset = s.getRelRow();
+            int squareRowOffset = (s.getRelRow()*-1);
             if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0){ //We're out of bounds vertically
                 return false;
             }

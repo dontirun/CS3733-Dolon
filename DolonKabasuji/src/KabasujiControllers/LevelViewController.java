@@ -269,7 +269,7 @@ public class LevelViewController implements Initializable {
                             int currentColumn = GridPane.getColumnIndex(pane);
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + selectedSquare.getRelRow(), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
+                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #ffacb1");
                             }
                         }
                         event.consume();
@@ -285,7 +285,7 @@ public class LevelViewController implements Initializable {
                             int currentColumn = GridPane.getColumnIndex(pane);
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + selectedSquare.getRelRow(), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: WHITE");
+                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: WHITE");
                                 event.consume();
                             }
                         }
@@ -303,9 +303,12 @@ public class LevelViewController implements Initializable {
                             int currentColumn = GridPane.getColumnIndex(pane);
                             Piece droppedPiece = (Piece) db.getContent(pieceShape);
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + selectedSquare.getRelRow(), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
+                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
                             }
-                            success = true;
+                            // Only place if it's a valid move
+                            if(ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)){
+                                success = true;
+                            }
 
                         }
                         event.setDropCompleted(success);
