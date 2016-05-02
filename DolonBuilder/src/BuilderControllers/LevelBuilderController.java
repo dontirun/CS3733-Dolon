@@ -45,6 +45,8 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
+import static KabasujiControllers.LevelViewController.pieceShape;
+
 /**
  * Created by slafo on 4/10/2016.
  */
@@ -320,6 +322,53 @@ public class LevelBuilderController implements Initializable {
                         Lighting light = new Lighting();
                         bullpenViewGroup.setEffect(light);
                     }
+                }
+            });
+
+            // when piece is clicked on add it to bullpen
+            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    if (selectedPiece == pieceToDraw) {
+                        selectedPiece = null;
+                        bullpenViewGroup.setEffect(null);
+                    }
+                    else {
+                        if (selectedPiece != null) {
+                            // remove visual effect of previous selected piece
+                            selectedGroup.setEffect(null);
+                        }
+                        selectedPiece = pieceToDraw;
+                        selectedGroup = bullpenViewGroup;
+                        System.out.println("piece selected");
+                        Lighting light = new Lighting();
+                        bullpenViewGroup.setEffect(light);
+                    }
+                }
+            });
+
+            bullpenViewGroup.setOnDragDetected(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                /* drag was detected, start a drag-and-drop gesture*/
+                /* allow any transfer mode */
+                    Dragboard db = bullpenViewGroup.startDragAndDrop(TransferMode.MOVE);
+                /* Put a string on a dragboard */
+                    ClipboardContent content = new ClipboardContent();
+                    content.put(pieceShape, pieceToDraw); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
+                    db.setContent(content);
+                    System.out.println("Drag Detected");
+                    event.consume();
+                }
+            });
+
+            bullpenViewGroup.setOnDragDone(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                /* the drag and drop gesture ended */
+                /* if the data was successfully moved, clear it */
+                    if (event.getTransferMode() == TransferMode.MOVE) {
+                        bullpenViewGroup.setVisible(false);
+                    }
+                    System.out.println("Drag Done");
+                    event.consume();
                 }
             });
 
@@ -1226,6 +1275,32 @@ public class LevelBuilderController implements Initializable {
                         Lighting light = new Lighting();
                         bullpenViewGroup.setEffect(light);
                     }
+                }
+            });
+
+            bullpenViewGroup.setOnDragDetected(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                /* drag was detected, start a drag-and-drop gesture*/
+                /* allow any transfer mode */
+                    Dragboard db = bullpenViewGroup.startDragAndDrop(TransferMode.MOVE);
+                /* Put a string on a dragboard */
+                    ClipboardContent content = new ClipboardContent();
+                    content.put(pieceShape, pieceToDraw); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
+                    db.setContent(content);
+                    System.out.println("Drag Detected");
+                    event.consume();
+                }
+            });
+
+            bullpenViewGroup.setOnDragDone(new EventHandler<DragEvent>() {
+                public void handle(DragEvent event) {
+                /* the drag and drop gesture ended */
+                /* if the data was successfully moved, clear it */
+                    if (event.getTransferMode() == TransferMode.MOVE) {
+                        bullpenViewGroup.setVisible(false);
+                    }
+                    System.out.println("Drag Done");
+                    event.consume();
                 }
             });
 

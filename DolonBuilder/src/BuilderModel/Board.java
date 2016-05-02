@@ -42,6 +42,7 @@ public class Board {
      */
     public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
+            p.flipPieceVert();
             p.setPieceBoardNum(p.getPieceID()*1000 + counter);
             piecesOnBoard.add(p);
             for (Square s : p.squares){
