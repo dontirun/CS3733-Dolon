@@ -49,7 +49,7 @@ public class Board {
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
                 // changed to release tile for now
-                ReleaseTile tempTile = new ReleaseTile();
+                Tile tempTile = tiles.get(tileRow + squareRowOffset).get(tileColumn + squareColumnOffset);
                 tempTile.setSquare(s, p.getUniqueID());
                 setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
             }
