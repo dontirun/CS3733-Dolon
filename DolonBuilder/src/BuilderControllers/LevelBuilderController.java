@@ -173,7 +173,6 @@ public class LevelBuilderController implements Initializable {
         resetBoard(i);
         resetFields(i);
 
-
     }
 
     /**
@@ -373,8 +372,9 @@ public class LevelBuilderController implements Initializable {
      * Deletes a piece
      */
     public void deletePieceFromBullpen(){
-        // Get list of IDs
+        numberOfBullpenPieces = 0;
 
+        // Get list of IDs
         ArrayList<Piece> pieces = level.getBullpen().getPieces();
         ArrayList<Piece> pieceCopy = new ArrayList<Piece>(); // Pieces are copied here
 
@@ -477,7 +477,7 @@ public class LevelBuilderController implements Initializable {
         selectedGroup.getChildren().clear();
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-
+            selectedRectangle.setFill(selectedPiece.getColor());
             selectedGroup.getChildren().add(selectedRectangle);
         }
     }
@@ -508,7 +508,7 @@ public class LevelBuilderController implements Initializable {
         selectedGroup.getChildren().clear();
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-
+            selectedRectangle.setFill(selectedPiece.getColor());
             selectedGroup.getChildren().add(selectedRectangle);
         }
     }
@@ -561,7 +561,7 @@ public class LevelBuilderController implements Initializable {
      */
     public void resetPieces() {
 
-        if(level.getBullpen().getPieces().size() >0) {
+        if(level.getBullpen().getPieces().size() > 0) {
             level.getBullpen().getPieces().clear();
             bullpenView.getChildren().clear();
             numberOfBullpenPieces = 0;
@@ -688,8 +688,7 @@ public class LevelBuilderController implements Initializable {
      * @param event action event
      */
     public void handleSaveButtonAction(ActionEvent event) throws IOException{
-        saveLevel(Integer.parseInt(levelTextField.getText()), false);
-        //saveLevel(Integer.parseInt(levelTextField.getText()), true);
+        saveLevel(Integer.parseInt(levelTextField.getText()));
 
     }
 
@@ -1134,7 +1133,6 @@ public class LevelBuilderController implements Initializable {
                 pane.setOnDragDropped(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         Dragboard db = event.getDragboard();
-                        System.out.println("heyooyy");
                         boolean success = false;
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
@@ -1146,30 +1144,22 @@ public class LevelBuilderController implements Initializable {
 
                         if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
 
-                            System.out.println("okay");
                             Color color = droppedPiece.getColor();
-                            System.out.println("okay");
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare)getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
                             }
-                            System.out.println("okay");
                             level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                            System.out.println("okay");
                             // Only place if it's a valid move
                             success = true;
-                            System.out.println("okay");
                             System.out.println(droppedPiece.getUniqueID());
                             level.getBullpen().removePiece(droppedPiece.getUniqueID());
                             // Remove view from bullpen
-                            System.out.println("suppp");
                             bullpenView.getChildren().remove(selectedGroup);
                             // Redraw bullpen
                             deletePieceFromBullpen();
-                            System.out.println("suppppppppppppp");
 
                         }
-                        System.out.println("heyoo");
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
                         event.consume();
@@ -1519,20 +1509,14 @@ public class LevelBuilderController implements Initializable {
      * @param levelNum number of the level to be saved
      * @throws FileNotFoundException
      */
-    public void saveLevel(int levelNum, boolean isOut) throws FileNotFoundException {
+    public void saveLevel(int levelNum) throws FileNotFoundException {
 
-        String filepath = "/levels/lvl" + levelNum + ".bdsm";
-        String projFilepath = "../BuilderLevels/lvl" + levelNum + ".bdsm";
+        String filepath = "../BuilderLevels/lvl" + levelNum + ".bdsm";
 
         try{
             FileWriter out;
 
-            if(isOut){ // Write to the getResource version of the path
-                out = new FileWriter(getClass().getResource(filepath).getPath());
-            }
-            else{ // Write to the project filepath
-                out = new FileWriter(projFilepath);
-            }
+            out = new FileWriter(filepath);
 
 
             out.write("###"); // Level divider
@@ -1632,14 +1616,12 @@ public class LevelBuilderController implements Initializable {
             // Close file
             out.close();
 
-            if(isOut){ // Only pop up once
-                // Pop up save confirmation
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Kabasuji Builder");
-                alert.setHeaderText(null);
-                alert.setContentText("The level has been saved.");
-                alert.showAndWait();
-            }
+            // Pop up save confirmation
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Kabasuji Builder");
+            alert.setHeaderText(null);
+            alert.setContentText("The level has been saved.");
+            alert.showAndWait();
 
         }
         catch (IOException e) {
