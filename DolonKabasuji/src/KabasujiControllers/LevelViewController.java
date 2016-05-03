@@ -369,6 +369,10 @@ public class LevelViewController implements Initializable {
                             success = true;
                             decreaseMovesCount();
                             ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
+                            bullpenView.getChildren().remove(selectedGroup); // Remove view
+                            redrawBullpen();
+                            //numberOfPiecesDrawn--;
+                            bullpenView.setGridLinesVisible(true);
                             updateStars();
 
 
@@ -399,6 +403,65 @@ public class LevelViewController implements Initializable {
         // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
     }
 
+    public void redrawBullpen(){
+        ArrayList<Piece> pieces = ourModel.getBullpen().getPieces();
+        ArrayList<Piece> pieceCopy = new ArrayList<Piece>(); // Pieces are copied here
+
+        for(Piece p: pieces){
+            pieceCopy.add(p);
+        }
+
+        // Reset board
+        bullpenView.getChildren().clear();
+        ourModel.getBullpen().getPieces().clear();
+        numberOfPiecesDrawn = 0;
+
+        for(Piece p: pieceCopy){
+            final Piece pieceToDraw = p;
+            final PieceGroup currentPiece = new PieceGroup(p);
+            //final Group bullpenViewGroup = new Group(); // Bullpen view group
+
+            /*
+            // Draw each square and add it to the bullpen group
+            for (Square selectedSquare : p.squares) {
+                Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                selectedRectangle.setFill(p.getColor());
+                bullpenViewGroup.getChildren().add(selectedRectangle);
+            }
+            */
+
+            // Add the actual piece object to the bullpen
+            ourModel.getBullpen().addPiece(p);
+            bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+            bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
+            bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
+            bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
+
+            // when piece is clicked on add it to bullpen
+            currentPiece.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
+                public void handle(MouseEvent event) {
+                    if (selectedPiece == pieceToDraw) {
+                        selectedPiece = null;
+                        currentPiece.getGroup().setEffect(null);
+                    }
+                    else {
+                        if (selectedPiece != null) {
+                            // remove visual effect of previous selected piece
+                            selectedGroup.setEffect(null);
+                        }
+                        selectedPiece = pieceToDraw;
+                        selectedGroup = currentPiece.getGroup();
+                        System.out.println("piece selected");
+                        Lighting light = new Lighting();
+                        currentPiece.getGroup().setEffect(light);
+                    }
+                }
+            });
+
+            numberOfPiecesDrawn++;
+        }
+    }
+
     private void makeDeletable(final Node node, final Piece piece, final int row, final int column) {
 
 
@@ -409,14 +472,13 @@ public class LevelViewController implements Initializable {
                 if(button==MouseButton.PRIMARY){
                     // do nothing
                 }else if(button==MouseButton.SECONDARY){
-                    System.out.println(piece.getUniqueID());
                     ourModel.getField().removePiece(piece.getUniqueID());
                     System.out.println("Make deletable column" + column);
                     System.out.println("Make deletable row:" + row);
                     piece.flipPieceVert();
                     for (Square squareToRemove : piece.squares) {
                         GridSquare tilePaneToClear = (GridSquare) getNodeByRowColumnIndex(row + (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
-                        System.out.println(ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint());
+                        //System.out.println(ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint());
                         if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1)) {
                             tilePaneToClear.setStyle("-fx-background-color: #28a2db");
                         }
@@ -432,6 +494,21 @@ public class LevelViewController implements Initializable {
                         }
                         tilePaneToClear.setOnMouseClicked(null);
                     }
+
+                    // Add piece to bullpen
+                    ourModel.getBullpen().addPiece(piece);
+
+                    // Add view to bullpen view
+                    final PieceGroup currentPiece = new PieceGroup(piece);
+                    bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+                    bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
+                    bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
+                    bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
+                    gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
+
+                    //Increment pieces drawn
+                    numberOfPiecesDrawn++;
+
                 }
                 else if(button==MouseButton.MIDDLE){
                     // do nothing

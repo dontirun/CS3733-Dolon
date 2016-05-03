@@ -68,4 +68,19 @@ public class Bullpen {
         return pieces;
     }
 
+    /**
+     * Getter for the piece IDs
+     *
+     * @return arraylist of integers
+     */
+    public ArrayList<Integer> getPieceIDs(){
+        ArrayList<Integer> temp = new ArrayList<Integer>();
+
+        for(Piece p: pieces){
+            temp.add(p.getPieceID());
+        }
+
+        return temp;
+    }
+
 }
