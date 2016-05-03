@@ -394,10 +394,6 @@ public class LevelBuilderController implements Initializable {
      * Deletes a piece
      */
     public void deletePieceFromBullpen(){
-        // Remove piece
-        bullpenView.getChildren().remove(selectedGroup);
-        bullpen.removePiece(selectedPiece.getUniqueID());
-
         // Get list of IDs
         ArrayList<Integer> pieceNums = bullpen.getPieceIDs();
         ArrayList<Piece> pieces = bullpen.getPieces();
@@ -416,6 +412,7 @@ public class LevelBuilderController implements Initializable {
             // Draw each square and add it to the bullpen group
             for (Square selectedSquare : p.squares) {
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                selectedRectangle.setFill(p.getColor());
                 bullpenViewGroup.getChildren().add(selectedRectangle);
             }
 
@@ -462,6 +459,10 @@ public class LevelBuilderController implements Initializable {
         if (selectedPiece == null) {
             return;
         }
+
+        // Remove piece
+        bullpenView.getChildren().remove(selectedGroup);
+        bullpen.removePiece(selectedPiece.getUniqueID());
 
         deletePieceFromBullpen();
 
@@ -1156,7 +1157,10 @@ public class LevelBuilderController implements Initializable {
 
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
-                                getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: RED");
+                                GridSquare tilePane = (GridSquare)getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                tilePane.setStyle("-fx-background-color: RED");
+                                makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
+
                             }
                             //ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
                             level.getField().addPiece(droppedPiece, currentRow, currentColumn);
@@ -1165,10 +1169,12 @@ public class LevelBuilderController implements Initializable {
                             deletePieceFromBullpen();
                             //ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
 
-                            // Decrease moves count
                             // Remove piece from bullpen
-                            // REmove view from bullpen
+                            level.getField().removePiece(droppedPiece.getUniqueID());
+                            // Remove view from bullpen
+                            bullpenView.getChildren().remove(selectedGroup);
                             // Redraw bullpen
+                            deletePieceFromBullpen();
 
                         }
                         event.setDropCompleted(success);
@@ -1179,6 +1185,68 @@ public class LevelBuilderController implements Initializable {
 
             }
         }
+    }
+
+    private void makeDeletable(final Node node, final Piece piece, final int row, final int column){
+        node.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+            public void handle(MouseEvent event){
+                MouseButton button = event.getButton();
+
+                if(button == MouseButton.PRIMARY){
+                    // Don't do anything
+                }
+                else if(button == MouseButton.SECONDARY){
+
+                    level.getField().removePiece(piece.getUniqueID());
+                    piece.flipPieceVert();
+
+                    // Determine the colour to set for the tile
+                    for(Square squareToRemove : piece.squares){
+                        GridSquare tilePaneToClear = (GridSquare)getNodeByRowColumnIndex(row +
+                            (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
+
+                        if(level.getTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1){
+                            tilePaneToClear.setStyle("-fx-background-color: #28a2db");
+                        }
+                        else if(level.getTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == true){
+                            if(level.getTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint() == true){
+                                tilePaneToClear.setStyle("-fx-background-color: orange");
+                            }
+                            else{
+                                tilePaneToClear.setStyle("-fx-background-color: white");
+                            }
+                        }
+                        else if(level.getTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == false){
+                            tilePaneToClear.setStyle("-fx-background-color: black");
+                        }
+
+                        tilePaneToClear.setOnMouseClicked(null);
+                    }
+
+                    // Add piece to bullpen
+                    bullpen.addPiece(piece);
+
+                    /*
+                    // Add piece view to bullpen view
+                    final PieceGroup currentPiece = new PieceGroup(piece);
+                    bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+                    bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
+                    bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
+                    bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
+                    gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
+                    */
+
+                    numberOfBullpenPieces++;
+
+                }
+                else if(button == MouseButton.MIDDLE){
+                    // Don't do anything
+                }
+                event.consume();
+            }
+
+        });
     }
 
 

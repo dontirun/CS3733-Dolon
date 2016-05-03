@@ -43,13 +43,13 @@ public class Board {
     public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
             p.flipPieceVert();
-            p.setPieceBoardNum(p.getPieceID()*1000 + counter);
+            p.setPieceBoardNum(p.getUniqueID());
             piecesOnBoard.add(p);
             for (Square s : p.squares){
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
                 // changed to release tile for now
-                ReleaseTile tempTile = new ReleaseTile();
+                ReleaseTile tempTile = (ReleaseTile)tiles.get(tileRow + squareRowOffset).get(tileColumn + squareColumnOffset);
                 tempTile.setSquare(s, p.getPieceBoardNum());
                 setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
             }
@@ -104,7 +104,7 @@ public class Board {
                 return false;
             }
             //If it's a tile that's covered by another piece
-            if (getBoardTile(tileRow, tileColumn).getCovered() > 0) {
+            if (getBoardTile(tileRow, tileColumn).getCovered() > -1) {
                 return false;
             }
         }
