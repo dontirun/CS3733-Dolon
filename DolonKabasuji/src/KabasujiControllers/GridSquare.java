@@ -16,12 +16,12 @@ public class GridSquare extends Pane{
     /**
      * Contructor for GridSquare
      */
-        public GridSquare() {
-            numLabel = new Label();
-            numLabel.setAlignment(Pos.CENTER);
-            getChildren().add(numLabel);
-           // redNums = new boolean[6];
-        }
+    public GridSquare() {
+        numLabel = new Label();
+        numLabel.setAlignment(Pos.CENTER);
+        getChildren().add(numLabel);
+       // redNums = new boolean[6];
+    }
 
 
     /**
@@ -29,13 +29,17 @@ public class GridSquare extends Pane{
      *
      * @param num desired number to show on the pane
      */
-        public void setNumber(int num) {
-            this.num = num;
-            numLabel.setText("" + num);
-            numLabel.isResizable();
+    public void setNumber(int num) {
+        this.num = num;
+        numLabel.setText("" + num);
+        numLabel.isResizable();
+        numLabel.setVisible(true);
 
-        }
+    }
 
+    public void clearNumber() {
+        numLabel.setVisible(false);
+    }
         public int getNumber(){
             return this.num;
         }

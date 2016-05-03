@@ -10,6 +10,7 @@ import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
@@ -257,13 +258,14 @@ public class LevelViewController implements Initializable {
                 //In case something is dragged over the pane
                 pane.setOnDragOver(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
+                        ourModel.getBoard().printBoardAsDebug();
 
                         // need to add something to prevent adding to an occupied tile
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Dragboard db = event.getDragboard();
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (ourModel.getLevelNum() % 3 == 1 || ourModel.getLevelNum() % 3 == 3) {
+                        if (ourModel.getLevelNum() % 3 == 1 || ourModel.getLevelNum() % 3 == 0) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
                                 event.acceptTransferModes(TransferMode.MOVE);
                                 System.out.println("Drag Over is valid move");
@@ -363,72 +365,44 @@ public class LevelViewController implements Initializable {
                         //If we have a piece with us
                         if (ourModel.getLevelNum() % 3 == 1) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                                System.out.println("suppppp");
-                                Color color = droppedPiece.getColor();
-                                for (Square selectedSquare : droppedPiece.squares) {
-                                    GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                    tilePane.setStyle("-fx-background-color: RED");
-                                    makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
-                                }
-                                ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                                ourModel.getBoard().printBoardAsDebug();
-                                // Only place if it's a valid move
-                                success = true;
-                                decreaseMovesCount();
-                                ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
-                                bullpenView.getChildren().remove(selectedGroup); // Remove view
-                                redrawBullpen();
-                                //numberOfPiecesDrawn--;
-                                bullpenView.setGridLinesVisible(true);
-                                updateStars();
-
-
                             }
-
+                            Color color = droppedPiece.getColor();
+                            for (Square selectedSquare : droppedPiece.squares) {
+                                GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                tilePane.setStyle("-fx-background-color: RED");
+                                makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
+                            }
+                            decreaseMovesCount();
                         }
-
                         if (ourModel.getLevelNum() % 3 == 2) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
-                                System.out.println("heyyyy");
-                                Color color = droppedPiece.getColor();
-                                for (Square selectedSquare : droppedPiece.squares) {
-                                    GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                    tilePane.setStyle("-fx-background-color: RED");
-                                }
-                                ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                                ourModel.getBoard().printBoardAsDebug();
-                                // Only place if it's a valid move
-                                success = true;
-                                ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
-                                bullpenView.getChildren().remove(selectedGroup); // Remove view
-                                redrawBullpen();
-                                //numberOfPiecesDrawn--;
-                                bullpenView.setGridLinesVisible(true);
-                                updateStars();
+                            }
+                            Color color = droppedPiece.getColor();
+                            for (Square selectedSquare : droppedPiece.squares) {
+                                GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                tilePane.setStyle("-fx-background-color: RED");
                             }
                         }
-
-                        if (ourModel.getLevelNum() % 3 == 3) {
+                        if (ourModel.getLevelNum() % 3 == 0) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                                System.out.println("yooo");
-                                Color color = droppedPiece.getColor();
-                                for (Square selectedSquare : droppedPiece.squares) {
-                                    GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                    tilePane.setStyle("-fx-background-color: RED");
-                                }
-                                ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                                ourModel.getBoard().printBoardAsDebug();
-                                // Only place if it's a valid move
-                                success = true;
-                                ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
-                                bullpenView.getChildren().remove(selectedGroup); // Remove view
-                                redrawBullpen();
-                                //numberOfPiecesDrawn--;
-                                bullpenView.setGridLinesVisible(true);
-                                updateStars();
                             }
-
+                            Color color = droppedPiece.getColor();
+                            for (Square selectedSquare : droppedPiece.squares) {
+                                GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                tilePane.setStyle("-fx-background-color: RED");
+                            }
                         }
+
+
+                        ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                        ourModel.getBoard().printBoardAsDebug();
+                        // Only place if it's a valid move
+                        success = true;
+                        ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                        bullpenView.getChildren().remove(selectedGroup); // Remove view
+                        redrawBullpen();
+                        //numberOfPiecesDrawn--;
+                        updateStars();
 
 
                         event.setDropCompleted(success);
@@ -650,21 +624,26 @@ public class LevelViewController implements Initializable {
                             switch (lvNum % 3) {
                                 case 1: //Puzzle Level implementation
                                     ourModel = new PuzzleLevelModel(lvNum);
+                                    limitLabel.setVisible(true);
                                     allowedLabel.setText("Moves Allowed");
+                                    allowedLabel.setVisible(true);
                                     javafx.scene.image.Image puz = new javafx.scene.image.Image("/images/PuzzleIcon.png");
                                     levelIcon.setImage(puz);
                                     break;
                                 case 2: //Lightning Level instantiation
                                     ourModel = new LightningLevelModel(lvNum);
+                                    limitLabel.setVisible(true);
                                     allowedLabel.setText("Time left");
+                                    allowedLabel.setVisible(true);
                                     startCountDown();
                                     javafx.scene.image.Image lit = new javafx.scene.image.Image("/images/lightning.png");
                                     levelIcon.setImage(lit);
                                     break;
                                 case 0: //Release Level implementation
                                     ourModel = new ReleaseLevelModel(lvNum);
-                                    allowedLabel.setText("");
-                                    limitLabel.setText("");
+                                    allowedLabel.setVisible(false);
+                                    limitLabel.setVisible(false);
+                                    clearCountDown();
                                     javafx.scene.image.Image rel = new javafx.scene.image.Image("/images/ReleaseIcon.png");
                                     levelIcon.setImage(rel);
                                     break;
@@ -679,7 +658,10 @@ public class LevelViewController implements Initializable {
                                     break;
                                 case 2:
                                     ((LightningLevelModel) ourModel).setAllowedTime(metric);
+                                    limitLabel.setText(Integer.toString(metric));
                                     break;
+                                case 3:
+                                    limitLabel.setText(null);
                             }
                             break;
                         case 3: // Pieces
@@ -831,6 +813,7 @@ public class LevelViewController implements Initializable {
                                 }
                                 tilePanes.get(count).get(i).setStyle(tempPane.getStyle());
                                 tilePanes.get(count).get(i).setOnMouseClicked(null);
+                                ((GridSquare)tilePanes.get(count).get(i)).clearNumber();
                                 // only if a release tile
                                 if (tempPane.getNumber() > 0) {
                                     ((GridSquare)tilePanes.get(count).get(i)).setNumber(tempPane.getNumber());
@@ -926,6 +909,13 @@ public class LevelViewController implements Initializable {
     }
 
     /**
+     * Starts the count down for the timer
+     */
+    private void clearCountDown() {
+        timer.cancel();
+    }
+
+    /**
      * Updates the number of moves taken and the moves left label
      */
     private void decreaseMovesCount() {
@@ -937,8 +927,21 @@ public class LevelViewController implements Initializable {
     }
 
     private void updateStars() {
+        System.out.println("update stars in levelviewcontroller");
         if(frozenStars) return; //if the stars are frozen (prevented from changing) exit the function
-        ourModel.updateStars();
+        System.out.println("more update stars in levelviewcontroller");
+        if (ourModel.getLevelNum() % 3 == 1) {
+            ((PuzzleLevelModel)ourModel).updateStars();
+        }
+
+        if (ourModel.getLevelNum() % 3 == 2) {
+            ((LightningLevelModel)ourModel).updateStars();
+        }
+
+        if (ourModel.getLevelNum() % 3 == 0) {
+            System.out.println("update stars in levelviewcontroller got called for release");
+            ((ReleaseLevelModel)ourModel).updateStars();
+        }
         if(ourModel.getMaxStars()> menu.getMaxStars(ourModel.getLevelNum())){//update max stars for game menu
             menu.setMaxStars(ourModel.getLevelNum(), ourModel.getMaxStars());
         }
