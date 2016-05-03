@@ -585,7 +585,6 @@ public class LevelBuilderController implements Initializable {
         // Return if empty
 
 
-        System.out.println(level.getBoard().getTiles().size());
 
 
         if(levelTextField.getText().equals("")){
@@ -596,7 +595,6 @@ public class LevelBuilderController implements Initializable {
             return;
         }
 
-        System.out.println(level.getBoard().getTiles().size());
 
         // only do loading things if the textfield has a valid value
         if (handleLevelChanged()) {
@@ -604,10 +602,9 @@ public class LevelBuilderController implements Initializable {
             levelNumber.setText(levelTextField.getText());
 
         }
-        System.out.println(level.getBoard().getTiles().size());
+
         int num = Integer.parseInt(levelTextField.getText());
 
-        System.out.println(level.getBoard().getTiles().size());
         resetButtons();
         resetFields(num);
         resetBoard(num);
@@ -1168,7 +1165,6 @@ public class LevelBuilderController implements Initializable {
                             level.getBoard().printBoardAsDebug();
                             // Only place if it's a valid move
                             success = true;
-                            System.out.println(droppedPiece.getUniqueID());
                             level.getBullpen().removePiece(droppedPiece.getUniqueID());
                             // Remove view from bullpen
                             bullpenView.getChildren().remove(selectedGroup);
@@ -1256,6 +1252,8 @@ public class LevelBuilderController implements Initializable {
                             (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
                         tilePaneToClear.setOnDragDetected(null);
                         tilePaneToClear.setOnDragDone(null);
+                        tilePaneToClear.setOnMouseClicked(null);
+                        makeTileChangeableAgain(tilePaneToClear);
 
                         if(level.getTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1){
                             tilePaneToClear.setStyle("-fx-background-color: #28a2db");
@@ -1297,6 +1295,22 @@ public class LevelBuilderController implements Initializable {
         });
     }
 
+    /**
+     * Adds the handleBoardClicked mouse event back to a tile
+     *
+     * @param pane pane to make changeable again
+     */
+    public void makeTileChangeableAgain(final Pane pane) {
+        pane.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                int currentRow = GridPane.getRowIndex(pane);
+                int currentColumn = GridPane.getColumnIndex(pane);
+                boardController.handleBoardClicked(level.getBoardTiles().get(currentRow).get(currentColumn), tilePanes.get(currentRow).get(currentColumn));
+                event.consume();
+            }
+        });
+    }
 
     /**
      * Parses the level and sets everything to its specifications

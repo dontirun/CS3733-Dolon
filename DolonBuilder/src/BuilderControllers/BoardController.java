@@ -40,7 +40,6 @@ public class BoardController {
 
     /**
      * Handles when a specific tile in the board is clicked
-     * Needs to be changed so that the tiles handle it instead of the board
      *
      * @param clickedTile the clicked tile
      * @param clickedPane the clicked pane
@@ -50,27 +49,28 @@ public class BoardController {
             // if its not an int don't change the board
             Integer.parseInt(lbc.levelNumber.getText());
         } catch (Exception e) {
+
             return;
         }
 
-
         if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
 
-                ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
-                if (rta.doAction()) {
-                    System.out.println("tile action performed");
-                    lbc.undoHistory.push(rta);
-                    lbc.redoHistory.clear();
-                }
-
-        } else if (lbc.color == Color.ORANGE) {
+            ReleaseTileAction rta = new ReleaseTileAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
+            if (rta.doAction()) {
+                System.out.println("tile action performed");
+                lbc.undoHistory.push(rta);
+                lbc.redoHistory.clear();
+            }
+        }
+        else if (lbc.color == Color.ORANGE) {
             HintAction ha = new HintAction(clickedTile, clickedPane);
             if (ha.doAction()) {
                 System.out.println("hint action performed");
                 lbc.undoHistory.push(ha);
                 lbc.redoHistory.clear();
             }
-        } else {
+        }
+        else {
             ColorAction ca = new ColorAction((ReleaseTile) clickedTile, (GridSquare) clickedPane, lbc.color);
             if (ca.doAction()) {
                 System.out.println("color action performed");
@@ -81,7 +81,7 @@ public class BoardController {
 
         // do nothing
 
-    }
+        }
 
 //    /**
 //     * Handles when the board is clicked and gets the tile located at the click
