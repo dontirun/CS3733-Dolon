@@ -168,10 +168,11 @@ public class LevelBuilderController implements Initializable {
             return;
         }
         // helper functions
+        resetPieces();
         resetButtons();
         resetBoard(i);
         resetFields(i);
-        resetPieces();
+
 
     }
 
@@ -559,9 +560,12 @@ public class LevelBuilderController implements Initializable {
      *
      */
     public void resetPieces() {
-        bullpenView.getChildren().clear();
-        level.getBullpen().getPieces().clear();
-        numberOfBullpenPieces = 0;
+
+        if(level.getBullpen().getPieces().size() >0) {
+            level.getBullpen().getPieces().clear();
+            bullpenView.getChildren().clear();
+            numberOfBullpenPieces = 0;
+        }
     }
 
     /**

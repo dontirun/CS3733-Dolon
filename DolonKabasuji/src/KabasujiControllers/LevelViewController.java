@@ -389,7 +389,7 @@ public class LevelViewController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                             }
-                            ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            ourModel.getBoard().addPieceLightning(droppedPiece, currentRow, currentColumn);
                             ourModel.getBoard().printBoardAsDebug();
                             // Only place if it's a valid move
                             success = true;
