@@ -954,6 +954,8 @@ public class LevelViewController implements Initializable {
                                 }
                                 tilePanes.get(count).get(i).setStyle(tempPane.getStyle());
                                 tilePanes.get(count).get(i).setOnMouseClicked(null);
+                                tilePanes.get(count).get(i).setOnDragDetected(null);
+                                tilePanes.get(count).get(i).setOnDragDone(null);
                                 ((GridSquare)tilePanes.get(count).get(i)).clearNumber();
                                 // only if a release tile
                                 if (tempPane.getNumber() > 0) {
