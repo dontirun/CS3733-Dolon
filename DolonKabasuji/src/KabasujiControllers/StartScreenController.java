@@ -114,13 +114,15 @@ public class StartScreenController {
         //load up OTHER FXML document
         if (!lockIcon.isVisible()) {
             root = null;
+            LevelViewController lvController;
             switch (menu.getLevelNumber() % 3) {
                 case 1:
                     System.out.println("Hi there!");
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
                     root = (Parent)fxmlLoader.load();
                     // Pass a value to the levelview and load level
-                    LevelViewController lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController.setMenu(menu);
                     lvController.loadLevel(menu.getLevelNumber());
                     break;
                 case 2:
@@ -130,6 +132,7 @@ public class StartScreenController {
 
                     // Pass a value to the levelview and load level
                     lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController.setMenu(menu);
                     lvController.loadLevel(menu.getLevelNumber());
                     break;
                 case 0:
@@ -139,6 +142,7 @@ public class StartScreenController {
 
                     // Pass a value to the levelview and load level
                     lvController = fxmlLoader.<LevelViewController>getController();
+                    lvController.setMenu(menu);
                     lvController.loadLevel(menu.getLevelNumber());
                     break;
 

@@ -1,5 +1,7 @@
 package KabasujiModel;
 
+import java.util.ArrayList;
+
 /**
  * Created by Arthur on 4/11/2016.
  */
@@ -7,6 +9,7 @@ public class GameMenu {
 
     int levelNumber;
     int unlocked;
+    int[] maxStars;
 
     /**
      * Constructor for the game menu
@@ -15,6 +18,7 @@ public class GameMenu {
         levelNumber = 1;
         // max level unlocked
         unlocked =1;
+        maxStars = new int[15];
     }
 
     /**
@@ -71,5 +75,12 @@ public class GameMenu {
      */
     public void setUnlocked(int unlocked) {
         this.unlocked = unlocked;
+    }
+    public void setMaxStars(int levelNumber, int numStars){
+        maxStars[levelNumber-1]= numStars;
+    }
+
+    public int getMaxStars(int levelNumber) {
+        return maxStars[levelNumber-1];
     }
 }

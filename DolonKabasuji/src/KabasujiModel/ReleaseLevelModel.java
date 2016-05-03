@@ -28,6 +28,7 @@ public class ReleaseLevelModel extends LevelModel {
         int coveredYellow = 0;
         for (ArrayList<Tile> a : board.tiles){ //Iterate over all the rows
             for (Tile t : a) { //Iterate over all the columns
+                try{
                 ReleaseTile r = (ReleaseTile)t;
                 if(r.getCovered()!= -1){ //if tile covered by a piece
                     if(r.getColor()== Color.RED){
@@ -37,6 +38,8 @@ public class ReleaseLevelModel extends LevelModel {
                     }else if(r.getColor()==Color.YELLOW){
                         coveredYellow++;
                     }
+                }}catch(Exception e){
+                    //System.out.println("could not cast to release tile while updating stars");
                 }
             }
         }
@@ -52,6 +55,7 @@ public class ReleaseLevelModel extends LevelModel {
         if(stars > maxStars){ // Update highest star count if we have surpassed the current highest
             maxStars = stars;
         }
+        //hack
 
         return true;
     }

@@ -135,7 +135,9 @@ public abstract class LevelModel {
     public int getStars() {
         return stars;
     }
-
+    public int getMaxStars(){
+        return maxStars;
+    }
 
     /**
      * Gets the bullpen
@@ -159,6 +161,9 @@ public abstract class LevelModel {
      */
     public int  getLevelNum() {
         return levelNum;
+    }
+    public void setUnlocked(boolean b){
+        isUnlocked=b;
     }
 }
 

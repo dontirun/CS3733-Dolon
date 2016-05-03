@@ -82,5 +82,8 @@ public class Bullpen {
 
         return temp;
     }
+    public void clearPieces(){
+        pieces.clear();
+    }
 
 }

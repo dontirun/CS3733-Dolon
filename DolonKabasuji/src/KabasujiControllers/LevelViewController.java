@@ -73,6 +73,7 @@ public class LevelViewController implements Initializable {
     Timer timer;
     Piece selectedPiece; // For rotation/flipping
     Group selectedGroup; // For rotation/flipping
+    GameMenu menu;
 
     boolean placed = false;
     private int readInLevelNumber = 0;
@@ -90,6 +91,8 @@ public class LevelViewController implements Initializable {
     int gridW = 2;
     int gridH;
     int numberOfPiecesDrawn;
+
+    boolean frozenStars; // true if the star count is unchangable ie timer ran out
 
     /**
      * Constructor for the controller
@@ -364,7 +367,9 @@ public class LevelViewController implements Initializable {
                             ourModel.getField().printBoardAsDebug();
                             // Only place if it's a valid move
                             success = true;
-                            decreaseMovesCount();
+                            if(ourModel.getLevelNum() % 3==1) {//if its a puzzle level, decrease the moves counter
+                                decreaseMovesCount();
+                            }
                             ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
                             bullpenView.getChildren().remove(selectedGroup); // Remove view
                             redrawBullpen();
@@ -842,6 +847,20 @@ public class LevelViewController implements Initializable {
             }
         }
         */
+        if (! (menu.getMaxStars(ourModel.getLevelNum()) > 0)) {//if the player has never achieved at least one star
+            forwardLevel.setManaged(false); //hide the forwardlevelbutton
+            forwardLevel.setVisible(false);
+        }else{
+            forwardLevel.setManaged(true); //hide the forwardlevelbutton
+            forwardLevel.setVisible(true);
+        }
+        if(ourModel.getLevelNum()==1){//if its the first level, hide the backlevelbutton
+            backLevel.setManaged(false);
+            backLevel.setVisible(false);
+        }else{
+            backLevel.setManaged(true);
+            backLevel.setVisible(true);
+        }
 
     }
 
@@ -850,7 +869,7 @@ public class LevelViewController implements Initializable {
      */
     private void startCountDown() {
         timer = new Timer();
-        timeLeft = ((LightningLevelModel)ourModel).getAllowedTime();
+        timeLeft = ((LightningLevelModel) ourModel).getAllowedTime();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -858,10 +877,12 @@ public class LevelViewController implements Initializable {
                     @Override
                     public void run() {
                         timeLeft--;
-                        limitLabel.setText(""+timeLeft);
-                        if(timeLeft<=0){
+                        limitLabel.setText("" + timeLeft);
+                        if (timeLeft <= 0) {
                             timer.cancel();
                             //do this when time is up
+                            frozenStars = true; //freeze the star count so that it cannot be changed
+
 
                         }
                     }
@@ -882,11 +903,15 @@ public class LevelViewController implements Initializable {
     }
 
     private void updateStars() {
-        ((PuzzleLevelModel)ourModel).updateStars();
+        if(frozenStars) return; //if the stars are frozen (prevented from changing) exit the function
+        ourModel.updateStars();
+        if(ourModel.getMaxStars()> menu.getMaxStars(ourModel.getLevelNum())){//update max stars for game menu
+            menu.setMaxStars(ourModel.getLevelNum(), ourModel.getMaxStars());
+        }
         javafx.scene.image.Image fullStar = new javafx.scene.image.Image("/images/fullStar.png");
         javafx.scene.image.Image emptyStar = new javafx.scene.image.Image("/images/emptyStar.png");
-        System.out.println(((PuzzleLevelModel)ourModel).getStars());
-        switch (((PuzzleLevelModel)ourModel).getStars()) {
+        System.out.println(ourModel.getStars());
+        switch (ourModel.getStars()) {
             case 0:
                 firstStar.setImage(emptyStar);
                 secondStar.setImage(emptyStar);
@@ -908,17 +933,72 @@ public class LevelViewController implements Initializable {
                 thirdStar.setImage(fullStar);
                 break;
         }
+        //!!! needs to be fixed
+        if(menu.getMaxStars(ourModel.getLevelNum())>0 && ourModel.getLevelNum()<15){//if the play
+            forwardLevel.setManaged(true);
+            forwardLevel.setVisible(true);
+        }
+        if(ourModel.getMaxStars()>0){
+            if(ourModel.getLevelNum()+1>menu.getUnlocked()){ //if the next level is unlocked and the number is greater than the current
+                menu.setUnlocked(ourModel.getLevelNum()+1);  //max unlocked level, then correctly set the max unlocked level
+            }
+        }
     }
 
     /**
      * Handles moving to the next level
      */
     @FXML
-    public void handleForwardLevel(){
-        try{
-            loadLevel(ourModel.getLevelNum()+1);
-        }catch(Exception e){
+    public void handleForwardLevel() {
+        ourModel.getBullpen().clearPieces();
+        bullpenView.getChildren().clear();
+        numberOfPiecesDrawn= 0;
+        try {
+
+            loadLevel(ourModel.getLevelNum() + 1);
+
+        } catch (Exception e) {
             System.out.println("couldnt load level");
+        }
+        updateStars();
+    }
+    /**
+     * Handles moving to the next level
+     */
+    @FXML
+    public void handleBackLevel() {
+        try {
+            if(ourModel.getLevelNum()%3==2){
+                timer.cancel();
+            }
+            ourModel.getBullpen().clearPieces();
+            bullpenView.getChildren().clear();
+            numberOfPiecesDrawn= 0;
+            loadLevel(ourModel.getLevelNum() - 1);
+            updateStars();
+        } catch (Exception e) {
+            System.out.println("couldnt load level");
+        }
+    }
+    public void setMenu(GameMenu gm){
+        menu=gm;
+    }
+
+    @FXML
+    public void handleResetButtonAction(){
+        try {
+            ourModel.getBullpen().clearPieces();
+            bullpenView.getChildren().clear();
+            numberOfPiecesDrawn= 0;
+            loadLevel(ourModel.getLevelNum());
+            updateStars();
+            frozenStars=false;
+            if(ourModel.getLevelNum()%3==2){
+                timer.cancel();
+            }
+
+        } catch (Exception e) {
+            System.out.println("couldnt reset level");
         }
     }
 
