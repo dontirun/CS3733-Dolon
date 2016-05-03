@@ -349,13 +349,10 @@ public class LevelViewController implements Initializable {
                         boolean success = false;
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
-                        System.out.println("on drag dropped column " + currentColumn);
-                        System.out.println("on drag dropped row " + currentRow);
 
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //If we have a piece with us
                         if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                            System.out.println("Drag has piece content");
 
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
@@ -379,7 +376,6 @@ public class LevelViewController implements Initializable {
                         }
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
-                        System.out.println("Drag Dropped");
                         event.consume();
                     }
                 });
@@ -508,6 +504,7 @@ public class LevelViewController implements Initializable {
 
                     //Increment pieces drawn
                     numberOfPiecesDrawn++;
+                    decreaseMovesCount();
 
                 }
                 else if(button==MouseButton.MIDDLE){

@@ -216,4 +216,19 @@ public class Board {
             }
         }
     }
+
+    /**
+     * @param id of piece to be searched for
+     * @return piece that was desired
+     * @throws PieceNotFoundException
+     */
+    public Piece getPieceFromID(int id) throws PieceNotFoundException {
+        for (Piece p : piecesOnBoard) {
+            if (p.getUniqueID() == id) {
+                return p;
+            }
+        }
+        //We didn't get anything; uh oh!
+        throw new PieceNotFoundException("Could not find piece with unique ID: " + id);
+    }
 }

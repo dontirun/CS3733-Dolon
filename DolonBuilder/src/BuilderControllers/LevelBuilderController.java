@@ -282,6 +282,8 @@ public class LevelBuilderController implements Initializable {
 
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
                 Rectangle rectangleCopy = drawPieceRectangle(selectedSquare);
+                selectedRectangle.setFill(pieceToDraw.getColor());
+                rectangleCopy.setFill(pieceToDraw.getColor());
 
                 pieceSelectorGroup.getChildren().add(selectedRectangle);
                 bullpenViewGroup.getChildren().add(rectangleCopy);
@@ -1034,6 +1036,8 @@ public class LevelBuilderController implements Initializable {
                 pane.setMinSize(0, 0);
                 pane.setStyle("-fx-background-color: white");
                 pane.setStyle("-fx-border-color: black");
+                pane.setBorder(new Border(new BorderStroke(Color.BLACK,
+                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
                 pane.getStyleClass().add("board-cell");
                 boardView.add(pane, j, i);
 
@@ -1077,10 +1081,16 @@ public class LevelBuilderController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
                                 if(level.getTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false){
-                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #0c3142");
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
+                                        (droppedPiece.getColor().getRed()*255)/2 + ", " +
+                                        (droppedPiece.getColor().getGreen()*255)/4 + ", " +
+                                        (droppedPiece.getColor().getBlue()*255)/3 + ")"); // Set color to mimic transparency
                                 }
                                 else{
-                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #bee3f4");
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
+                                        (droppedPiece.getColor().getRed()*255)*1.25 + ", " +
+                                        (droppedPiece.getColor().getGreen()*255)*1.25 + ", " +
+                                        (droppedPiece.getColor().getBlue()*255)*1.25 + ")"); // Set color to mimic transparency
                                 }
                             }
                             //System.out.println("Drag Entered is valid move");
@@ -1105,7 +1115,18 @@ public class LevelBuilderController implements Initializable {
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 //
                                 if ((level.getTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
-                                    pane.setStyle("-fx-background-color: #28a2db");
+                                    try{
+                                        pane.setStyle("-fx-background-color: rgb(" +
+                                                level.getField().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                        currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getRed()*255 + ", " +
+                                                level.getField().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                        currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getGreen()*255 + ", " +
+                                                level.getField().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                        currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getBlue()*255 + ")");
+                                    } catch (PieceNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
+
                                 }
                                 else if ((level.getTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
                                     if((level.getTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){
@@ -1132,7 +1153,6 @@ public class LevelBuilderController implements Initializable {
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //If we have a piece with us
                         if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                            System.out.println("Drag has piece content");
 
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
@@ -1145,11 +1165,14 @@ public class LevelBuilderController implements Initializable {
                             deletePieceFromBullpen();
                             //ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
 
+                            // Decrease moves count
+                            // Remove piece from bullpen
+                            // REmove view from bullpen
+                            // Redraw bullpen
 
                         }
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
-                        System.out.println("Drag Dropped");
                         event.consume();
                     }
                 });
@@ -1246,6 +1269,7 @@ public class LevelBuilderController implements Initializable {
             // Draw each square and add it to the bullpen group
             for (Square selectedSquare : pieceToDraw.squares) {
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                selectedRectangle.setFill(pieceToDraw.getColor());
                 bullpenViewGroup.getChildren().add(selectedRectangle);
             }
 
