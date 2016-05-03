@@ -44,7 +44,7 @@ public class LightningLevelModel extends LevelModel {
      * @return true if successful
      */
     public boolean updateStars() {
-        int tilesNotCovered = board.tilesOnBoard()-board.piecesOnBoard.size()*6;
+        int tilesNotCovered = board.tilesUncovered();
         if(tilesNotCovered==0){
             stars=3;
         }else if(tilesNotCovered<=6 && tilesNotCovered > 0){
