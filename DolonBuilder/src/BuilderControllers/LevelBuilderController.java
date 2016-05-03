@@ -1,6 +1,7 @@
 package BuilderControllers;
 
 import BuilderModel.*;
+import BuilderModel.PieceGroup;
 import BuilderModel.Bullpen;
 import BuilderModel.LevelModel;
 import BuilderModel.Piece;
@@ -123,8 +124,8 @@ public class LevelBuilderController implements Initializable {
     Bullpen bullpen = new Bullpen();
     int numberOfBullpenPieces;
     int gridW = 2;
-    int gridH = 18;
-    double RectangleSize = 45.83333333;
+    int gridH;
+    private final static double RectangleSize = 45.83333333;
     Piece selectedPiece;
     Group selectedGroup;
     PieceFactory ourPieceFactory = new PieceFactory(); // Generate pieceFactory
@@ -273,8 +274,8 @@ public class LevelBuilderController implements Initializable {
             // Get the piece to draw
             final Piece pieceToDraw = ourPieceFactory.getPiece(i);
 
-            final Group pieceSelectorGroup = new Group(); // Pieces drawn in window
-            final Group bullpenViewGroup = new Group(); // Pieces drawn in bullpen
+            final PieceGroup pieceSelectorGroup = new PieceGroup(pieceToDraw); // Pieces drawn in window
+            final PieceGroup bullpenViewGroup = new PieceGroup(pieceToDraw); // Pieces drawn in bullpen
 
             for (Square selectedSquare : pieceToDraw.squares) {
 
@@ -283,33 +284,33 @@ public class LevelBuilderController implements Initializable {
                 selectedRectangle.setFill(pieceToDraw.getColor());
                 rectangleCopy.setFill(pieceToDraw.getColor());
 
-                pieceSelectorGroup.getChildren().add(selectedRectangle);
-                bullpenViewGroup.getChildren().add(rectangleCopy);
+                pieceSelectorGroup.getGroup().getChildren().add(selectedRectangle);
+                bullpenViewGroup.getGroup().getChildren().add(rectangleCopy);
             }
 
             // when piece is clicked on add it to bullpen
-            pieceSelectorGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+            pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen);
                     if(action.doAction()){
                         undoHistory.push(action); // Push to undo stack
                         redoHistory.clear(); // Clear redo history
                     }
-                    bullpenView.add(bullpenViewGroup, numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
-                    bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
-                    bullpenView.setHalignment(pieceSelectorGroup, HPos.CENTER);
-                    bullpenView.setValignment(pieceSelectorGroup, VPos.CENTER);
+                    bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
+                    bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
+                    bullpenView.setHalignment(pieceSelectorGroup.getGroup(), HPos.CENTER);
+                    bullpenView.setValignment(pieceSelectorGroup.getGroup(), VPos.CENTER);
                     numberOfBullpenPieces++;
                     pieceSelector.close();
                 }
             });
 
             // when piece is clicked on add it to bullpen
-            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+            bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     if (selectedPiece == pieceToDraw) {
                         selectedPiece = null;
-                        bullpenViewGroup.setEffect(null);
+                        bullpenViewGroup.getGroup().setEffect(null);
                     }
                     else {
                         if (selectedPiece != null) {
@@ -317,20 +318,20 @@ public class LevelBuilderController implements Initializable {
                             selectedGroup.setEffect(null);
                         }
                         selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup;
+                        selectedGroup = bullpenViewGroup.getGroup();
                         System.out.println("piece selected");
                         Lighting light = new Lighting();
-                        bullpenViewGroup.setEffect(light);
+                        bullpenViewGroup.getGroup().setEffect(light);
                     }
                 }
             });
 
             // when piece is clicked on add it to bullpen
-            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+            bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     if (selectedPiece == pieceToDraw) {
                         selectedPiece = null;
-                        bullpenViewGroup.setEffect(null);
+                        bullpenViewGroup.getGroup().setEffect(null);
                     }
                     else {
                         if (selectedPiece != null) {
@@ -338,19 +339,19 @@ public class LevelBuilderController implements Initializable {
                             selectedGroup.setEffect(null);
                         }
                         selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup;
+                        selectedGroup = bullpenViewGroup.getGroup();
                         System.out.println("piece selected");
                         Lighting light = new Lighting();
-                        bullpenViewGroup.setEffect(light);
+                        bullpenViewGroup.getGroup().setEffect(light);
                     }
                 }
             });
 
-            bullpenViewGroup.setOnDragDetected(new EventHandler<MouseEvent>() {
+            bullpenViewGroup.getGroup().setOnDragDetected(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                 /* drag was detected, start a drag-and-drop gesture*/
                 /* allow any transfer mode */
-                    Dragboard db = bullpenViewGroup.startDragAndDrop(TransferMode.MOVE);
+                    Dragboard db = bullpenViewGroup.getGroup().startDragAndDrop(TransferMode.MOVE);
                 /* Put a string on a dragboard */
                     ClipboardContent content = new ClipboardContent();
                     content.put(pieceShape, pieceToDraw); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
@@ -360,12 +361,12 @@ public class LevelBuilderController implements Initializable {
                 }
             });
 
-            bullpenViewGroup.setOnDragDone(new EventHandler<DragEvent>() {
+            bullpenViewGroup.getGroup().setOnDragDone(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
                 /* the drag and drop gesture ended */
                 /* if the data was successfully moved, clear it */
                     if (event.getTransferMode() == TransferMode.MOVE) {
-                        bullpenViewGroup.setVisible(false);
+                        bullpenViewGroup.getGroup().setVisible(false);
                     }
                     System.out.println("Drag Done");
                     event.consume();
@@ -373,8 +374,8 @@ public class LevelBuilderController implements Initializable {
             });
 
 
-            pieceGrid.add(pieceSelectorGroup, numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
-            pieceGrid.setMargin(pieceSelectorGroup, new Insets(10, 10, 10, 10));
+            pieceGrid.add(pieceSelectorGroup.getGroup(), numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
+            pieceGrid.setMargin(pieceSelectorGroup.getGroup(), new Insets(10, 10, 10, 10));
 
             numberOfPiecesDrawn++;
         }
@@ -393,9 +394,11 @@ public class LevelBuilderController implements Initializable {
      */
     public void deletePieceFromBullpen(){
         // Get list of IDs
-        ArrayList<Integer> pieceNums = bullpen.getPieceIDs();
+
         ArrayList<Piece> pieces = bullpen.getPieces();
         ArrayList<Piece> pieceCopy = new ArrayList<Piece>(); // Pieces are copied here
+
+        // ArrayList<Integer> pieceNums = bullpen.getPieceIDs();
 
         for(Piece p: pieces){
             pieceCopy.add(p);
@@ -405,29 +408,30 @@ public class LevelBuilderController implements Initializable {
 
         for(Piece p: pieceCopy){
             final Piece pieceToDraw = p;
-            final Group bullpenViewGroup = new Group(); // Bullpen view group
+            final PieceGroup bullpenViewGroup = new PieceGroup(p); // Bullpen view group
 
-            // Draw each square and add it to the bullpen group
+
+            /*// Draw each square and add it to the bullpen group
             for (Square selectedSquare : p.squares) {
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
                 selectedRectangle.setFill(p.getColor());
                 bullpenViewGroup.getChildren().add(selectedRectangle);
-            }
+            }*/
 
             // Add the actual piece object to the bullpen
             AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen); // Create action
             action.doAction(); // Do action- add to bullpen
-            bullpenView.add(bullpenViewGroup, numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
-            bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
-            bullpenView.setHalignment(bullpenViewGroup, HPos.CENTER);
-            bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
+            bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
+            bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
+            bullpenView.setHalignment(bullpenViewGroup.getGroup(), HPos.CENTER);
+            bullpenView.setValignment(bullpenViewGroup.getGroup(), VPos.CENTER);
 
             // when piece is clicked on add it to bullpen
-            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+            bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     if (selectedPiece == pieceToDraw) {
                         selectedPiece = null;
-                        bullpenViewGroup.setEffect(null);
+                        bullpenViewGroup.getGroup().setEffect(null);
                     }
                     else {
                         if (selectedPiece != null) {
@@ -435,10 +439,10 @@ public class LevelBuilderController implements Initializable {
                             selectedGroup.setEffect(null);
                         }
                         selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup;
+                        selectedGroup = bullpenViewGroup.getGroup();
                         System.out.println("piece selected");
                         Lighting light = new Lighting();
-                        bullpenViewGroup.setEffect(light);
+                        bullpenViewGroup.getGroup().setEffect(light);
                     }
                 }
             });
@@ -446,6 +450,7 @@ public class LevelBuilderController implements Initializable {
             numberOfBullpenPieces++;
         }
     }
+
 
     /**
      * Handles deleting a piece from the bullpen
@@ -1225,15 +1230,13 @@ public class LevelBuilderController implements Initializable {
                     // Add piece to bullpen
                     bullpen.addPiece(piece);
 
-                    /*
                     // Add piece view to bullpen view
                     final PieceGroup currentPiece = new PieceGroup(piece);
-                    bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+                    bullpenView.add(currentPiece.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
                     bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
                     bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
                     bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
-                    gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
-                    */
+                    gridH = (bullpen.getPieces().size() + 2 - 1) / 2;
 
                     numberOfBullpenPieces++;
 
@@ -1330,29 +1333,29 @@ public class LevelBuilderController implements Initializable {
         ourPieceFactory = new PieceFactory(); // Generate pieceFactory
         for(int i: pieces){
             final Piece pieceToDraw = ourPieceFactory.getPiece(i); // Piece to be loaded
-            final Group bullpenViewGroup = new Group(); // Bullpen view group
+            final PieceGroup bullpenViewGroup = new PieceGroup(pieceToDraw); // Bullpen view group
 
             // Draw each square and add it to the bullpen group
             for (Square selectedSquare : pieceToDraw.squares) {
                 Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
                 selectedRectangle.setFill(pieceToDraw.getColor());
-                bullpenViewGroup.getChildren().add(selectedRectangle);
+                bullpenViewGroup.getGroup().getChildren().add(selectedRectangle);
             }
 
             // Add the actual piece object to the bullpen
             AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen); // Create action
             action.doAction(); // Do action- add to bullpen
-            bullpenView.add(bullpenViewGroup, numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
-            bullpenView.setMargin(bullpenViewGroup, new Insets(10, 10, 10, 10));
-            bullpenView.setHalignment(bullpenViewGroup, HPos.CENTER);
-            bullpenView.setValignment(bullpenViewGroup, VPos.CENTER);
+            bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
+            bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
+            bullpenView.setHalignment(bullpenViewGroup.getGroup(), HPos.CENTER);
+            bullpenView.setValignment(bullpenViewGroup.getGroup(), VPos.CENTER);
 
             // when piece is clicked on add it to bullpen
-            bullpenViewGroup.setOnMousePressed(new EventHandler<MouseEvent>() {
+            bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     if (selectedPiece == pieceToDraw) {
                         selectedPiece = null;
-                        bullpenViewGroup.setEffect(null);
+                        bullpenViewGroup.getGroup().setEffect(null);
                     }
                     else {
                         if (selectedPiece != null) {
@@ -1360,19 +1363,19 @@ public class LevelBuilderController implements Initializable {
                             selectedGroup.setEffect(null);
                         }
                         selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup;
+                        selectedGroup = bullpenViewGroup.getGroup();
                         System.out.println("piece selected");
                         Lighting light = new Lighting();
-                        bullpenViewGroup.setEffect(light);
+                        bullpenViewGroup.getGroup().setEffect(light);
                     }
                 }
             });
 
-            bullpenViewGroup.setOnDragDetected(new EventHandler<MouseEvent>() {
+            bullpenViewGroup.getGroup().setOnDragDetected(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                 /* drag was detected, start a drag-and-drop gesture*/
                 /* allow any transfer mode */
-                    Dragboard db = bullpenViewGroup.startDragAndDrop(TransferMode.MOVE);
+                    Dragboard db = bullpenViewGroup.getGroup().startDragAndDrop(TransferMode.MOVE);
                 /* Put a string on a dragboard */
                     ClipboardContent content = new ClipboardContent();
                     content.put(pieceShape, pieceToDraw); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
@@ -1382,12 +1385,12 @@ public class LevelBuilderController implements Initializable {
                 }
             });
 
-            bullpenViewGroup.setOnDragDone(new EventHandler<DragEvent>() {
+            bullpenViewGroup.getGroup().setOnDragDone(new EventHandler<DragEvent>() {
                 public void handle(DragEvent event) {
                 /* the drag and drop gesture ended */
                 /* if the data was successfully moved, clear it */
                     if (event.getTransferMode() == TransferMode.MOVE) {
-                        bullpenViewGroup.setVisible(false);
+                        bullpenViewGroup.getGroup().setVisible(false);
                     }
                     System.out.println("Drag Done");
                     event.consume();

@@ -8,10 +8,13 @@ import java.util.ArrayList;
 /**
  * Created by Arthur on 4/10/2016.
  */
-public abstract class Piece implements Serializable{
+public abstract class Piece implements Serializable {
     public Square anchor;
     public ArrayList<Square> squares;
     public int pieceID;
+    public int uniqueID;
+    public int DEBUG = 1;
+    private double[] colorVals = {0.157, 0.635, 0.859};
 
     /**
      * Sets the unique id of the piece to keep track of it in the bullpen and board
@@ -22,10 +25,6 @@ public abstract class Piece implements Serializable{
         this.uniqueID = uniqueID;
     }
 
-    public int uniqueID;
-    public int pieceBoardNum = -1;
-    public int DEBUG = 1;
-    private double[] colorVals = {0, 0, 1};
 
     /**
      * Getter for the unique id
@@ -41,7 +40,7 @@ public abstract class Piece implements Serializable{
      *
      * @param pieceID piece id used to construct the piece from the factory
      */
-    public Piece(int pieceID){
+    public Piece(int pieceID) {
         this.pieceID = pieceID;
         squares = new ArrayList<>();
     }
@@ -61,14 +60,16 @@ public abstract class Piece implements Serializable{
         colorVals[2] = c.getBlue();
     }
     */
-    /** rotates piece 90 degrees clockwise
+
+    /**
+     * rotates piece 90 degrees clockwise
      * Uses rotation matrix [0 1]
-     *                     [-1 0]
+     * [-1 0]
      *
      * @return true if successful, false otherwise
      */
-    public boolean rotatePieceRight(){
-        for(Square s: squares){
+    public boolean rotatePieceRight() {
+        for (Square s : squares) {
             int row = s.getRelRow();
             int column = s.getRelCol();
 
@@ -79,14 +80,15 @@ public abstract class Piece implements Serializable{
         return true;
     }
 
-    /** rotates piece 90 degrees counterclockwise
+    /**
+     * rotates piece 90 degrees counterclockwise
      * Uses rotation matrix [0 -1]
-     *                      [1 0]
+     * [1 0]
      *
      * @return true if successful, false otherwise
      */
-    public boolean rotatePieceLeft(){
-        for(Square s: squares){
+    public boolean rotatePieceLeft() {
+        for (Square s : squares) {
             int row = s.getRelRow();
             int column = s.getRelCol();
 
@@ -97,24 +99,26 @@ public abstract class Piece implements Serializable{
         return true;
     }
 
-    /** flips piece horizontally
+    /**
+     * flips piece horizontally
      *
      * @return returns true if successful, false otherwise
      */
-    public boolean flipPieceHoriz(){
-        for(Square s: squares){
+    public boolean flipPieceHoriz() {
+        for (Square s : squares) {
             s.setRelCol(s.getRelCol() * -1); // Flips across the Y axis (change columns)
         }
 
         return true;
     }
 
-    /** flips piece vertically
+    /**
+     * flips piece vertically
      *
      * @return true if successful, false otherwise
      */
-    public boolean flipPieceVert(){
-        for(Square s: squares){
+    public boolean flipPieceVert() {
+        for (Square s : squares) {
             s.setRelRow(s.getRelRow() * -1); // Flips across the X axis (change rows)
         }
 
@@ -140,7 +144,7 @@ public abstract class Piece implements Serializable{
      *
      * @return color of the piece
      */
-    public Color getColor(){
+    public Color getColor() {
         return Color.color(colorVals[0], colorVals[1], colorVals[2]);
     }
 
@@ -149,29 +153,9 @@ public abstract class Piece implements Serializable{
      *
      * @param c color
      */
-    public void setColor(Color c){
+    public void setColor(Color c) {
         colorVals[0] = c.getRed();
         colorVals[1] = c.getGreen();
         colorVals[2] = c.getBlue();
     }
-
-    /**
-     * Getter for piece board num
-     *
-     * @return the piece board num, forget what this is
-     */
-
-    public int getPieceBoardNum() {
-        return pieceBoardNum;
-    }
-
-    /**
-     * Sets the piece board num
-     *
-     * @param pieceBoardNum piece board num
-     */
-    public void setPieceBoardNum(int pieceBoardNum){
-        this.pieceBoardNum = pieceBoardNum;
-    }
-
 }

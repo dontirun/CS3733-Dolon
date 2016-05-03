@@ -43,14 +43,13 @@ public class Board {
     public boolean addPiece(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidMove(p, tileRow, tileColumn)) { //if we can make this move
             p.flipPieceVert();
-            p.setPieceBoardNum(p.getUniqueID());
             piecesOnBoard.add(p);
             for (Square s : p.squares){
                 int squareColumnOffset = s.getRelCol();
                 int squareRowOffset = s.getRelRow();
                 // changed to release tile for now
                 ReleaseTile tempTile = (ReleaseTile)tiles.get(tileRow + squareRowOffset).get(tileColumn + squareColumnOffset);
-                tempTile.setSquare(s, p.getPieceBoardNum());
+                tempTile.setSquare(s, p.getUniqueID());
                 setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
             }
             counter++;
@@ -73,7 +72,7 @@ public class Board {
             }
         }
         for (int x = 0; x < piecesOnBoard.size(); x++){ //Iterate over all the pieces
-            if (piecesOnBoard.get(x).getPieceBoardNum() == pieceOnBoardNum){ //If the piece board numbers are the same
+            if (piecesOnBoard.get(x).getUniqueID() == pieceOnBoardNum){ //If the piece board numbers are the same
                 piecesOnBoard.remove(x);
                 return true;
             }
