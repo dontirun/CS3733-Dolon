@@ -205,6 +205,8 @@ public class LevelBuilderController implements Initializable {
                 tilePanes.get(i).get(j).setStyle("-fx-background-color: white");
                 tilePanes.get(i).get(j).setStyle("-fx-border-color: black");
                 tilePanes.get(i).get(j).getStyleClass().add("board-cell");
+                tilePanes.get(i).get(j).setOnDragDetected(null);
+                tilePanes.get(i).get(j).setOnDragDone(null);
 
                 if (!level.getBoard().getTiles().isEmpty()) {
                     // reset the underlying tiles for tile actions
@@ -224,17 +226,6 @@ public class LevelBuilderController implements Initializable {
                 // clear the release level specifc parameters
 
                 ((GridSquare)tilePanes.get(i).get(j)).getNumLabel().setText("");
-                if (levelType % 3 == 1) {
-
-                }
-
-                if (levelType % 3 == 2) {
-
-                }
-
-                if (levelType % 3 == 0) {
-
-                }
             }
         }
 
@@ -1045,8 +1036,7 @@ public class LevelBuilderController implements Initializable {
                 pane.setMinSize(0, 0);
                 pane.setStyle("-fx-background-color: white");
                 pane.setStyle("-fx-border-color: black");
-                pane.setBorder(new Border(new BorderStroke(Color.BLACK,
-                        BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+                pane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
                 pane.getStyleClass().add("board-cell");
                 boardView.add(pane, j, i);
 
@@ -1171,7 +1161,9 @@ public class LevelBuilderController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare)getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
+                                makeMovable(tilePane, droppedPiece, currentRow, currentColumn);
                             }
+                            level.getBoard().removePiece(droppedPiece.getUniqueID());
                             level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
                             level.getBoard().printBoardAsDebug();
                             // Only place if it's a valid move
@@ -1194,6 +1186,57 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    private void makeMovable(final GridSquare tilePane, final Piece droppedPiece, final int currentRow, final int currentColumn) {
+        tilePane.setOnDragDetected(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                /* drag was detected, start a drag-and-drop gesture*/
+                /* allow any transfer mode */
+                Dragboard db = tilePane.startDragAndDrop(TransferMode.MOVE);
+                /* Put a string on a dragboard */
+                ClipboardContent content = new ClipboardContent();
+                droppedPiece.flipPieceVert();
+                content.put(pieceShape, droppedPiece); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
+                db.setContent(content);
+                System.out.println("Drag Detected");
+                event.consume();
+            }
+        });
+
+        tilePane.setOnDragDone(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                /* the drag and drop gesture ended */
+                /* if the data was successfully moved, clear it */
+                if (event.getTransferMode() == TransferMode.MOVE) {
+
+                    // Determine the colour to set for the tile
+                    for(Square squareToRemove : droppedPiece.squares){
+                        GridSquare tilePaneToClear = (GridSquare)getNodeByRowColumnIndex(currentRow +
+                                (squareToRemove.getRelRow()*-1), currentColumn + squareToRemove.getRelCol(), boardView);
+                        tilePaneToClear.setOnDragDetected(null);
+                        tilePaneToClear.setOnDragDone(null);
+
+                        if(level.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getCovered() > -1){
+                            tilePaneToClear.setStyle("-fx-background-color: #28a2db");
+                        }
+                        else if(level.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists() == true){
+                            if(level.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getHint() == true){
+                                tilePaneToClear.setStyle("-fx-background-color: orange");
+                            }
+                            else{
+                                tilePaneToClear.setStyle("-fx-background-color: white");
+                            }
+                        }
+                        else if(level.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists() == false){
+                            tilePaneToClear.setStyle("-fx-background-color: black");
+                        }
+                    }
+                }
+                System.out.println("Drag Done");
+                event.consume();
+            }
+        });
+    }
+
     private void makeDeletable(final Node node, final Piece piece, final int row, final int column){
         node.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
@@ -1207,11 +1250,12 @@ public class LevelBuilderController implements Initializable {
 
                     level.getBoard().removePiece(piece.getUniqueID());
                     piece.flipPieceVert();
-
                     // Determine the colour to set for the tile
                     for(Square squareToRemove : piece.squares){
                         GridSquare tilePaneToClear = (GridSquare)getNodeByRowColumnIndex(row +
                             (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
+                        tilePaneToClear.setOnDragDetected(null);
+                        tilePaneToClear.setOnDragDone(null);
 
                         if(level.getTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1){
                             tilePaneToClear.setStyle("-fx-background-color: #28a2db");
@@ -1228,7 +1272,6 @@ public class LevelBuilderController implements Initializable {
                             tilePaneToClear.setStyle("-fx-background-color: black");
                         }
 
-                        tilePaneToClear.setOnMouseClicked(null);
                     }
 
                     // Add piece to bullpen
