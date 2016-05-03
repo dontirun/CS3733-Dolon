@@ -209,6 +209,7 @@ public class LevelBuilderController implements Initializable {
 
                 // reset the underlying tiles for tile actions
                 level.getTile(i, j).setExists(true);
+                level.getTile(i, j).setCovered(-1);
                 level.getTile(i, j).setHint(false);
                 boardController.redNumTiles.clear();
                 boardController.redNumPanes.clear();

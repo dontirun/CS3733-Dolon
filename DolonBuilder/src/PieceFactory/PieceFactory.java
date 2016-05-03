@@ -7,7 +7,7 @@ import BuilderModel.Piece;
  */
 public class PieceFactory {
 
-    static int counter = -1;
+    static int counter = 0;
 
     /**
      * Gets a piece of the desired number
