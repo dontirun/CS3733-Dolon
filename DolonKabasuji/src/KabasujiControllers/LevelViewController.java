@@ -371,7 +371,9 @@ public class LevelViewController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
+                                makeMovable(tilePane, droppedPiece, currentRow, currentColumn);
                             }
+                            ourModel.getBoard().removePiece(droppedPiece.getUniqueID());
                             decreaseMovesCount();
                             ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
                             ourModel.getBoard().printBoardAsDebug();
@@ -576,7 +578,8 @@ public class LevelViewController implements Initializable {
                         } else if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == false)) {
                             tilePaneToClear.setStyle("-fx-background-color: black");
                         }
-                        tilePaneToClear.setOnMouseClicked(null);
+                        tilePaneToClear.setOnDragDetected(null);
+                        tilePaneToClear.setOnDragDone(null);
                     }
 
                     // Add piece to bullpen
@@ -621,6 +624,57 @@ public class LevelViewController implements Initializable {
                 event.consume();
             }
         });
+    }
+
+    private void makeMovable(final GridSquare tilePane, final Piece droppedPiece, final int currentRow, final int currentColumn){
+        tilePane.setOnDragDetected(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                /* drag was detected, start a drag-and-drop gesture*/
+                /* allow any transfer mode */
+                Dragboard db = tilePane.startDragAndDrop(TransferMode.MOVE);
+                /* Put a string on a dragboard */
+                ClipboardContent content = new ClipboardContent();
+                droppedPiece.flipPieceVert();
+                content.put(pieceShape, droppedPiece); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
+                db.setContent(content);
+                System.out.println("Drag Detected");
+                event.consume();
+            }
+        });
+
+        tilePane.setOnDragDone(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                /* the drag and drop gesture ended */
+                /* if the data was successfully moved, clear it */
+                if (event.getTransferMode() == TransferMode.MOVE) {
+                    // Determine the colour to set for the tile
+                        for(Square squareToRemove : droppedPiece.squares){
+                            GridSquare tilePaneToClear = (GridSquare)getNodeByRowColumnIndex(currentRow +
+                            (squareToRemove.getRelRow()*-1), currentColumn + squareToRemove.getRelCol(), boardView);
+                            tilePaneToClear.setOnDragDetected(null);
+                            tilePaneToClear.setOnDragDone(null);
+
+                            if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getCovered() > -1){
+                               tilePaneToClear.setStyle("-fx-background-color: #28a2db");
+                            }
+                            else if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists() == true){
+                                if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getHint() == true){
+                                    tilePaneToClear.setStyle("-fx-background-color: orange");
+                                }
+                            else{
+                                tilePaneToClear.setStyle("-fx-background-color: white");
+                            }
+                        }
+                        else if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists() == false){
+                            tilePaneToClear.setStyle("-fx-background-color: black");
+                        }
+                        }
+                    }
+                System.out.println("Drag Done");
+                event.consume();
+                }
+            });
     }
 
     /**
