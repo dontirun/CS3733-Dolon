@@ -214,6 +214,24 @@ public class Board {
         throw new PieceNotFoundException("Could not find piece with unique ID: " + id);
     }
 
+    /**
+     * Gets the number of tiles that are not currently covered
+     * @return number of tiles that are not covered (covered = -1)
+     */
+    public int tilesUncovered(){
+        int count = 0;
+
+        for(int x = 0; x < numRows; x++){
+            for(int y = 0; y < numColumns; y++){
+                if(!(getBoardTile(x, y).getCovered() > -1) && getBoardTile(x,y).getExists()){
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
 
 
     /**
