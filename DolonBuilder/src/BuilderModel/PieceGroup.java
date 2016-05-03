@@ -8,7 +8,7 @@ import javafx.scene.input.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import static KabasujiControllers.LevelViewController.pieceShape;
+import static BuilderControllers.LevelBuilderController.pieceShape;
 
 
 /**

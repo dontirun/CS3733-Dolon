@@ -121,13 +121,12 @@ public class LevelBuilderController implements Initializable {
     int columns = 12;
     Stack<IAction> undoHistory;
     Stack<IAction> redoHistory;
-    Bullpen bullpen = new Bullpen();
     int numberOfBullpenPieces;
     int gridW = 2;
     int gridH;
     private final static double RectangleSize = 45.83333333;
-    Piece selectedPiece;
-    Group selectedGroup;
+    Piece selectedPiece; // should adapt to use piece group
+    Group selectedGroup; // should adapt to use piece group
     PieceFactory ourPieceFactory = new PieceFactory(); // Generate pieceFactory
     public final static DataFormat pieceShape = new DataFormat("piece");
     boolean placed = false;
@@ -291,7 +290,7 @@ public class LevelBuilderController implements Initializable {
             // when piece is clicked on add it to bullpen
             pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
-                    AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen);
+                    AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen());
                     if(action.doAction()){
                         undoHistory.push(action); // Push to undo stack
                         redoHistory.clear(); // Clear redo history
@@ -305,7 +304,7 @@ public class LevelBuilderController implements Initializable {
                 }
             });
 
-            // when piece is clicked on add it to bullpen
+            // make it selectable
             bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
                     if (selectedPiece == pieceToDraw) {
@@ -326,26 +325,6 @@ public class LevelBuilderController implements Initializable {
                 }
             });
 
-            // when piece is clicked on add it to bullpen
-            bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    if (selectedPiece == pieceToDraw) {
-                        selectedPiece = null;
-                        bullpenViewGroup.getGroup().setEffect(null);
-                    }
-                    else {
-                        if (selectedPiece != null) {
-                            // remove visual effect of previous selected piece
-                            selectedGroup.setEffect(null);
-                        }
-                        selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup.getGroup();
-                        System.out.println("piece selected");
-                        Lighting light = new Lighting();
-                        bullpenViewGroup.getGroup().setEffect(light);
-                    }
-                }
-            });
 
             bullpenViewGroup.getGroup().setOnDragDetected(new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent event) {
@@ -395,7 +374,7 @@ public class LevelBuilderController implements Initializable {
     public void deletePieceFromBullpen(){
         // Get list of IDs
 
-        ArrayList<Piece> pieces = bullpen.getPieces();
+        ArrayList<Piece> pieces = level.getBullpen().getPieces();
         ArrayList<Piece> pieceCopy = new ArrayList<Piece>(); // Pieces are copied here
 
         // ArrayList<Integer> pieceNums = bullpen.getPieceIDs();
@@ -419,7 +398,7 @@ public class LevelBuilderController implements Initializable {
             }*/
 
             // Add the actual piece object to the bullpen
-            AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen); // Create action
+            AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen()); // Create action
             action.doAction(); // Do action- add to bullpen
             bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
             bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
@@ -465,7 +444,7 @@ public class LevelBuilderController implements Initializable {
 
         // Remove piece
         bullpenView.getChildren().remove(selectedGroup);
-        bullpen.removePiece(selectedPiece.getUniqueID());
+        level.getBullpen().removePiece(selectedPiece.getUniqueID());
 
         deletePieceFromBullpen();
 
@@ -581,7 +560,7 @@ public class LevelBuilderController implements Initializable {
      */
     public void resetPieces() {
         bullpenView.getChildren().clear();
-        bullpen.getPieces().clear();
+        level.getBullpen().getPieces().clear();
         numberOfBullpenPieces = 0;
     }
 
@@ -1052,8 +1031,8 @@ public class LevelBuilderController implements Initializable {
                     public void handle(MouseEvent event) {
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
-                        event.consume();
                         boardController.handleBoardClicked(level.getBoardTiles().get(currentRow).get(currentColumn), tilePanes.get(currentRow).get(currentColumn));
+                        event.consume();
                     }
                 });
 
@@ -1080,7 +1059,7 @@ public class LevelBuilderController implements Initializable {
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
                             //System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
@@ -1113,7 +1092,7 @@ public class LevelBuilderController implements Initializable {
                         //Get the piece in the dragboard
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //Iterate over all of the squares
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 //Get the board's view
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
@@ -1151,35 +1130,42 @@ public class LevelBuilderController implements Initializable {
                 pane.setOnDragDropped(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         Dragboard db = event.getDragboard();
+                        System.out.println("heyooyy");
                         boolean success = false;
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //If we have a piece with us
+                        System.out.println("gesture sources "+ (event.getGestureSource() != pane));
+                        System.out.println("has content "+ event.getDragboard().hasContent(pieceShape));
+                        System.out.println("is valid move "+ level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn));
+
                         if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
 
+                            System.out.println("okay");
                             Color color = droppedPiece.getColor();
+                            System.out.println("okay");
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare)getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                tilePane.setStyle("-fx-background-color: RED");
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
-
                             }
-                            //ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            System.out.println("okay");
                             level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            System.out.println("okay");
                             // Only place if it's a valid move
                             success = true;
-                            deletePieceFromBullpen();
-                            //ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
-
-                            // Remove piece from bullpen
-                            level.getBoard().removePiece(droppedPiece.getUniqueID());
+                            System.out.println("okay");
+                            System.out.println(droppedPiece.getUniqueID());
+                            level.getBullpen().removePiece(droppedPiece.getUniqueID());
                             // Remove view from bullpen
+                            System.out.println("suppp");
                             bullpenView.getChildren().remove(selectedGroup);
                             // Redraw bullpen
                             deletePieceFromBullpen();
+                            System.out.println("suppppppppppppp");
 
                         }
+                        System.out.println("heyoo");
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
                         event.consume();
@@ -1228,7 +1214,7 @@ public class LevelBuilderController implements Initializable {
                     }
 
                     // Add piece to bullpen
-                    bullpen.addPiece(piece);
+                    level.getBullpen().addPiece(piece);
 
                     // Add piece view to bullpen view
                     final PieceGroup currentPiece = new PieceGroup(piece);
@@ -1236,7 +1222,7 @@ public class LevelBuilderController implements Initializable {
                     bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
                     bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
                     bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
-                    gridH = (bullpen.getPieces().size() + 2 - 1) / 2;
+                    gridH = (level.getBullpen().getPieces().size() + 2 - 1) / 2;
 
                     numberOfBullpenPieces++;
 
@@ -1343,7 +1329,7 @@ public class LevelBuilderController implements Initializable {
             }
 
             // Add the actual piece object to the bullpen
-            AddPieceAction action = new AddPieceAction(pieceToDraw, bullpen); // Create action
+            AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen()); // Create action
             action.doAction(); // Do action- add to bullpen
             bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
             bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
@@ -1579,7 +1565,7 @@ public class LevelBuilderController implements Initializable {
 
             out.write("###"); // Pieces divider
             out.write("\r\n");
-            for(Piece p: bullpen.getPieces()){
+            for(Piece p: level.getBullpen().getPieces()){
                 String pieceNum = Integer.toString(p.getPieceID());
                 out.write(pieceNum);
                 out.write("\r\n");

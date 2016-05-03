@@ -369,10 +369,18 @@ public class LevelViewController implements Initializable {
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                tilePane.setStyle("-fx-background-color: RED");
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
                             }
                             decreaseMovesCount();
+                            ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            ourModel.getBoard().printBoardAsDebug();
+                            // Only place if it's a valid move
+                            success = true;
+                            ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                            bullpenView.getChildren().remove(selectedGroup); // Remove view
+                            redrawBullpen();
+                            //numberOfPiecesDrawn--;
+                            updateStars();
                         }
                         if (ourModel.getLevelNum() % 3 == 2) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
@@ -380,8 +388,16 @@ public class LevelViewController implements Initializable {
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                tilePane.setStyle("-fx-background-color: RED");
                             }
+                            ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            ourModel.getBoard().printBoardAsDebug();
+                            // Only place if it's a valid move
+                            success = true;
+                            ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                            bullpenView.getChildren().remove(selectedGroup); // Remove view
+                            redrawBullpen();
+                            //numberOfPiecesDrawn--;
+                            updateStars();
                         }
                         if (ourModel.getLevelNum() % 3 == 0) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
@@ -389,20 +405,17 @@ public class LevelViewController implements Initializable {
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                tilePane.setStyle("-fx-background-color: RED");
                             }
+                            ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            ourModel.getBoard().printBoardAsDebug();
+                            // Only place if it's a valid move
+                            success = true;
+                            ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                            bullpenView.getChildren().remove(selectedGroup); // Remove view
+                            redrawBullpen();
+                            //numberOfPiecesDrawn--;
+                            updateStars();
                         }
-
-
-                        ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                        ourModel.getBoard().printBoardAsDebug();
-                        // Only place if it's a valid move
-                        success = true;
-                        ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
-                        bullpenView.getChildren().remove(selectedGroup); // Remove view
-                        redrawBullpen();
-                        //numberOfPiecesDrawn--;
-                        updateStars();
 
 
                         event.setDropCompleted(success);

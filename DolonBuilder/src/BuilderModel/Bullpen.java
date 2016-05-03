@@ -31,13 +31,14 @@ public class Bullpen {
      * @return true if the piece was successfully removed, otherwise false
      */
     public boolean removePiece(int uniqueid) {
-        Piece toBeRemoved;
         for (Piece p : pieces) {
             if (p.getUniqueID() == uniqueid) {
                 pieces.remove(p);
+                System.out.println("got to true");
                 return true;
             }
         }
+        System.out.println("got to false");
         return false;
     }
 

@@ -13,12 +13,33 @@ public class LevelModel {
     int movesAllowed;
     int timeAllowed;
 
+    /**
+     * Getter for the bullpen
+     *
+     * @return the bullpen
+     */
+    public Bullpen getBullpen() {
+        return bullpen;
+    }
+
+    /**
+     * Setter for the bullpen
+     *
+     * @param bullpen
+     */
+    public void setBullpen(Bullpen bullpen) {
+        this.bullpen = bullpen;
+    }
+
+
+
 
     /**
      * Constructor for the Level
      */
     public LevelModel() {
         field = new Board(12,12);
+        bullpen = new Bullpen();
         // commenting out for now
         /*
         boardTiles = new ReleaseTile[12][12];
