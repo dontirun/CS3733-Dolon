@@ -4,7 +4,7 @@ package KabasujiModel;
  * Created by Arthur on 4/10/2016.
  */
 public class LightningLevelModel extends LevelModel {
-    static int allowedTime = 10;
+    int allowedTime = 10;
     int usedTime;
 
     /**

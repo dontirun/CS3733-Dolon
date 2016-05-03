@@ -705,7 +705,6 @@ public class LevelViewController implements Initializable {
                                     limitLabel.setVisible(true);
                                     allowedLabel.setText("Time left");
                                     allowedLabel.setVisible(true);
-                                    startCountDown();
                                     javafx.scene.image.Image lit = new javafx.scene.image.Image("/images/lightning.png");
                                     levelIcon.setImage(lit);
                                     break;
@@ -729,9 +728,11 @@ public class LevelViewController implements Initializable {
                                 case 2:
                                     ((LightningLevelModel) ourModel).setAllowedTime(metric);
                                     limitLabel.setText(Integer.toString(metric));
+                                    startCountDown();
                                     break;
                                 case 3:
                                     limitLabel.setText(null);
+                                    break;
                             }
                             break;
                         case 3: // Pieces
@@ -956,8 +957,7 @@ public class LevelViewController implements Initializable {
      */
     private void startCountDown() {
         timer = new Timer();
-        timeLeft = ((LightningLevelModel) ourModel).getAllowedTime();
-        timeLeft = 200;
+        timeLeft = ((LightningLevelModel)ourModel).getAllowedTime();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
