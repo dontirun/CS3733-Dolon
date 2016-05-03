@@ -4,7 +4,8 @@ package KabasujiModel;
  * Created by Arthur on 4/10/2016.
  */
 public class LightningLevelModel extends LevelModel {
-    int allowedTime, usedTime;
+    static int allowedTime = 10;
+    int usedTime;
 
     /**
      * Constructor for the lightning level
@@ -18,7 +19,7 @@ public class LightningLevelModel extends LevelModel {
     }
     public LightningLevelModel(int levelNum){
         super(levelNum);
-        this.allowedTime = 10;
+
     }
 
     /**

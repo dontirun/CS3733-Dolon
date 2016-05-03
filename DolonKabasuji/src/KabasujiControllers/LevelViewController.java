@@ -396,6 +396,43 @@ public class LevelViewController implements Initializable {
                             ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
                             bullpenView.getChildren().remove(selectedGroup); // Remove view
                             redrawBullpen();
+
+
+                            // add a random Piece back to the bullpen
+                            // pick one of the random hexominos
+                            int pieceID = (int )(Math.random() * 35 + 1);
+                            final Piece ourPiece = new PieceFactory().getPiece(pieceID);
+                            ourModel.getBullpen().addPiece(ourPiece);
+
+                            final PieceGroup currentPiece = new PieceGroup(ourPiece);
+                            // Add to bullpen
+                            bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
+                            bullpenView.setMargin(currentPiece.getGroup(), new Insets(10, 10, 10, 10));
+                            bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
+                            bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
+                            gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
+
+                            currentPiece.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
+                                public void handle(MouseEvent event) {
+                                    if (selectedPiece == ourPiece) {
+                                        selectedPiece = null;
+                                        currentPiece.getGroup().setEffect(null);
+                                    }
+                                    else {
+                                        if (selectedPiece != null) {
+                                            // remove visual effect of previous selected piece
+                                            selectedGroup.setEffect(null);
+                                        }
+                                        selectedPiece = ourPiece;
+                                        selectedGroup = currentPiece.getGroup();
+                                        System.out.println("piece selected");
+                                        Lighting light = new Lighting();
+                                        currentPiece.getGroup().setEffect(light);
+                                    }
+                                }
+                            });
+
+                            numberOfPiecesDrawn++;
                             //numberOfPiecesDrawn--;
                             updateStars();
                         }
@@ -539,6 +576,26 @@ public class LevelViewController implements Initializable {
                     bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
                     bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
                     gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
+
+                    currentPiece.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
+                        public void handle(MouseEvent event) {
+                            if (selectedPiece ==currentPiece.getPiece()) {
+                                selectedPiece = null;
+                                currentPiece.getGroup().setEffect(null);
+                            }
+                            else {
+                                if (selectedPiece != null) {
+                                    // remove visual effect of previous selected piece
+                                    selectedGroup.setEffect(null);
+                                }
+                                selectedPiece = currentPiece.getPiece();
+                                selectedGroup = currentPiece.getGroup();
+                                System.out.println("piece selected");
+                                Lighting light = new Lighting();
+                                currentPiece.getGroup().setEffect(light);
+                            }
+                        }
+                    });
 
                     //Increment pieces drawn
                     numberOfPiecesDrawn++;
@@ -900,6 +957,7 @@ public class LevelViewController implements Initializable {
     private void startCountDown() {
         timer = new Timer();
         timeLeft = ((LightningLevelModel) ourModel).getAllowedTime();
+        timeLeft = 200;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -1035,6 +1093,9 @@ public class LevelViewController implements Initializable {
     @FXML
     public void handleResetButtonAction(){
         try {
+            if(ourModel.getLevelNum()%3==2){
+                timer.cancel();
+            }
             ourModel.getBullpen().clearPieces();
             ourModel.getBoard().clearBoard();
             bullpenView.getChildren().clear();
@@ -1042,9 +1103,7 @@ public class LevelViewController implements Initializable {
             loadLevel(ourModel.getLevelNum());
             updateStars();
             frozenStars=false;
-            if(ourModel.getLevelNum()%3==2){
-                timer.cancel();
-            }
+
 
         } catch (Exception e) {
             System.out.println("couldnt reset level");
