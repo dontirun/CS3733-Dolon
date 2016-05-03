@@ -5,12 +5,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class KabasujiMain extends javafx.application.Application {
 
     LevelModel currentLevelModel;
     GameMenu currentGameMenu;
 
-    public KabasujiMain(){
+    public KabasujiMain() throws IOException {
         this.currentGameMenu = new GameMenu();
     }
     @Override

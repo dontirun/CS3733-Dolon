@@ -53,7 +53,7 @@ public class StartScreenController {
      * Is run every time the view loads
      */
     @FXML
-    public void initialize() {
+    public void initialize() throws IOException {
         if (menu == null) {
             menu = new GameMenu();
         }

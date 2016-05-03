@@ -1,5 +1,6 @@
 package KabasujiModel;
 
+import java.io.*;
 import java.util.ArrayList;
 
 /**
@@ -14,11 +15,70 @@ public class GameMenu {
     /**
      * Constructor for the game menu
      */
-    public GameMenu(){
+    public GameMenu() throws IOException {
+        /*
         levelNumber = 1;
         // max level unlocked
         unlocked =1;
         maxStars = new int[15];
+        */
+        loadGameStats();
+    }
+
+    public void loadGameStats() throws IOException{
+        try{
+            // Load file
+            FileReader input = new FileReader("../gameProgress.dat");
+            BufferedReader buf = new BufferedReader(input);
+            String dataLine;
+            maxStars = new int[15];
+
+            // Parse first line with level number and unlocked
+            dataLine = buf.readLine();
+            String lineSplit[] = dataLine.split(" ");
+            levelNumber = Integer.parseInt(lineSplit[0]);
+            unlocked = Integer.parseInt(lineSplit[1]);
+
+            // Parse first line with star information
+            dataLine = buf.readLine();
+            String starsSplit[] = dataLine.split(" ");
+            for(int i = 0; i < starsSplit.length; i++){
+                maxStars[i] = Integer.parseInt(starsSplit[i]);
+            }
+        }
+        catch(FileNotFoundException e){ // Use default
+            levelNumber = 1;
+            unlocked = 1;
+            maxStars = new int[15];
+        }
+    }
+
+    public void saveGameStats() throws FileNotFoundException {
+        try{
+            FileWriter out;
+
+            out = new FileWriter("../gameProgress.dat");
+
+            // Write first line
+            out.write(Integer.toString(levelNumber) + " " + Integer.toString(unlocked));
+            out.write("\r\n");
+
+            // Write second line
+            for(int i = 0; i < maxStars.length; i++){
+                out.write(Integer.toString(maxStars[i]));
+
+                // Add a space between values
+                if(i < (maxStars.length - 1)){
+                    out.write(" ");
+                }
+            }
+
+            // Close file
+            out.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**

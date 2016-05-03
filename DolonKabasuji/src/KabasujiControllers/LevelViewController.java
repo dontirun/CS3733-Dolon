@@ -75,6 +75,7 @@ public class LevelViewController implements Initializable {
     GameMenu menu;
 
     boolean placed = false;
+    boolean timerActive = false;
     private int readInLevelNumber = 0;
 
     ArrayList<ArrayList<Pane>> tilePanes;
@@ -380,7 +381,11 @@ public class LevelViewController implements Initializable {
                             bullpenView.getChildren().remove(selectedGroup); // Remove view
                             redrawBullpen();
                             //numberOfPiecesDrawn--;
-                            updateStars();
+                            try {
+                                updateStars();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
                         if (ourModel.getLevelNum() % 3 == 2) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
@@ -434,7 +439,11 @@ public class LevelViewController implements Initializable {
 
                             numberOfPiecesDrawn++;
                             //numberOfPiecesDrawn--;
-                            updateStars();
+                            try {
+                                updateStars();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
                         if (ourModel.getLevelNum() % 3 == 0) {
                             if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
@@ -451,7 +460,11 @@ public class LevelViewController implements Initializable {
                             bullpenView.getChildren().remove(selectedGroup); // Remove view
                             redrawBullpen();
                             //numberOfPiecesDrawn--;
-                            updateStars();
+                            try {
+                                updateStars();
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }
                         }
 
 
@@ -875,6 +888,9 @@ public class LevelViewController implements Initializable {
                                         tempTile.setNum(tileInts[i]-offset + 1);
                                         tempTile.setColor(Color.RED);
                                         tempPane.setStyle("-fx-background-color: white");
+                                        tempPane.setNumber(tileInts[i]-offset + 1);
+                                        // the goldish color replacing yellow
+                                        tempPane.numLabel.setTextFill(Color.web("#d5ae27"));
                                     }
                                     ourModel.getBoard().setBoardTile(tempTile, count, i);
                                     yellowTile[tileInts[i] - offset] = (ReleaseTile) tempTile;
@@ -958,6 +974,7 @@ public class LevelViewController implements Initializable {
     private void startCountDown() {
         timer = new Timer();
         timeLeft = ((LightningLevelModel)ourModel).getAllowedTime();
+        timerActive = true;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -968,6 +985,7 @@ public class LevelViewController implements Initializable {
                         limitLabel.setText("" + timeLeft);
                         if (timeLeft <= 0) {
                             timer.cancel();
+                            timerActive = false;
                             //do this when time is up
                             frozenStars = true; //freeze the star count so that it cannot be changed
 
@@ -983,7 +1001,12 @@ public class LevelViewController implements Initializable {
      * Starts the count down for the timer
      */
     private void clearCountDown() {
-        timer.cancel();
+        if(timerActive){
+            timer.cancel();
+            timerActive = false;
+        }
+
+        frozenStars = false;
     }
 
     /**
@@ -997,7 +1020,7 @@ public class LevelViewController implements Initializable {
         ((PuzzleLevelModel)ourModel).setMovesUsed(movesUsed++);
     }
 
-    private void updateStars() {
+    private void updateStars() throws FileNotFoundException {
         System.out.println("update stars in levelviewcontroller");
         if(frozenStars) return; //if the stars are frozen (prevented from changing) exit the function
         System.out.println("more update stars in levelviewcontroller");
@@ -1051,6 +1074,7 @@ public class LevelViewController implements Initializable {
                 menu.setUnlocked(ourModel.getLevelNum()+1);  //max unlocked level, then correctly set the max unlocked level
             }
         }
+        menu.saveGameStats();
     }
 
     /**
@@ -1066,7 +1090,11 @@ public class LevelViewController implements Initializable {
         } catch (Exception e) {
             System.out.println("couldnt load level");
         }
-        updateStars();
+        try {
+            updateStars();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
     /**
      * Handles moving to the next level
