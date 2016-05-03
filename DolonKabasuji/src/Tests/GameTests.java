@@ -215,7 +215,7 @@
 //        LightningLevelModel llm = new LightningLevelModel(2);
 //        assertEquals(rlm.getTile(1,1).getExists(),true);
 //        assertEquals(rlm.getBoardTiles().size(),12);
-//        assertEquals(rlm.getField().getBoardTile(1,1).getExists(),true);
+//        assertEquals(rlm.getBoard().getBoardTile(1,1).getExists(),true);
 //        // shouldn't be able to load this baord
 //        assertEquals(plm.loadBoard("lvlasdasd1.bdsm"),false);
 //        // these will need to be changed

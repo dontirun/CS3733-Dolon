@@ -101,22 +101,7 @@ public abstract class LevelModel {
     /**
      * @return returns the board of the level
      */
-    public Board getField() { return board; }
-
-    /**
-     * Adds a piece to the bullpen
-     * @param p
-     */
-    public void addPieceToBullpen(Piece p){
-        bullpen.addPiece(p);
-    }
-
-    /**
-     * Removes a piece from the bullpen
-     *
-     * @param uniqueID unique id of the piece
-     */
-    public void removePieceFromBullpen(int uniqueID) { bullpen.removePiece(uniqueID);}
+    public Board getBoard() { return board; }
 
 
     /**
@@ -141,7 +126,7 @@ public abstract class LevelModel {
 
     /**
      * Gets the bullpen
-     * @return
+     * @return the bullpen
      */
     public Bullpen getBullpen(){
         return bullpen;

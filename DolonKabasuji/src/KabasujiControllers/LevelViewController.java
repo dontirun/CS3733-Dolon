@@ -26,8 +26,6 @@ import java.util.*;
 
 import KabasujiModel.*;
 
-import static java.util.Collections.copy;
-
 /**
  * Created by Arthur on 4/10/2016.
  */
@@ -265,9 +263,17 @@ public class LevelViewController implements Initializable {
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Dragboard db = event.getDragboard();
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                            event.acceptTransferModes(TransferMode.MOVE);
-                            System.out.println("Drag Over is valid move");
+                        if (ourModel.getLevelNum() % 3 == 1 || ourModel.getLevelNum() % 3 == 3) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                                event.acceptTransferModes(TransferMode.MOVE);
+                                System.out.println("Drag Over is valid move");
+                            }
+                        }
+                        if (ourModel.getLevelNum() % 3 == 2) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
+                                event.acceptTransferModes(TransferMode.MOVE);
+                                System.out.println("Drag Over is valid move");
+                            }
                         }
                         event.consume();
                     }
@@ -279,11 +285,11 @@ public class LevelViewController implements Initializable {
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
                             //System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
-                                if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)){
+                                if((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)){
                                     getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
                                         (droppedPiece.getColor().getRed()*255)/2 + ", " +
                                         (droppedPiece.getColor().getGreen()*255)/4 + ", " +
@@ -312,32 +318,32 @@ public class LevelViewController implements Initializable {
                         //Get the piece in the dragboard
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //Iterate over all of the squares
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isOutOfBounds(droppedPiece, currentRow, currentColumn)) {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 //Get the board's view
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 //
-                                if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
+                                if ((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
                                     try {
                                         pane.setStyle("-fx-background-color: rgb(" +
-                                            ourModel.getField().getPieceFromID(ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                            ourModel.getBoard().getPieceFromID(ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
                                                     currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getRed()*255 + ", " +
-                                            ourModel.getField().getPieceFromID(ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                            ourModel.getBoard().getPieceFromID(ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
                                                     currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getGreen()*255 + ", " +
-                                            ourModel.getField().getPieceFromID(ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                            ourModel.getBoard().getPieceFromID(ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
                                                     currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getBlue()*255 + ")");
                                     } catch (PieceNotFoundException e) {
                                         e.printStackTrace();
                                     }
                                 }
-                                else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
-                                    if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){
+                                else if ((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
+                                    if((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){
                                         pane.setStyle("-fx-background-color: orange");
                                     }
                                     else{
                                         pane.setStyle("-fx-background-color: white");
                                     }
-                                } else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)) {
+                                } else if ((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)) {
                                     pane.setStyle("-fx-background-color: black");
                                 }
                                 event.consume();
@@ -355,30 +361,76 @@ public class LevelViewController implements Initializable {
 
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //If we have a piece with us
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
-
-                            Color color = droppedPiece.getColor();
-                            for (Square selectedSquare : droppedPiece.squares) {
-                                GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                tilePane.setStyle("-fx-background-color: RED");
-                                makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
-                            }
-                            ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
-                            ourModel.getField().printBoardAsDebug();
-                            // Only place if it's a valid move
-                            success = true;
-                            if(ourModel.getLevelNum() % 3==1) {//if its a puzzle level, decrease the moves counter
+                        if (ourModel.getLevelNum() % 3 == 1) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                                System.out.println("suppppp");
+                                Color color = droppedPiece.getColor();
+                                for (Square selectedSquare : droppedPiece.squares) {
+                                    GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                    tilePane.setStyle("-fx-background-color: RED");
+                                    makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
+                                }
+                                ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                                ourModel.getBoard().printBoardAsDebug();
+                                // Only place if it's a valid move
+                                success = true;
                                 decreaseMovesCount();
-                            }
-                            ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
-                            bullpenView.getChildren().remove(selectedGroup); // Remove view
-                            redrawBullpen();
-                            //numberOfPiecesDrawn--;
-                            bullpenView.setGridLinesVisible(true);
-                            updateStars();
+                                ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                                bullpenView.getChildren().remove(selectedGroup); // Remove view
+                                redrawBullpen();
+                                //numberOfPiecesDrawn--;
+                                bullpenView.setGridLinesVisible(true);
+                                updateStars();
 
+
+                            }
 
                         }
+
+                        if (ourModel.getLevelNum() % 3 == 2) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
+                                System.out.println("heyyyy");
+                                Color color = droppedPiece.getColor();
+                                for (Square selectedSquare : droppedPiece.squares) {
+                                    GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                    tilePane.setStyle("-fx-background-color: RED");
+                                }
+                                ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                                ourModel.getBoard().printBoardAsDebug();
+                                // Only place if it's a valid move
+                                success = true;
+                                ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                                bullpenView.getChildren().remove(selectedGroup); // Remove view
+                                redrawBullpen();
+                                //numberOfPiecesDrawn--;
+                                bullpenView.setGridLinesVisible(true);
+                                updateStars();
+                            }
+                        }
+
+                        if (ourModel.getLevelNum() % 3 == 3) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                                System.out.println("yooo");
+                                Color color = droppedPiece.getColor();
+                                for (Square selectedSquare : droppedPiece.squares) {
+                                    GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+                                    tilePane.setStyle("-fx-background-color: RED");
+                                }
+                                ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                                ourModel.getBoard().printBoardAsDebug();
+                                // Only place if it's a valid move
+                                success = true;
+                                ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
+                                bullpenView.getChildren().remove(selectedGroup); // Remove view
+                                redrawBullpen();
+                                //numberOfPiecesDrawn--;
+                                bullpenView.setGridLinesVisible(true);
+                                updateStars();
+                            }
+
+                        }
+
+
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
                         event.consume();
@@ -398,10 +450,6 @@ public class LevelViewController implements Initializable {
             RowConstraints row = new RowConstraints(squareWidth * 6);
             bullpenView.getRowConstraints().add(row);
         }
-
-
-        bullpenView.setGridLinesVisible(true);
-        // getNodeByRowColumnIndex(0, 0, bullpenView).getTransforms().add(new Rotate(90, 0, 0));
     }
 
     public void redrawBullpen(){
@@ -464,8 +512,6 @@ public class LevelViewController implements Initializable {
     }
 
     private void makeDeletable(final Node node, final Piece piece, final int row, final int column) {
-
-
         node.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -473,24 +519,24 @@ public class LevelViewController implements Initializable {
                 if(button==MouseButton.PRIMARY){
                     // do nothing
                 }else if(button==MouseButton.SECONDARY){
-                    ourModel.getField().removePiece(piece.getUniqueID());
+                    ourModel.getBoard().removePiece(piece.getUniqueID());
                     System.out.println("Make deletable column" + column);
                     System.out.println("Make deletable row:" + row);
                     piece.flipPieceVert();
                     for (Square squareToRemove : piece.squares) {
                         GridSquare tilePaneToClear = (GridSquare) getNodeByRowColumnIndex(row + (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
-                        //System.out.println(ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint());
-                        if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1)) {
+                        //System.out.println(ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint());
+                        if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1)) {
                             tilePaneToClear.setStyle("-fx-background-color: #28a2db");
                         }
-                        else if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == true)) {
-                            if((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint() == true)){
+                        else if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == true)) {
+                            if((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint() == true)){
                                 tilePaneToClear.setStyle("-fx-background-color: orange");
                             }
                             else{
                                 tilePaneToClear.setStyle("-fx-background-color: white");
                             }
-                        } else if ((ourModel.getField().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == false)) {
+                        } else if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == false)) {
                             tilePaneToClear.setStyle("-fx-background-color: black");
                         }
                         tilePaneToClear.setOnMouseClicked(null);
@@ -518,19 +564,6 @@ public class LevelViewController implements Initializable {
                 event.consume();
             }
         });
-    }
-
-    /**
-     * Draw a piece on the board given the information about the piece
-     *
-     * @param pieceToDraw the piece to draw
-     */
-    private void generateShapeFromPiece(final Piece pieceToDraw) {
-        PieceGroup currentPiece = new PieceGroup(pieceToDraw);
-        bullpenView.add(currentPiece.getGroup(), numberOfPiecesDrawn % 2, numberOfPiecesDrawn / 2);
-        bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
-        bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
-        numberOfPiecesDrawn++;
     }
 
     /**
@@ -652,7 +685,7 @@ public class LevelViewController implements Initializable {
                         case 3: // Pieces
                             int pieceID = Integer.parseInt(dataLine);
                             final Piece ourPiece = new PieceFactory().getPiece(pieceID);
-                            ourModel.addPieceToBullpen(ourPiece);
+                            ourModel.getBullpen().addPiece(ourPiece);
 
                             final PieceGroup currentPiece = new PieceGroup(ourPiece);
                             // Add to bullpen
@@ -706,7 +739,7 @@ public class LevelViewController implements Initializable {
                                     Tile tempTile = new Tile();
                                     tempTile.setExists(false); //Set that it doesn't exist
                                     tempPane.setStyle("-fx-background-color: black");
-                                    ourModel.getField().setBoardTile(tempTile, count, i); //Set the tile to be empty there
+                                    ourModel.getBoard().setBoardTile(tempTile, count, i); //Set the tile to be empty there
 
                                 }
                                 else if (tileInts[i] == 1 || tileInts[i] == 91) { //Valid blank tile
@@ -718,7 +751,7 @@ public class LevelViewController implements Initializable {
                                     else {
                                         tempPane.setStyle("-fx-background-color: white");
                                     }
-                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    ourModel.getBoard().setBoardTile(tempTile, count, i);
                                 }
                                 //Red release tile: 21-26 indicate
                                 else if ((tileInts[i] > 20 && tileInts[i] < 27) || (tileInts[i] > 920 && tileInts[i] < 927)){
@@ -740,7 +773,7 @@ public class LevelViewController implements Initializable {
                                         tempPane.setNumber(tileInts[i]-offset + 1);
                                         tempPane.numLabel.setTextFill(Color.RED);
                                     }
-                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    ourModel.getBoard().setBoardTile(tempTile, count, i);
                                     redTile[tileInts[i] - offset] = (ReleaseTile)tempTile;
                                     redPane[tileInts[i] - offset] = tempPane;
                                     redTile[tileInts[i] - offset].setColor(Color.RED);
@@ -766,7 +799,7 @@ public class LevelViewController implements Initializable {
                                         tempPane.setNumber(tileInts[i]-offset + 1);
                                         tempPane.numLabel.setTextFill(Color.GREEN);
                                     }
-                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    ourModel.getBoard().setBoardTile(tempTile, count, i);
                                     greenTile[tileInts[i] - offset] = (ReleaseTile)tempTile;
                                     greenPane[tileInts[i] - offset] = tempPane;
                                     greenTile[tileInts[i] - offset].setColor(Color.GREEN);
@@ -790,20 +823,21 @@ public class LevelViewController implements Initializable {
                                         tempTile.setColor(Color.RED);
                                         tempPane.setStyle("-fx-background-color: white");
                                     }
-                                    ourModel.getField().setBoardTile(tempTile, count, i);
+                                    ourModel.getBoard().setBoardTile(tempTile, count, i);
                                     yellowTile[tileInts[i] - offset] = (ReleaseTile) tempTile;
                                     yellowPane[tileInts[i] - offset] = tempPane;
                                     yellowTile[tileInts[i] - offset].setColor(Color.YELLOW);
                                     usedSlots[tileInts[i] - offset + 12] = true; //Add 12 because new range of elements
                                 }
                                 tilePanes.get(count).get(i).setStyle(tempPane.getStyle());
+                                tilePanes.get(count).get(i).setOnMouseClicked(null);
                                 // only if a release tile
                                 if (tempPane.getNumber() > 0) {
                                     ((GridSquare)tilePanes.get(count).get(i)).setNumber(tempPane.getNumber());
-                                    ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setTextFill(((ReleaseTile)ourModel.getField().getBoardTile(count,i)).getColor());
+                                    ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setTextFill(((ReleaseTile)ourModel.getBoard().getBoardTile(count,i)).getColor());
                                     ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().autosize();
                                     ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setStyle("-fx-font: 40 arial;");
-                                    if(((ReleaseTile)ourModel.getField().getBoardTile(count,i)).getColor() == Color.YELLOW){
+                                    if(((ReleaseTile)ourModel.getBoard().getBoardTile(count,i)).getColor() == Color.YELLOW){
                                         ((GridSquare)tilePanes.get(count).get(i)).getNumLabel().setTextFill(Color.web("#d5ae27"));
                                     }
                                 }
@@ -954,9 +988,7 @@ public class LevelViewController implements Initializable {
         bullpenView.getChildren().clear();
         numberOfPiecesDrawn= 0;
         try {
-
             loadLevel(ourModel.getLevelNum() + 1);
-
         } catch (Exception e) {
             System.out.println("couldnt load level");
         }
@@ -988,6 +1020,7 @@ public class LevelViewController implements Initializable {
     public void handleResetButtonAction(){
         try {
             ourModel.getBullpen().clearPieces();
+            ourModel.getBoard().clearBoard();
             bullpenView.getChildren().clear();
             numberOfPiecesDrawn= 0;
             loadLevel(ourModel.getLevelNum());

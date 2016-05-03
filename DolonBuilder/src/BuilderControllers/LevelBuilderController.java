@@ -45,8 +45,6 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import static KabasujiControllers.LevelViewController.pieceShape;
-
 /**
  * Created by slafo on 4/10/2016.
  */
@@ -1063,7 +1061,7 @@ public class LevelBuilderController implements Initializable {
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Dragboard db = event.getDragboard();
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
                             event.acceptTransferModes(TransferMode.MOVE);
                             System.out.println("Drag Over is valid move");
                         }
@@ -1118,11 +1116,11 @@ public class LevelBuilderController implements Initializable {
                                 if ((level.getTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
                                     try{
                                         pane.setStyle("-fx-background-color: rgb(" +
-                                                level.getField().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                level.getBoard().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
                                                         currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getRed()*255 + ", " +
-                                                level.getField().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                level.getBoard().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
                                                         currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getGreen()*255 + ", " +
-                                                level.getField().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                level.getBoard().getPieceFromID(level.getTile(currentRow + (selectedSquare.getRelRow() * -1),
                                                         currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getBlue()*255 + ")");
                                     } catch (PieceNotFoundException e) {
                                         e.printStackTrace();
@@ -1153,7 +1151,7 @@ public class LevelBuilderController implements Initializable {
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
                         //If we have a piece with us
-                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getField().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                        if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
 
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
@@ -1162,15 +1160,15 @@ public class LevelBuilderController implements Initializable {
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
 
                             }
-                            //ourModel.getField().addPiece(droppedPiece, currentRow, currentColumn);
-                            level.getField().addPiece(droppedPiece, currentRow, currentColumn);
+                            //ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
                             // Only place if it's a valid move
                             success = true;
                             deletePieceFromBullpen();
                             //ourModel.removePieceFromBullpen(droppedPiece.getUniqueID());
 
                             // Remove piece from bullpen
-                            level.getField().removePiece(droppedPiece.getUniqueID());
+                            level.getBoard().removePiece(droppedPiece.getUniqueID());
                             // Remove view from bullpen
                             bullpenView.getChildren().remove(selectedGroup);
                             // Redraw bullpen
@@ -1198,7 +1196,7 @@ public class LevelBuilderController implements Initializable {
                 }
                 else if(button == MouseButton.SECONDARY){
 
-                    level.getField().removePiece(piece.getUniqueID());
+                    level.getBoard().removePiece(piece.getUniqueID());
                     piece.flipPieceVert();
 
                     // Determine the colour to set for the tile
@@ -1587,7 +1585,7 @@ public class LevelBuilderController implements Initializable {
             out.write("###"); // Tiles divider
             out.write("\r\n");
             // Iterate through the board and output the value for each square
-            for(ArrayList<Tile> arr: level.getField().getTiles()){
+            for(ArrayList<Tile> arr: level.getBoard().getTiles()){
                 for(Tile t: arr){
                     int tileCount = 0;
 

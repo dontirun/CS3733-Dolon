@@ -59,6 +59,25 @@ public class Board {
         return false;
     }
 
+    public boolean addPieceLightning(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
+        if (isValidLightningMove(p, tileRow, tileColumn)) { //if we can make this move
+            p.flipPieceVert();
+            piecesOnBoard.add(p);
+            //System.out.println("this works");
+            for (Square s : p.squares){
+                int squareColumnOffset = s.getRelCol();
+                int squareRowOffset = s.getRelRow();
+                // changed to release tile for now
+                Tile tempTile = tiles.get(tileRow + squareRowOffset).get(tileColumn + squareColumnOffset);
+                tempTile.setSquare(s, p.getUniqueID());
+                setBoardTile(tempTile, tileRow + squareRowOffset, tileColumn + squareColumnOffset);
+            }
+            counter++;
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Takes in a unique pieceOnBoardNum to remove a piece from the board
      * @param uniqueID the unique identifier for the piece
@@ -105,6 +124,31 @@ public class Board {
             }
             //If it's a tile that's covered by another piece
             if (getBoardTile(tileRow + squareRowOffset, tileColumn + squareColumnOffset).getCovered() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * @param p
+     * @param tileRow
+     * @param tileColumn
+     * @return
+     */
+    public boolean isValidLightningMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
+        for (Square s: p.squares){
+            int squareColumnOffset = s.getRelCol();
+            int squareRowOffset = (s.getRelRow()*-1);
+            if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0){ //We're out of bounds vertically
+                return false;
+            }
+            //If it's out of bounds with rows
+            if (squareRowOffset + tileRow > (numRows - 1) || squareRowOffset + tileRow < 0){ //We're out of bounds horizontally
+                return false;
+            }
+            //If it's a black tile
+            if (!getBoardTile(tileRow + squareRowOffset, tileColumn + squareColumnOffset).getExists()){ //Dang, this location is out of bounds. (Tile is black)
                 return false;
             }
         }
@@ -284,6 +328,9 @@ public class Board {
         return validTiles;
     }
 
+    /**
+     * Prints the board for debugging pieces
+     */
     public void printBoardAsDebug(){
         for(int x = 0; x < numRows; x++){
             String tempString = "";
@@ -301,4 +348,10 @@ public class Board {
             System.out.println(tempString);
         }
     }
+
+    public void clearBoard() {
+        tiles.clear();
+        piecesOnBoard.clear();
+    }
+
 }

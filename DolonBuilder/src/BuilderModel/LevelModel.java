@@ -112,6 +112,6 @@ public class LevelModel {
     /**
      * @return returns the board of the level
      */
-    public Board getField() { return field; }
+    public Board getBoard() { return field; }
 
 }

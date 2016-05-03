@@ -440,7 +440,7 @@
 //        // assertEquals(lm.getMode(),"release");
 //        assertEquals(lm.getTile(1,1).getExists(),true);
 //        assertEquals(lm.getBoardTiles().size(),12);
-//        assertEquals(lm.getField().getBoardTile(1,1).getExists(),true);
+//        assertEquals(lm.getBoard().getBoardTile(1,1).getExists(),true);
 //
 //
 //
