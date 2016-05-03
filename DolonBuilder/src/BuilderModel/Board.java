@@ -279,6 +279,20 @@ public class Board {
     }
 
     /**
+     * Gets all the piece IDs- primarily for saving purposes
+     * @return ArrayList<Integer> of pieces
+     */
+    public ArrayList<Integer> getPieceIDs(){
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+
+        for(Piece p: piecesOnBoard){
+            ids.add(p.getPieceID());
+        }
+
+        return ids;
+    }
+
+    /**
      * Clears the pieces on the board
      */
     public void clearBoard() {

@@ -1586,6 +1586,12 @@ public class LevelBuilderController implements Initializable {
                 out.write(pieceNum);
                 out.write("\r\n");
             }
+            // Write board pieces
+            ArrayList<Integer> boardIDs = level.getBoard().getPieceIDs();
+            for(int i: boardIDs){
+                out.write(Integer.toString(i));
+                out.write("\r\n");
+            }
 
             out.write("###"); // Tiles divider
             out.write("\r\n");
