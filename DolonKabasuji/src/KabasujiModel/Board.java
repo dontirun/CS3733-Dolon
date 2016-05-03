@@ -353,6 +353,9 @@ public class Board {
         }
     }
 
+    /**
+     * Clears the pieces and tiles on the board
+     */
     public void clearBoard() {
         tiles.clear();
         piecesOnBoard.clear();

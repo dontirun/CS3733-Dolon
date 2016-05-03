@@ -2,12 +2,14 @@ package BuilderControllers;
 
 import BuilderModel.*;
 import BuilderModel.PieceGroup;
-import BuilderModel.Bullpen;
 import BuilderModel.LevelModel;
 import BuilderModel.Piece;
 import BuilderModel.ReleaseTile;
 import BuilderModel.Square;
 import BuilderModel.Tile;
+import KabasujiModel.LightningLevelModel;
+import KabasujiModel.PuzzleLevelModel;
+import KabasujiModel.ReleaseLevelModel;
 import PieceFactory.*;
 import UndoActionManager.AddPieceAction;
 import UndoActionManager.IAction;
@@ -93,8 +95,6 @@ public class LevelBuilderController implements Initializable {
     @FXML
     public GridPane boardView; // Pane for board
     @FXML
-    public GridPane pieceGrid; // Pane for board
-    @FXML
     public GridPane bullpenView;
     @FXML
     public TextField rowsTextField;
@@ -168,10 +168,10 @@ public class LevelBuilderController implements Initializable {
             return;
         }
         // helper functions
-        resetPieces();
         resetButtons();
-        resetBoard(i);
         resetFields(i);
+        resetBoard(i);
+        resetPieces();
 
     }
 
@@ -198,7 +198,6 @@ public class LevelBuilderController implements Initializable {
      * @param levelType the type of level that is being edited
      */
     public void resetBoard(int levelType) {
-
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
                 // reset the visual aspect of the board
@@ -207,10 +206,15 @@ public class LevelBuilderController implements Initializable {
                 tilePanes.get(i).get(j).setStyle("-fx-border-color: black");
                 tilePanes.get(i).get(j).getStyleClass().add("board-cell");
 
-                // reset the underlying tiles for tile actions
-                level.getTile(i, j).setExists(true);
-                level.getTile(i, j).setCovered(-1);
-                level.getTile(i, j).setHint(false);
+                if (!level.getBoard().getTiles().isEmpty()) {
+                    // reset the underlying tiles for tile actions
+                    level.getTile(i, j).setExists(true);
+                    level.getTile(i, j).setCovered(-1);
+                    level.getTile(i, j).setHint(false);
+                    ((ReleaseTile)level.getTile(i, j)).setColor(Color.WHITE);
+                }
+
+
                 boardController.redNumTiles.clear();
                 boardController.redNumPanes.clear();
                 boardController.greenNumTiles.clear();
@@ -218,9 +222,19 @@ public class LevelBuilderController implements Initializable {
                 boardController.yellowNumTiles.clear();
                 boardController.yellowNumPanes.clear();
                 // clear the release level specifc parameters
-                ((GridSquare)tilePanes.get(i).get(j)).getNumLabel().setText("");
-                ((ReleaseTile)level.getTile(i, j)).setColor(Color.WHITE);
 
+                ((GridSquare)tilePanes.get(i).get(j)).getNumLabel().setText("");
+                if (levelType % 3 == 1) {
+
+                }
+
+                if (levelType % 3 == 2) {
+
+                }
+
+                if (levelType % 3 == 0) {
+
+                }
             }
         }
 
@@ -260,113 +274,113 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleAddPieceButtonAction(ActionEvent event) throws IOException {
-        int numberOfPiecesDrawn = 0;
-        // Set the pieces given for the board
+        if (!levelNumber.getText().equals("#")) {
+            int numberOfPiecesDrawn = 0;
+            // Set the pieces given for the board
 
-        final Stage pieceSelector = new Stage();
-        pieceSelector.initModality(Modality.APPLICATION_MODAL);
+            final Stage pieceSelector = new Stage();
+            pieceSelector.initModality(Modality.APPLICATION_MODAL);
 
-        ScrollPane gridScroll = new ScrollPane();
-        GridPane pieceGrid = new GridPane();
+            ScrollPane gridScroll = new ScrollPane();
+            GridPane pieceGrid = new GridPane();
 
-        for (int i = 1; i < 36; i++) {
+            for (int i = 1; i < 36; i++) {
 
-            // Get the piece to draw
-            final Piece pieceToDraw = ourPieceFactory.getPiece(i);
+                // Get the piece to draw
+                final Piece pieceToDraw = ourPieceFactory.getPiece(i);
 
-            final PieceGroup pieceSelectorGroup = new PieceGroup(pieceToDraw); // Pieces drawn in window
-            final PieceGroup bullpenViewGroup = new PieceGroup(pieceToDraw); // Pieces drawn in bullpen
+                final PieceGroup pieceSelectorGroup = new PieceGroup(pieceToDraw); // Pieces drawn in window
+                final PieceGroup bullpenViewGroup = new PieceGroup(pieceToDraw); // Pieces drawn in bullpen
 
-            for (Square selectedSquare : pieceToDraw.squares) {
+                for (Square selectedSquare : pieceToDraw.squares) {
 
-                Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-                Rectangle rectangleCopy = drawPieceRectangle(selectedSquare);
-                selectedRectangle.setFill(pieceToDraw.getColor());
-                rectangleCopy.setFill(pieceToDraw.getColor());
+                    Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                    Rectangle rectangleCopy = drawPieceRectangle(selectedSquare);
+                    selectedRectangle.setFill(pieceToDraw.getColor());
+                    rectangleCopy.setFill(pieceToDraw.getColor());
 
-                pieceSelectorGroup.getGroup().getChildren().add(selectedRectangle);
-                bullpenViewGroup.getGroup().getChildren().add(rectangleCopy);
-            }
-
-            // when piece is clicked on add it to bullpen
-            pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen());
-                    if(action.doAction()){
-                        undoHistory.push(action); // Push to undo stack
-                        redoHistory.clear(); // Clear redo history
-                    }
-                    bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
-                    bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
-                    bullpenView.setHalignment(pieceSelectorGroup.getGroup(), HPos.CENTER);
-                    bullpenView.setValignment(pieceSelectorGroup.getGroup(), VPos.CENTER);
-                    numberOfBullpenPieces++;
-                    pieceSelector.close();
+                    pieceSelectorGroup.getGroup().getChildren().add(selectedRectangle);
+                    bullpenViewGroup.getGroup().getChildren().add(rectangleCopy);
                 }
-            });
 
-            // make it selectable
-            bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
-                    if (selectedPiece == pieceToDraw) {
-                        selectedPiece = null;
-                        bullpenViewGroup.getGroup().setEffect(null);
-                    }
-                    else {
-                        if (selectedPiece != null) {
-                            // remove visual effect of previous selected piece
-                            selectedGroup.setEffect(null);
+                // when piece is clicked on add it to bullpen
+                pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen());
+                        if(action.doAction()){
+                            undoHistory.push(action); // Push to undo stack
+                            redoHistory.clear(); // Clear redo history
                         }
-                        selectedPiece = pieceToDraw;
-                        selectedGroup = bullpenViewGroup.getGroup();
-                        System.out.println("piece selected");
-                        Lighting light = new Lighting();
-                        bullpenViewGroup.getGroup().setEffect(light);
+                        bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
+                        bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
+                        bullpenView.setHalignment(pieceSelectorGroup.getGroup(), HPos.CENTER);
+                        bullpenView.setValignment(pieceSelectorGroup.getGroup(), VPos.CENTER);
+                        numberOfBullpenPieces++;
+                        pieceSelector.close();
                     }
-                }
-            });
+                });
+
+                // make it selectable
+                bullpenViewGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
+                        if (selectedPiece == pieceToDraw) {
+                            selectedPiece = null;
+                            bullpenViewGroup.getGroup().setEffect(null);
+                        }
+                        else {
+                            if (selectedPiece != null) {
+                                // remove visual effect of previous selected piece
+                                selectedGroup.setEffect(null);
+                            }
+                            selectedPiece = pieceToDraw;
+                            selectedGroup = bullpenViewGroup.getGroup();
+                            System.out.println("piece selected");
+                            Lighting light = new Lighting();
+                            bullpenViewGroup.getGroup().setEffect(light);
+                        }
+                    }
+                });
 
 
-            bullpenViewGroup.getGroup().setOnDragDetected(new EventHandler<MouseEvent>() {
-                public void handle(MouseEvent event) {
+                bullpenViewGroup.getGroup().setOnDragDetected(new EventHandler<MouseEvent>() {
+                    public void handle(MouseEvent event) {
                 /* drag was detected, start a drag-and-drop gesture*/
                 /* allow any transfer mode */
-                    Dragboard db = bullpenViewGroup.getGroup().startDragAndDrop(TransferMode.MOVE);
+                        Dragboard db = bullpenViewGroup.getGroup().startDragAndDrop(TransferMode.MOVE);
                 /* Put a string on a dragboard */
-                    ClipboardContent content = new ClipboardContent();
-                    content.put(pieceShape, pieceToDraw); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
-                    db.setContent(content);
-                    System.out.println("Drag Detected");
-                    event.consume();
-                }
-            });
+                        ClipboardContent content = new ClipboardContent();
+                        content.put(pieceShape, pieceToDraw); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
+                        db.setContent(content);
+                        System.out.println("Drag Detected");
+                        event.consume();
+                    }
+                });
 
-            bullpenViewGroup.getGroup().setOnDragDone(new EventHandler<DragEvent>() {
-                public void handle(DragEvent event) {
+                bullpenViewGroup.getGroup().setOnDragDone(new EventHandler<DragEvent>() {
+                    public void handle(DragEvent event) {
                 /* the drag and drop gesture ended */
                 /* if the data was successfully moved, clear it */
-                    if (event.getTransferMode() == TransferMode.MOVE) {
-                        bullpenViewGroup.getGroup().setVisible(false);
+                        if (event.getTransferMode() == TransferMode.MOVE) {
+                            bullpenViewGroup.getGroup().setVisible(false);
+                        }
+                        System.out.println("Drag Done");
+                        event.consume();
                     }
-                    System.out.println("Drag Done");
-                    event.consume();
-                }
-            });
+                });
 
 
-            pieceGrid.add(pieceSelectorGroup.getGroup(), numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
-            pieceGrid.setMargin(pieceSelectorGroup.getGroup(), new Insets(10, 10, 10, 10));
+                pieceGrid.add(pieceSelectorGroup.getGroup(), numberOfPiecesDrawn % 4, numberOfPiecesDrawn / 4);
+                pieceGrid.setMargin(pieceSelectorGroup.getGroup(), new Insets(10, 10, 10, 10));
 
-            numberOfPiecesDrawn++;
+                numberOfPiecesDrawn++;
+            }
+
+            gridScroll.setContent(pieceGrid);
+            Scene pieceSelect = new Scene(gridScroll, 640, 480);
+            pieceSelector.setTitle("Piece Selector");
+            pieceSelector.setScene(pieceSelect);
+            pieceSelector.show();
         }
-
-        gridScroll.setContent(pieceGrid);
-        Scene pieceSelect = new Scene(gridScroll, 640, 480);
-        pieceSelector.setTitle("Piece Selector");
-        pieceSelector.setScene(pieceSelect);
-        pieceSelector.show();
-
-
     }
 
     /**
@@ -561,8 +575,7 @@ public class LevelBuilderController implements Initializable {
      *
      */
     public void resetPieces() {
-
-        if(level.getBullpen().getPieces().size() > 0) {
+        if (!level.getBullpen().getPieces().isEmpty()) {
             level.getBullpen().getPieces().clear();
             bullpenView.getChildren().clear();
             numberOfBullpenPieces = 0;
@@ -578,14 +591,21 @@ public class LevelBuilderController implements Initializable {
      * @param event action event
      */
     public void handleLoadButtonAction(ActionEvent event) throws IOException {
-
         // Return if empty
+
+
+        System.out.println(level.getBoard().getTiles().size());
+
+
         if(levelTextField.getText().equals("")){
             return;
         }
+
         else if(!Pattern.matches("[0-9]+", levelTextField.getText())){
             return;
         }
+
+        System.out.println(level.getBoard().getTiles().size());
 
         // only do loading things if the textfield has a valid value
         if (handleLevelChanged()) {
@@ -593,8 +613,14 @@ public class LevelBuilderController implements Initializable {
             levelNumber.setText(levelTextField.getText());
 
         }
-
+        System.out.println(level.getBoard().getTiles().size());
         int num = Integer.parseInt(levelTextField.getText());
+
+        System.out.println(level.getBoard().getTiles().size());
+        resetButtons();
+        resetFields(num);
+        resetBoard(num);
+        resetPieces();
 
 
         // initialize elements for correct level type
@@ -673,10 +699,6 @@ public class LevelBuilderController implements Initializable {
             case 0:
                 level = new LevelModel("release");
         }
-        resetButtons();
-        resetBoard(num);
-        resetFields(num);
-        resetPieces();
         loadLevel(num);
     }
 
@@ -1151,6 +1173,7 @@ public class LevelBuilderController implements Initializable {
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
                             }
                             level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+                            level.getBoard().printBoardAsDebug();
                             // Only place if it's a valid move
                             success = true;
                             System.out.println(droppedPiece.getUniqueID());
@@ -1292,6 +1315,10 @@ public class LevelBuilderController implements Initializable {
             
 
         } catch (FileNotFoundException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Level Error");
+            alert.setHeaderText("Level Missing");
+            alert.setContentText("The level you were trying to save to is missing");
             return;
         } catch (NullPointerException e){
             return;
@@ -1627,6 +1654,10 @@ public class LevelBuilderController implements Initializable {
         }
         catch (IOException e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Level Error");
+            alert.setHeaderText("Level Missing");
+            alert.setContentText("The level you were trying to save to is missing");
         }
     }
 }

@@ -33,6 +33,27 @@ public class Board {
     }
 
     /**
+     * Prints the board for debugging pieces
+     */
+    public void printBoardAsDebug(){
+        for(int x = 0; x < numRows; x++){
+            String tempString = "";
+            for (int y = 0; y < numColumns; y++) {
+                if (!getBoardTile(x, y).getExists()) {
+                    tempString += "0 ";
+                }
+                else if (getBoardTile(x, y).getCovered() > -1){
+                    tempString += getBoardTile(x, y).getCovered() + " ";
+                }
+                else if (getBoardTile(x, y).getExists()) {
+                    tempString += "_ ";
+                }
+            }
+            System.out.println(tempString);
+        }
+    }
+
+    /**
      * @author Arthur Dooner ajdooner@wpi.edu
      * Adds a piece to the board
      * @param p Piece used to take device results
@@ -90,20 +111,24 @@ public class Board {
     public boolean isValidMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
         for (Square s: p.squares){
             int squareColumnOffset = s.getRelCol();
-            int squareRowOffset = s.getRelRow();
+            int squareRowOffset = (s.getRelRow()*-1);
             if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0){ //We're out of bounds vertically
+                System.out.println("rip its out of bounds vertically");
                 return false;
             }
             //If it's out of bounds with rows
             if (squareRowOffset + tileRow > (numRows - 1) || squareRowOffset + tileRow < 0){ //We're out of bounds horizontally
+                System.out.println("rip its out of bounds horizontally");
                 return false;
             }
             //If it's a black tile
             if (!getBoardTile(tileRow + squareRowOffset, tileColumn + squareColumnOffset).getExists()){ //Dang, this location is out of bounds. (Tile is black)
+                System.out.println("rip the tile doesn't exist");
                 return false;
             }
             //If it's a tile that's covered by another piece
-            if (getBoardTile(tileRow, tileColumn).getCovered() > -1) {
+            if (getBoardTile(tileRow + squareRowOffset, tileColumn + squareColumnOffset).getCovered() > 0) {
+                System.out.println("rip its covered");
                 return false;
             }
         }
@@ -251,5 +276,13 @@ public class Board {
         }
         //We didn't get anything; uh oh!
         throw new PieceNotFoundException("Could not find piece with unique ID: " + id);
+    }
+
+    /**
+     * Clears the pieces on the board
+     */
+    public void clearBoard() {
+        tiles.clear();
+        piecesOnBoard.clear();
     }
 }

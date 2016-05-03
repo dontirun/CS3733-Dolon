@@ -35,8 +35,12 @@ public class GridSquare extends Pane{
             this.num = num;
             numLabel.setText("" + num);
             numLabel.isResizable();
-
+            numLabel.isVisible();
         }
+
+    public void clearNumber() {
+        numLabel.setVisible(false);
+    }
 
     /**
      * Gets the number label, unsure why needed

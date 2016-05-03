@@ -58,6 +58,7 @@ public class LevelModel {
      */
     public LevelModel(String mode){
         field = new Board(12,12);
+        bullpen = new Bullpen();
         // commenting out for now
         /*
         if(mode.equals("release")){
