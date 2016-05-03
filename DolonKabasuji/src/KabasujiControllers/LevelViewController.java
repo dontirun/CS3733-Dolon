@@ -281,10 +281,16 @@ public class LevelViewController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
                                 if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)){
-                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #0c3142");
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
+                                        (droppedPiece.getColor().getRed()*255)/2 + ", " +
+                                        (droppedPiece.getColor().getGreen()*255)/4 + ", " +
+                                        (droppedPiece.getColor().getBlue()*255)/3 + ")"); // Set color to mimic transparency
                                 }
                                 else{
-                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: #bee3f4");
+                                    getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
+                                            (droppedPiece.getColor().getRed()*255)*1.25 + ", " +
+                                            (droppedPiece.getColor().getGreen()*255)*1.25 + ", " +
+                                            (droppedPiece.getColor().getBlue()*255)*1.25 + ")"); // Set color to mimic transparency
                                 }
                             }
                             //System.out.println("Drag Entered is valid move");
@@ -309,7 +315,17 @@ public class LevelViewController implements Initializable {
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 //
                                 if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
-                                    pane.setStyle("-fx-background-color: #28a2db");
+                                    try {
+                                        pane.setStyle("-fx-background-color: rgb(" +
+                                            ourModel.getField().getPieceFromID(ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getRed()*255 + ", " +
+                                            ourModel.getField().getPieceFromID(ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getGreen()*255 + ", " +
+                                            ourModel.getField().getPieceFromID(ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
+                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getBlue()*255 + ")");
+                                    } catch (PieceNotFoundException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                                 else if ((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
                                     if((ourModel.getField().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){

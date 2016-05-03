@@ -54,6 +54,7 @@ public class Bullpen {
         }
         //We didn't get anything; uh oh!
         throw new PieceNotFoundException("Could not find piece with unique ID: " + desiredPiece.getUniqueID());
+
     }
 
 
