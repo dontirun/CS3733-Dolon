@@ -33,7 +33,7 @@ public class Hex28 extends Piece{
         squares.add(s4);
         squares.add(s5);
         squares.add(s6);
-        setColor(Color.MISTYROSE);
+        setColor(Color.MINTCREAM);
         // only print this if debug is on
         if (DEBUG == 1 ){
             System.out.println("Creating Piece with ID "+pieceID);
