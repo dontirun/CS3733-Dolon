@@ -61,10 +61,13 @@ public class AddPieceAction implements IAction{
      */
     @Override
     public boolean undoAction() {
-
+        System.out.println("youooo");
         // Remove piece
         bullpenView.getChildren().remove(pieceGroup);
+        System.out.println("youooo");
         bullpen.removePiece(piece.getUniqueID());
+
+        System.out.println("youooo");
 
         lbc.deletePieceFromBullpen();
         return true;

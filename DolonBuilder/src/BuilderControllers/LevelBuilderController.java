@@ -297,7 +297,7 @@ public class LevelBuilderController implements Initializable {
                 pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
                         //AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen());
-                        AddPieceAction action = new AddPieceAction(pieceToDraw, selectedGroup, level.getBullpen(), bullpenView, lbc); // Create action
+                        AddPieceAction action = new AddPieceAction(pieceToDraw, bullpenViewGroup.getGroup(), level.getBullpen(), bullpenView, lbc); // Create action
 
                         if(action.doAction()){
                             undoHistory.push(action); // Push to undo stack
