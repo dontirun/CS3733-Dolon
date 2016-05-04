@@ -3,7 +3,8 @@ package KabasujiModel;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arthur on 4/10/2016.
+ * @author Walter Ho, who@wpi.edu
+ * Models a specific release Tile
  */
 public class ReleaseTile extends Tile {
     int num;
@@ -17,26 +18,7 @@ public class ReleaseTile extends Tile {
     }
 
     /**
-     * Getter for the tile num
-     *
-     * @return number on the release tile
-     */
-    public int getNum(){
-        return num;
-    }
-
-    /**
-     * Setter for the tile num
-     *
-     * @param num number on the release tile
-     */
-    public void setNum(int num){
-        this.num=num;
-    }
-
-    /**
      * Gets the color of the tile
-     *
      * @return color
      */
     public Color getColor(){
@@ -44,12 +26,28 @@ public class ReleaseTile extends Tile {
     }
 
     /**
-     * Sets the color of the tile
-     *
+     * Getter for the Tile Number
+     * @return number on the release tile
+     */
+    public int getNum(){
+        return num;
+    }
+
+    /**
+     * Sets the color of the Tile
      * @param color color
      */
     public void setColor(Color color){
-        this.color=color;
+        this.color = color;
+    }
+
+    /**
+     * Setter for the tile num
+     *
+     * @param num number on the release Tile
+     */
+    public void setNum(int num){
+        this.num = num;
     }
 
 }

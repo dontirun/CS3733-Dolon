@@ -3,10 +3,11 @@ package KabasujiModel;
 import java.util.ArrayList;
 
 /**
- * Created by Walter on 4/16/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * Models the Bullpen of pieces users can select from and have access to
  */
 public class Bullpen {
-    ArrayList<Piece> pieces;
+    private ArrayList<Piece> pieces;
 
     /**
      * Constructor for the bullpen
@@ -16,8 +17,7 @@ public class Bullpen {
     }
 
     /**
-     * Adds a piece to the bullpen
-     *
+     * Adds a piece to the bullpen.
      * @param addedPiece piece to be added
      */
     public void addPiece(Piece addedPiece) {
@@ -26,22 +26,14 @@ public class Bullpen {
     }
 
     /**
-     * @param uniqueid unique id given to the piece
-     * @return true if the piece was successfully removed, otherwise false
+     * Clears all the pieces out of the bullpen.
      */
-    public boolean removePiece(int uniqueid) {
-        Piece toBeRemoved;
-        for (Piece p : pieces) {
-            if (p.getUniqueID() == uniqueid) {
-                pieces.remove(p);
-                return true;
-            }
-        }
-        return false;
+    public void clearPieces(){
+        pieces.clear();
     }
 
-
     /**
+     * Gets a piece in the bullpen given the piece that was being sought.
      * @param desiredPiece piece to be searched for
      * @return piece that was desired
      * @throws PieceNotFoundException
@@ -57,11 +49,22 @@ public class Bullpen {
 
     }
 
+    /**
+     * Getter for the piece IDs
+     * @return ArrayList of integers representing non-unique IDs
+     */
+    public ArrayList<Integer> getPieceIDs(){
+        ArrayList<Integer> temp = new ArrayList<>();
+        //Build the ArrayList of pieces
+        for(Piece p: pieces){
+            temp.add(p.getPieceID());
+        }
+        return temp;
+    }
 
     /**
      * Getter for the pieces
-     *
-     * @return arraylist of pieces
+     * @return ArrayList of Piece representing the pieces in the bullpen
      */
     // Getter for pieces
     public ArrayList<Piece> getPieces(){
@@ -69,21 +72,19 @@ public class Bullpen {
     }
 
     /**
-     * Getter for the piece IDs
-     *
-     * @return arraylist of integers
+     * Removes a piece from the bullpen.
+     * @param uniqueID unique id given to the piece
+     * @return true if the piece was successfully removed, otherwise false
      */
-    public ArrayList<Integer> getPieceIDs(){
-        ArrayList<Integer> temp = new ArrayList<Integer>();
-
-        for(Piece p: pieces){
-            temp.add(p.getPieceID());
+    public boolean removePiece(int uniqueID) {
+        for (Piece p : pieces) {
+            if (p.getUniqueID() == uniqueID) {
+                pieces.remove(p);
+                return true;
+            }
         }
+        return false;
+    }
 
-        return temp;
-    }
-    public void clearPieces(){
-        pieces.clear();
-    }
 
 }

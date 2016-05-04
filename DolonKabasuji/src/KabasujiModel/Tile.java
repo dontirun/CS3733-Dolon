@@ -1,7 +1,9 @@
 package KabasujiModel;
 
 /**
- * Created by Arthur on 4/10/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * @author Arun Donti, andonti@wpi.edu
+ * Models the abstraction of a Tile for use in a Board
  */
 public class Tile {
 
@@ -22,7 +24,6 @@ public class Tile {
     /**
      * Constructor for the tile
      * Can set its existence
-     *
      * @param exists whether the tile exists or not
      */
     public Tile(boolean exists){
@@ -32,21 +33,33 @@ public class Tile {
     }
 
     /**
-     * Getter for if it exists
-     *
-     * @return true if it exists, false otherwise
+     * Sets the reverse of the tile existing
      */
-    public boolean getExists(){
-        return exists;
+    public void flipExists(){
+        exists=!exists;
+    }
+
+    /**
+     * Sets the reverse of the tile having a hint.
+     */
+    public void flipHint(){
+        hint = !hint;
     }
 
     /**
      * Getter for covered
-     *
      * @return int representing it being covered
      */
     public int getCovered(){
         return covered;
+    }
+
+    /**
+     * Getter for if it exists
+     * @return true if it exists, false otherwise
+     */
+    public boolean getExists(){
+        return exists;
     }
 
     /**
@@ -59,39 +72,11 @@ public class Tile {
     }
 
     /**
-     * Setter for hint
-     *
-     *
+     * Getter for the square of the tile
+     * @return square
      */
-    public void setHint(Boolean b){
-        this.hint = b;
-    }
-
-    /**
-     * Sets the reverese of the tile existing
-     */
-    public void flipHint(){
-        hint=!hint;
-    }
-
-    /**
-     * Setter for covered
-     *
-     * @param covered int representing it being covered, corresponding to unique Piece ID
-     */
-    public void setCovered(int covered) {
-        this.covered = covered;
-    }
-
-    /**
-     * Setter for the square in the tile
-     *
-     * @param square square
-     * @param covered int representing it being covered
-     */
-    public void setSquare(Square square, int covered){
-        this.covered = covered;
-        this.square = square;
+    public Square getSquare() {
+        return square;
     }
 
     /**
@@ -103,27 +88,38 @@ public class Tile {
     }
 
     /**
-     * Getter for the square of the tile
-     *
-     * @return square
+     * Setter for covered
+     * @param covered int representing it being covered, corresponding to unique Piece ID
      */
-    public Square getSquare() {
-        return square;
+    public void setCovered(int covered) {
+        this.covered = covered;
     }
+
 
     /**
      * Sets whether the tile exists or not
-     *
-     * @param b whether it exists or not
+     * @param b boolean representing the exists state.
      */
     public void setExists(boolean b){
         exists = b;
     }
 
     /**
-     * Sets the reverese of the tile existing
+     * Setter for hint
+     * @param b boolean representing new hint state.
      */
-    public void flipExists(){
-        exists=!exists;
+    public void setHint(Boolean b){
+        this.hint = b;
     }
+
+    /**
+     * Setter for the square in the tile.
+     * @param square square
+     * @param covered int representing it being covered
+     */
+    public void setSquare(Square square, int covered){
+        this.covered = covered;
+        this.square = square;
+    }
+
 }

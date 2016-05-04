@@ -2,17 +2,20 @@ package KabasujiModel;
 
 import java.util.ArrayList;
 
-/**
- * Created by Arthur on 4/10/2016.
+/** @author Arthur Dooner, ajdooner@wpi.edu
+ *  @author Robyn Domanico, rdomanico@wpi.edu
+ *  @author Stephen Lafortune, srlafortune@wpi.edu
+ *  Maintains a persistent board to manage all pieces on the board.
  */
 public class Board {
     ArrayList<ArrayList<Tile>> tiles; //Rows holding columns
     ArrayList<Piece> piecesOnBoard;
-    int numColumns, numRows;
-    static int counter = 0;
+    private int numColumns, numRows;
+    private static int counter = 0;
 
     /**
      * Constructor for the Board
+     * Initializes a new board with the number of rows and columns set to twelve
      */
     public Board() {
         //Initialize tiles
@@ -24,6 +27,9 @@ public class Board {
 
     /**
      * Constructor for the Board
+     * Takes in a number of rows and columns to apply to the board
+     * @param numRows, number of rows the board should have
+     * @param numColumns, number of columns the board should have
      */
     public Board(int numRows, int numColumns) {
         tiles = new ArrayList<>();
@@ -33,9 +39,8 @@ public class Board {
     }
 
     /**
-     * @author Arthur Dooner ajdooner@wpi.edu
      * Adds a piece to the board
-     * @param p Piece used to take device results
+     * @param p Piece used to add to the board
      * @param tileRow specific row to base the anchor around
      * @param tileColumn specific column to base the anchor around
      * @return true if successfully added, false otherwise
@@ -59,6 +64,13 @@ public class Board {
         return false;
     }
 
+    /**
+     *  Adds a piece to the board in lightning mode.
+     *  @param p Piece used to add to the board
+     *  @param tileRow specific row to base the anchor around
+     *  @param tileColumn specific column to base the anchor around
+     *  @return true if successfully added, false otherwise
+     */
     public boolean addPieceLightning(Piece p, int tileRow, int tileColumn){ //In the format (y down the grid, x across)
         if (isValidLightningMove(p, tileRow, tileColumn)) { //if we can make this move
             p.flipPieceVert();
@@ -79,33 +91,76 @@ public class Board {
     }
 
     /**
-     * Takes in a unique pieceOnBoardNum to remove a piece from the board
-     * @param uniqueID the unique identifier for the piece
-     * @return true if successfully removed from the board, false otherwise
+     * Clears the pieces and tiles on the board
      */
-    public boolean removePiece(int uniqueID){
-        for (ArrayList<Tile> a : tiles){ //Iterate over all the rows
-            for (Tile t : a) { //Iterate over all the columns
-                if (t.getCovered() == uniqueID){  //If pieceNums Unique ID and the covered int are the same
-                    t.removeSquare(); //Clear the square
-                }
-            }
+    public void clearBoard() {
+        tiles.clear();
+        piecesOnBoard.clear();
+        counter = 0;
+    }
+
+
+    /**
+     * Gets the specific tile on a board, pointed to by tileRow and tileColumn
+     * @param tileRow Row of the Tile
+     * @param tileColumn Column of the Tile
+     * @return Tile specific board tile
+     */
+    public Tile getBoardTile(int tileRow, int tileColumn){
+        if (tileRow > numRows - 1) {
+            throw(new IndexOutOfBoundsException("Row out of bounds"));
         }
-        for (int x = 0; x < piecesOnBoard.size(); x++){ //Iterate over all the pieces
-            if (piecesOnBoard.get(x).getUniqueID() == uniqueID){ //If the piece board numbers are the same
-                piecesOnBoard.remove(x);
-                return true;
-            }
+        else if (tileColumn > numColumns - 1) {
+            throw(new IndexOutOfBoundsException("Column out of bounds"));
         }
-        return false;
+        return tiles.get(tileRow).get(tileColumn);
     }
 
     /**
-     * @author Arthur Dooner ajdooner@wpi.edu
-     * Checks if a move is valid
-     * @param p Piece used to take device results
+     * Gets unique piece from the unique ID it was assigned
+     * @param id of piece to be searched for
+     * @return piece that was desired
+     * @throws PieceNotFoundException if a piece with a matching unique ID was not found
+     */
+    public Piece getPieceFromID(int id) throws PieceNotFoundException {
+        //Iterate over all the pieces
+        for (Piece p : piecesOnBoard) {
+            if (p.getUniqueID() == id) { //If the unique ID of the piece matches the one we're looking for
+                return p;
+            }
+        }
+        //We didn't get anything; uh oh!
+        throw new PieceNotFoundException("Could not find piece with unique ID: " + id);
+    }
+
+    /**
+     * Checks if the piece is out of bounds
+     * @param p piece used to take device results
      * @param tileRow specific row to base the anchor around
      * @param tileColumn specific column to base the anchor around
+     * @return true if piece is out of bounds of the game, false otherwise
+     */
+    public boolean isOutOfBounds(Piece p, int tileRow, int tileColumn) {
+        for (Square s: p.squares) {
+            int squareColumnOffset = s.getRelCol();
+            int squareRowOffset = (s.getRelRow()*-1);
+            if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0) { //We're out of bounds vertically
+                return false;
+            }
+            //If it's out of bounds with rows
+            if (squareRowOffset + tileRow > (numRows - 1) || squareRowOffset + tileRow < 0) { //We're out of bounds horizontally
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Checks if a move is valid
+     * @param p Piece used to check if locations are valid
+     * @param tileRow specific row to base the anchor around
+     * @param tileColumn specific column to base the anchor around
+     * @return true if a valid move, false otherwise
      */
     public boolean isValidMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
         for (Square s: p.squares){
@@ -135,10 +190,11 @@ public class Board {
     }
 
     /**
-     * @param p
-     * @param tileRow
-     * @param tileColumn
-     * @return
+     * Checks if a piece is valid for a lightning level
+     * @param p Piece used to check if locations are valid
+     * @param tileRow specific row to base the anchor around
+     * @param tileColumn specific column to base the anchor around
+     * @return true if a valid move, false otherwise
      */
     public boolean isValidLightningMove(Piece p, int tileRow, int tileColumn){ //remember, in the format (y down, x across)
         for (Square s: p.squares){
@@ -160,82 +216,67 @@ public class Board {
     }
 
     /**
-     * Checks if the piece is out of bounds
-     *
-     * @param p piece used to take device results
-     * @param tileRow specific row to base the anchor around
-     * @param tileColumn specific column to base the anchor around
-     * @return
+     * Prints the board for debugging pieces
      */
-    public boolean isOutOfBounds(Piece p, int tileRow, int tileColumn) {
-        for (Square s: p.squares) {
-            int squareColumnOffset = s.getRelCol();
-            int squareRowOffset = (s.getRelRow()*-1);
-            if (squareColumnOffset + tileColumn > (numColumns - 1) || squareColumnOffset + tileColumn < 0) { //We're out of bounds vertically
-                return false;
-            }
-            //If it's out of bounds with rows
-            if (squareRowOffset + tileRow > (numRows - 1) || squareRowOffset + tileRow < 0) { //We're out of bounds horizontally
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Checks to see if an intended location is out of bounds
-     *
-     * @param tileRow specific row to check
-     * @param tileCol specific column to check
-     */
-    public boolean isInBounds(int tileRow, int tileCol){
-        if(tileRow < 0 || tileRow > numRows){ // Check row
-            return false;
-        }
-        if(tileCol < 0 || tileRow > numColumns){ // Check column
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param id of piece to be searched for
-     * @return piece that was desired
-     * @throws PieceNotFoundException
-     */
-    public Piece getPieceFromID(int id) throws PieceNotFoundException {
-        for (Piece p : piecesOnBoard) {
-            if (p.getUniqueID() == id) {
-                return p;
-            }
-        }
-        //We didn't get anything; uh oh!
-        throw new PieceNotFoundException("Could not find piece with unique ID: " + id);
-    }
-
-    /**
-     * Gets the number of tiles that are not currently covered
-     * @return number of tiles that are not covered (covered = -1)
-     */
-    public int tilesUncovered(){
-        int count = 0;
-
+    public void printBoardAsDebug(){
         for(int x = 0; x < numRows; x++){
-            for(int y = 0; y < numColumns; y++){
-                if(!(getBoardTile(x, y).getCovered() > -1) && getBoardTile(x,y).getExists()){
-                    count++;
+            String tempString = "";
+            for (int y = 0; y < numColumns; y++) {
+                if (!getBoardTile(x, y).getExists()) {
+                    tempString += "0 ";
+                }
+                else if (getBoardTile(x, y).getCovered() > -1){
+                    tempString += getBoardTile(x, y).getCovered() + " ";
+                }
+                else if (getBoardTile(x, y).getExists()) {
+                    tempString += "_ ";
+                }
+            }
+            System.out.println(tempString);
+        }
+    }
+
+    /**
+     * @param uniqueID the unique identifier for the piece
+     * @return true if successfully removed from the board, false otherwise
+     */
+    public boolean removePiece(int uniqueID){
+        for (ArrayList<Tile> a : tiles){ //Iterate over all the rows
+            for (Tile t : a) { //Iterate over all the columns
+                if (t.getCovered() == uniqueID){  //If pieceNums Unique ID and the covered int are the same
+                    t.removeSquare(); //Clear the square
                 }
             }
         }
-
-        return count;
+        for (int x = 0; x < piecesOnBoard.size(); x++){ //Iterate over all the pieces
+            if (piecesOnBoard.get(x).getUniqueID() == uniqueID){ //If the piece board numbers are the same
+                piecesOnBoard.remove(x);
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Sets the specific tile on a board, pointed to by tileRow and tileColumn
+     * @param tempTile Tile to be set in specified place
+     * @param tileRow Row of the Tile
+     * @param tileColumn Column of the Tile
+     */
+    public void setBoardTile(Tile tempTile, int tileRow, int tileColumn) {
+        if (tileRow > numRows - 1) {
+            throw(new IndexOutOfBoundsException("Row out of bounds"));
+        }
+        else if (tileColumn > numColumns - 1){
+            throw (new IndexOutOfBoundsException("Column out of bounds"));
+        }
+        ArrayList<Tile> tempArrayList = tiles.get(tileRow);
+        tempArrayList.set(tileColumn, tempTile);
+        tiles.set(tileRow, tempArrayList);
 
+    }
 
     /**
-     * @author Arthur Dooner ajdooner@wpi.edu
      * Sets the number of columns on a board, removing or adding columms as appropriate
      * @param numColumns Variable that is the number of columns we want
      */
@@ -269,44 +310,6 @@ public class Board {
     }
 
     /**
-     * @author Arthur Dooner ajdooner@wpi.edu
-     * Gets the specific tile on a board, pointed to by tileRow and tileColumn
-     * @param tileRow Row of the Tile
-     * @param tileColumn Column of the Tile
-     * @return Tile specific board tile
-     */
-    public Tile getBoardTile(int tileRow, int tileColumn){
-        if (tileRow > numRows - 1) {
-            throw(new IndexOutOfBoundsException("Row out of bounds"));
-        }
-        else if (tileColumn > numColumns - 1) {
-            throw(new IndexOutOfBoundsException("Column out of bounds"));
-        }
-        return tiles.get(tileRow).get(tileColumn);
-    }
-
-    /**
-     * @author Arthur Dooner ajdooner@wpi.edu
-     * Sets the specific tile on a board, pointed to by tileRow and tileColumn
-     * @param tempTile Tile to be set in specified place
-     * @param tileRow Row of the Tile
-     * @param tileColumn Column of the Tile
-     */
-    public void setBoardTile(Tile tempTile, int tileRow, int tileColumn) {
-        if (tileRow > numRows - 1) {
-            throw(new IndexOutOfBoundsException("Row out of bounds"));
-        }
-        else if (tileColumn > numColumns - 1){
-            throw (new IndexOutOfBoundsException("Column out of bounds"));
-        }
-        ArrayList<Tile> tempArrayList = tiles.get(tileRow);
-        tempArrayList.set(tileColumn, tempTile);
-        tiles.set(tileRow, tempArrayList);
-
-    }
-
-    /**
-     * @author Arthur Dooner ajdooner@wpi.edu
      * Sets the number of columns on a board, removing or adding rows as appropriate
      * @param numRows Variable that is the number of rows we want
      */
@@ -334,15 +337,15 @@ public class Board {
         }
     }
 
-    /** Counts the number of valid tiles on the board
-     *
+    /**
+     * Counts the number of valid tiles on the board
      * @return number of valid (existing) tiles on the board
      */
     public int tilesOnBoard(){
         int validTiles = 0;
         for (ArrayList<Tile> a : tiles){ //Iterate over all the rows
             for (Tile t : a) { //Iterate over all the columns
-                if (t.getExists()==true){  //If pieceNums Unique ID and the covered int are the same
+                if (t.getExists()){  //If pieceNums Unique ID and the covered int are the same
                     validTiles++;
                 }
             }
@@ -351,32 +354,23 @@ public class Board {
     }
 
     /**
-     * Prints the board for debugging pieces
+     * Gets the number of tiles that are not currently covered
+     * @return number of tiles that are not covered (covered = -1)
      */
-    public void printBoardAsDebug(){
-        for(int x = 0; x < numRows; x++){
-            String tempString = "";
-            for (int y = 0; y < numColumns; y++) {
-                if (!getBoardTile(x, y).getExists()) {
-                    tempString += "0 ";
-                }
-                else if (getBoardTile(x, y).getCovered() > -1){
-                    tempString += getBoardTile(x, y).getCovered() + " ";
-                }
-                else if (getBoardTile(x, y).getExists()) {
-                    tempString += "_ ";
+    public int tilesUncovered(){
+        int count = 0;
+        //Iterate down the rows and columns
+        for (int x = 0; x < numRows; x++){
+            for (int y = 0; y < numColumns; y++){
+                //If the tile is not covered and exists
+                if (!(getBoardTile(x, y).getCovered() > -1) && getBoardTile(x,y).getExists()){
+                    //Increment count
+                    count++;
                 }
             }
-            System.out.println(tempString);
         }
+        return count;
     }
-
-    /**
-     * Clears the pieces and tiles on the board
-     */
-    public void clearBoard() {
-        tiles.clear();
-        piecesOnBoard.clear();
-    }
-
 }
+
+

@@ -1,24 +1,22 @@
 package KabasujiModel;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
- * Created by Arthur on 4/10/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * @author Stephen Lafortune, srlafortune@wpi.edu
+ * @author Robyn Domanico, rdomanico@wpi.edu
+ * Models the specific level, containing all of the necessary information and container for the eele
  */
 public abstract class LevelModel {
-
-
-    int levelNum, maxStars, numStars;
-    boolean isUnlocked;
+    int levelNum, maxStars, stars;
+    protected boolean DEBUG = true;
+    private boolean isUnlocked;
     Bullpen bullpen;
     Board board;
-    int stars;
 
     /**
      * Takes in LevelModel number to configure the level.
-     *
      * @param levelNum level to be configured
      */
     public LevelModel(int levelNum){
@@ -29,60 +27,9 @@ public abstract class LevelModel {
     }
 
     /**
-     * Takes in a board file string
-     * opens the file from relative string name and reads it in, setting up the board properly.
-     * Returns true upon success, false upon failure
-     *
-     * @param fileName file to load the board from
-     * @return
-     */
-
-    public boolean loadBoard(String fileName){
-        try {
-            FileInputStream inputStream = new FileInputStream(fileName);
-            return true;
-        }
-        catch (FileNotFoundException fileException) {
-            System.out.println("File " + fileName + " not found.");
-            return false;
-        }
-
-    }
-
-    /**
-     * Checks to see if conditions have been satisfied for the player to move on to the next level.
-     * Returns true if conditions were met, false upon failure
-     *
-     * @return returns whether the level has been passed or not
-     */
-
-    public boolean hasPassed() {
-        return false;
-    }
-
-    //Not quite sure what this does yet
-    /*
-    public boolean doMove(Move m){
-        return true;
-    }
-    */
-
-    /**
-     * Checks to see if board conditions suggest that stars needed to be changed.
-     * Returns true if the star count was changed, false otherwise.
-     *
-     * @return true if stars have been updated
-     */
-
-    public boolean updateStars() {
-        return false;
-    }
-
-    /**
-     * Returns the tile in a certain row and column
-     *
-     * @param row row of tile
-     * @param col column of tile
+     * Returns the tile in a certain row and column.
+     * @param row Row of Tile
+     * @param col Column of Tile
      * @return tile
      */
     public Tile getTile(int row, int col) {
@@ -90,22 +37,45 @@ public abstract class LevelModel {
     }
 
     /**
-     * Gets the arraylist of all the tiles that make up the level
-     *
-     * @return array of tiles
+     * Gets the Board of the level.
+     * @return The board of the level
+     */
+    public Board getBoard() { return board; }
+
+    /**
+     * Gets the ArrayList of all the Tiles that make up the level.
+     * @return ArrayList of ArrayLists of Tile
      */
     public  ArrayList<ArrayList<Tile>>  getBoardTiles(){
         return board.tiles;
     }
 
     /**
-     * @return returns the board of the level
+     * Gets the bullpen.
+     * @return Bullpen of the model
      */
-    public Board getBoard() { return board; }
-
+    public Bullpen getBullpen(){
+        return bullpen;
+    }
 
     /**
-     * Gets all of the pieces on the bullpen
+     * Gets the level number of the level.
+     * @return Level Number
+     */
+    public int  getLevelNum() {
+        return levelNum;
+    }
+
+    /**
+     * Gets the max number of stars.
+     * @return Max number of stars
+     */
+    public int getMaxStars(){
+        return maxStars;
+    }
+
+    /**
+     * Gets all of the pieces on the bullpen.
      * @return pieces on the board
      */
     public ArrayList<Piece> getPiecesOnBoard(){
@@ -114,42 +84,45 @@ public abstract class LevelModel {
 
     /**
      * Gets the number of stars obtained for the level
-     *
      * @return number of stars
      */
     public int getStars() {
         return stars;
     }
-    public int getMaxStars(){
-        return maxStars;
-    }
 
     /**
-     * Gets the bullpen
-     * @return the bullpen
+     * Checks to see if conditions have been satisfied for the player to move on to the next level.
+     * @return true if conditions were met, false upon failure
      */
-    public Bullpen getBullpen(){
-        return bullpen;
+    public boolean hasPassed() {
+        return false;
     }
 
     /**
-     * Sets the level number of the model
-     * @param levelNum
+     * Sets the level number of the model.
+     * @param levelNum to set.
      */
     public void setLevelNum(int levelNum) {
         this.levelNum = levelNum;
     }
 
     /**
-     * Gets the level number of the model
-     * @return
+     * Sets the unlocked state of this level
+     * @param b Unlocked state
      */
-    public int  getLevelNum() {
-        return levelNum;
-    }
     public void setUnlocked(boolean b){
-        isUnlocked=b;
+        isUnlocked = b;
     }
+
+    /**
+     * Checks to see if board conditions suggest that stars needed to be changed.
+     * Returns true if the star count was changed, false otherwise.
+     * @return true if stars have been updated
+     */
+    public boolean updateStars() {
+        return false;
+    }
+
 }
 
 

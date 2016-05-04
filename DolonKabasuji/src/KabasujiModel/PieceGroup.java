@@ -15,9 +15,10 @@ import javafx.scene.shape.Rectangle;
 
 import static KabasujiControllers.LevelViewController.pieceShape;
 
-
 /**
- * Created by Arthur on 4/25/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * @author Arun Donti, andonti@wpi.edu
+ * Models the visual aspect of the Piece to draw it as needed.
  */
 public class PieceGroup {
     private Piece piece;
@@ -30,10 +31,16 @@ public class PieceGroup {
         generateShapeFromPiece(this.piece);
     }
 
+    private static final class DragContext {
+        public double mouseAnchorX;
+        public double mouseAnchorY;
+        public double initialTranslateX;
+        public double initialTranslateY;
+    }
+
     /**
-     * Generates group of squares from the piece
-     *
-     * @param pieceToDraw
+     * Generates group of visual Squares from the Piece model.
+     * @param pieceToDraw Piece that will be drawn
      */
     public void generateShapeFromPiece(final Piece pieceToDraw) {
         pieceGroup = new Group();
@@ -77,18 +84,23 @@ public class PieceGroup {
     }
 
     /**
-     * getter for piece
-     *
+     * Returns the view of the piece
+     * @return group of squares representing the piece
+     */
+    public Group getGroup(){
+        return pieceGroup;
+    }
+
+    /**
+     * Gets the piece.
      * @return piece
      */
     public Piece getPiece(){
         return piece;
     }
 
-
-    /**
+    /*/**
      * Makes a group draggable, may or may not be implemented
-     *
      * @param node
      * @return Group
      */
@@ -148,19 +160,5 @@ public class PieceGroup {
         return wrapGroup;
     }
     */
-
-    /**
-     * Returns the view of the piece
-     *
-     * @return group of squares representing the piece
-     */
-    public Group getGroup(){
-        return pieceGroup;
-    }
-    private static final class DragContext {
-        public double mouseAnchorX;
-        public double mouseAnchorY;
-        public double initialTranslateX;
-        public double initialTranslateY;
-    }
 }
+

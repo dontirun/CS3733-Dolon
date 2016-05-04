@@ -3,15 +3,14 @@ package KabasujiModel;
 import java.io.Serializable;
 
 /**
- * Created by Arthur on 4/10/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * Models a square, which are the elements of piece.
  */
 public class Square implements Serializable {
-    int relCol;
-    int relRow;
+    private int relCol, relRow;
 
     /**
-     * Constructor for the square
-     *
+     * Constructor for the square.
      * @param relCol relative column
      * @param relRow relative row
      */
@@ -21,8 +20,7 @@ public class Square implements Serializable {
     }
 
     /**
-     * Getter for the relative column
-     *
+     * Getter for the relative column from the anchor
      * @return relative column
      */
     public int getRelCol() {
@@ -30,17 +28,7 @@ public class Square implements Serializable {
     }
 
     /**
-     * Setter for the relative column
-     *
-     * @param relCol relative column
-     */
-    public void setRelCol(int relCol) {
-        this.relCol = relCol;
-    }
-
-    /**
-     * Getter for the relative row
-     *
+     * Getter for the relative row from the anchor
      * @return relative row
      */
     public int getRelRow() {
@@ -48,8 +36,15 @@ public class Square implements Serializable {
     }
 
     /**
-     * Setter for the relative row
-     *
+     * Setter for the relative column  from the anchor
+     * @param relCol relative column
+     */
+    public void setRelCol(int relCol) {
+        this.relCol = relCol;
+    }
+
+    /**
+     * Setter for the relative row from the anchor
      * @param relRow relative row
      */
     public void setRelRow(int relRow) {

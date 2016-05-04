@@ -1,9 +1,8 @@
 package KabasujiModel;
 
 /**
- * Thrown when a piece is not found
- *
- * Created by Arthur on 4/29/2016.
+ * @author Stephen Lafortune, srlafortune@wpi.edu
+ * Thrown when a piece is not found.
  */
 public class PieceNotFoundException extends Exception {
     public PieceNotFoundException() { super(); }
