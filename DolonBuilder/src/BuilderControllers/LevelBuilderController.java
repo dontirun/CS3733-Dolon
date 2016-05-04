@@ -330,7 +330,7 @@ public class LevelBuilderController implements Initializable {
                         if (selectedPiece == pieceToDraw) {
                             selectedPiece = null;
                             bullpenViewGroup.getGroup().setEffect(null);
-                            System.out.println("unique id of selected piece"+selectedPiece.getUniqueID());
+                            //System.out.println("unique id of selected piece"+selectedPiece.getUniqueID());
                         }
                         else {
                             if (selectedPiece != null) {
