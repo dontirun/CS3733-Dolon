@@ -73,9 +73,9 @@ public class DragPieceAction implements IAction {
 
     @Override
     public boolean undoAction() {
-        MouseButton m = MouseButton.SECONDARY;
-        m.
-        tilePane.fireEvent(tilePane, new MouseEvent(MouseEvent.MOUSE_CLICKED, MouseButton.SECONDARY));
+        //MouseButton m = MouseButton.SECONDARY;
+
+        //tilePane.fireEvent(tilePane, new MouseEvent(MouseEvent.MOUSE_CLICKED, MouseButton.SECONDARY));
         //Event.fireEvent(tilePane, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.SECONDARY, 1, true, true, true, true, true, true, true, true, true, true, null));
         /*
         Piece piece = droppedPiece;
