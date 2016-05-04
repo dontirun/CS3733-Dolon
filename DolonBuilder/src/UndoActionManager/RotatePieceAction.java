@@ -35,7 +35,7 @@ public class RotatePieceAction implements IAction{
     /**
      * Rotate a piece
      *
-     * @return
+     * @return return true if successful
      */
     @Override
     public boolean doAction() {
@@ -62,7 +62,7 @@ public class RotatePieceAction implements IAction{
     /**
      * Undo rotating a piece
      *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean undoAction() {
@@ -88,8 +88,7 @@ public class RotatePieceAction implements IAction{
 
     /**
      * Redo rotating a piece
-     *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean redoAction() {
@@ -116,7 +115,7 @@ public class RotatePieceAction implements IAction{
     /**
      * Check if a rotation is valid
      *
-     * @return
+     * @return true if valid
      */
     @Override
     public boolean isValid() {

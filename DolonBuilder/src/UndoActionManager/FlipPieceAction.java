@@ -8,7 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-/**
+/** Handles flipping of a piece
  * Created by slafo on 4/28/2016.
  */
 public class FlipPieceAction implements IAction {
@@ -20,9 +20,9 @@ public class FlipPieceAction implements IAction {
     /**
      * Constructor
      *
-     * @param piece
-     * @param pieceGroup
-     * @param direction
+     * @param piece the piece being flipped
+     * @param pieceGroup piece group associated with piece
+     * @param direction the direction to flip, either 'h' for horizontal or 'v' for vertical
      */
     public FlipPieceAction(Piece piece, Group pieceGroup, char direction, double rectangleSize) {
 
@@ -35,7 +35,7 @@ public class FlipPieceAction implements IAction {
     /**
      * Flip the piece
      *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean doAction() {
@@ -49,7 +49,7 @@ public class FlipPieceAction implements IAction {
     /**
      * Undo the flip
      *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean undoAction() {
@@ -59,8 +59,7 @@ public class FlipPieceAction implements IAction {
 
     /**
      * Redo the flip
-     *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean redoAction() {
@@ -71,7 +70,7 @@ public class FlipPieceAction implements IAction {
     /**
      * Check if the flip action is valid
      *
-     * @return
+     * @return true if valid
      */
     @Override
     public boolean isValid() {

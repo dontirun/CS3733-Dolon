@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 
-/**Handles resize for release levels
+/**Handles resize for board resize action
  * Created by Walter on 4/24/2016.
  */
 public class ResizeReleaseAction implements IAction {
@@ -30,15 +30,15 @@ public class ResizeReleaseAction implements IAction {
 
     LevelModel level;
     ArrayList<ArrayList<Tile>> tiles;
-    ArrayList<ArrayList<Pane>> panes;;
+    ArrayList<ArrayList<Pane>> panes;
 
     /**
      * Constructor
      *
-     * @param tiles
-     * @param panes
-     * @param colsTextField
-     * @param rowsTextField
+     * @param tiles all tiles on the board
+     * @param panes all panes on the board
+     * @param colsTextField textfield containing cols input
+     * @param rowsTextField textfield containing rows input
      */
     public ResizeReleaseAction( ArrayList<ArrayList<Tile>> tiles,  ArrayList<ArrayList<Pane>> panes, TextField colsTextField, TextField rowsTextField) {
         this.tiles = tiles;
@@ -50,7 +50,7 @@ public class ResizeReleaseAction implements IAction {
     /**
      * Resize the board
      *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean doAction() {
@@ -96,7 +96,7 @@ public class ResizeReleaseAction implements IAction {
 
     /**
      * Undo resizing the board
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean undoAction() {
@@ -111,7 +111,7 @@ public class ResizeReleaseAction implements IAction {
 
     /**
      * Redo resizing the board
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean redoAction() {
@@ -126,7 +126,7 @@ public class ResizeReleaseAction implements IAction {
 
     /**
      * Check if the action of resizing the board is valid
-     * @return
+     * @return true if valid
      */
     @Override
     public boolean isValid() {
