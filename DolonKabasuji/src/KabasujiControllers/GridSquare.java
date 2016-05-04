@@ -5,7 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 /**
- * Created by Walter on 4/23/2016.
+ * @author Walter Ho, who@wpi.edu
+ * Abstraction of the square on the grid, extending the visual Pane
  */
 public class GridSquare extends Pane{
 
@@ -20,13 +21,11 @@ public class GridSquare extends Pane{
         numLabel = new Label();
         numLabel.setAlignment(Pos.CENTER);
         getChildren().add(numLabel);
-       // redNums = new boolean[6];
     }
 
 
     /**
      * Sets the number that shows up on the pane
-     *
      * @param num desired number to show on the pane
      */
     public void setNumber(int num) {
@@ -47,17 +46,10 @@ public class GridSquare extends Pane{
 
     /**
      * Gets the number label, unsure why needed
-     *
      * @return label
      */
         public Label getNumLabel() {
             return numLabel;
         }
-//    public void setNum(Color color){
-//        if(color==Color.RED){
-//            numLabel.setText("1");
-//            numLabel.setTextFill(Color.RED);
-//        }
-//    }
 
 }

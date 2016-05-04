@@ -28,47 +28,24 @@ import java.util.*;
 import KabasujiModel.*;
 
 /**
- * Created by Arthur on 4/10/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * @author Arun Donti, andonti@wpi.edu
+ * @author Robyn Domanico, rdomanico@wpi.edu
+ * @author Stephen Lafortune, srlafortune@wpi.edu
+ * @author Walter Ho, who@wpi.edu
+ * Controls the interactions between the visual elements and the Model.
  */
 public class LevelViewController implements Initializable {
+    //Visual references
     @FXML
-    Button homeButton;
+    Button homeButton, backLevel, forwardLevel, flipHoriz, flipVert, rotateLeft, rotateRight;
     @FXML
-    Button backLevel;
+    Label levelNumber, allowedLabel, limitLabel;
     @FXML
-    Button forwardLevel;
+    GridPane boardView, bullpenView;
     @FXML
-    Label levelNumber;
-    @FXML
-    Label allowedLabel;
-    @FXML
-    Label limitLabel;
-    @FXML
-    GridPane boardView;
-    @FXML
-    GridPane bullpenView;
-    @FXML
-    ImageView levelIcon;
-    @FXML
-    ImageView backArrow;
-    @FXML
-    ImageView forwardArrow;
-    @FXML
-    ImageView firstStar;
-    @FXML
-    ImageView secondStar;
-    @FXML
-    ImageView thirdStar;
-    @FXML
-    ImageView homeIcon;
-    @FXML
-    Button flipHoriz;
-    @FXML
-    Button flipVert;
-    @FXML
-    Button rotateLeft;
-    @FXML
-    Button rotateRight;
+    ImageView levelIcon, backArrow, forwardArrow, firstStar, secondStar, thirdStar, homeIcon;
+
     Timer timer;
     Piece selectedPiece; // For rotation/flipping
     Group selectedGroup; // For rotation/flipping
@@ -83,14 +60,9 @@ public class LevelViewController implements Initializable {
     private final static double squareWidth = 45.8333333;
     LevelModel ourModel;
     int timeLeft;
-
+    boolean DEBUG = false;
     // max rows and columns, might need to be changed
-    int rows = 12;
-    int columns = 12;
-
-    int gridW = 2;
-    int gridH;
-    int numberOfPiecesDrawn;
+    int rows = 12, columns = 12, gridW = 2, gridH, numberOfPiecesDrawn;
 
     boolean frozenStars; // true if the star count is unchangable ie timer ran out
 
@@ -103,40 +75,28 @@ public class LevelViewController implements Initializable {
 
     /**
      * Handles the home button being pressed
-     *
      * @param event action event
-     * @throws IOException
+     * @throws IOException if it could not load the display element
      */
     public void handleButtonAction(ActionEvent event) throws IOException {
         Stage stage;
         Parent root;
-
         // Return to home menu
         if (event.getSource() == homeButton) {
-
-            //menuToLevelController(levelNumber);
-            //get reference to the button's stage
             stage = (Stage) homeButton.getScene().getWindow();
-            //load up OTHER FXML document
+            //load up Start screen FXML document
             root = FXMLLoader.load(getClass().getResource("/views/startscreen.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
-        } else {
-            //
         }
-        //create a new scene with root and set the stage
-
     }
 
     /**
      * Draws an individual rectangle for a given square (used for GUI elements)
-     *
      * @param selectedSquare the square that makes up a group that is to be drawn
      * @return individual square used in a group
      */
-
     public Rectangle drawPieceRectangle(Square selectedSquare){
         Rectangle selectedRectangle = new Rectangle();
         selectedRectangle.setX((selectedSquare.getRelCol()) * squareWidth); //Set X position based on the Relative Column
@@ -145,17 +105,16 @@ public class LevelViewController implements Initializable {
         selectedRectangle.setHeight(squareWidth); //Set the height of each rectangle
         selectedRectangle.setFill(Color.RED); //Color the fill
         selectedRectangle.setStroke(Color.BLACK); //Color the outline
-
         return selectedRectangle;
     }
 
     /**
-     * Handles the action performed when the rotate buttons are pressed
-     *
+     * Handles the action performed when the rotate buttons are pressed.
      * @param event action event
      * @throws IOException
      */
     public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
+        //If we don't have a selected piece, exit
         if(selectedPiece == null){
             return;
         }
@@ -175,14 +134,12 @@ public class LevelViewController implements Initializable {
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
             selectedRectangle.setFill(selectedPiece.getColor());
-
             selectedGroup.getChildren().add(selectedRectangle);
         }
     }
 
     /**
-     * Handles the action performed when the rotate buttons are pressed
-     *
+     * Handles the action performed when the flip buttons are pressed.
      * @param event action event
      * @throws IOException
      */
@@ -207,19 +164,16 @@ public class LevelViewController implements Initializable {
         for (Square selectedSquare : selectedPiece.squares) {
             Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
             selectedRectangle.setFill(selectedPiece.getColor());
-
             selectedGroup.getChildren().add(selectedRectangle);
         }
     }
 
+    @Override
     /**
-     * gets called every time the view is loaded
-     *
+     * Initialize the game upon every entry to the game world
      * @param url
      * @param resourceBundle
      */
-
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         boardView.getStyleClass().add("board");
@@ -259,31 +213,43 @@ public class LevelViewController implements Initializable {
                 //In case something is dragged over the pane
                 pane.setOnDragOver(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
-                        ourModel.getBoard().printBoardAsDebug();
+                        if (DEBUG){
+                            ourModel.getBoard().printBoardAsDebug();
+                        }
 
                         // need to add something to prevent adding to an occupied tile
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
                         Dragboard db = event.getDragboard();
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
+                        //If we're in a Release Level or a Puzzle Level
                         if (ourModel.getLevelNum() % 3 == 1 || ourModel.getLevelNum() % 3 == 0) {
-                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)
+                                    && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
                                 event.acceptTransferModes(TransferMode.MOVE);
-                                System.out.println("Drag Over is valid move");
+                                if (DEBUG){
+                                    System.out.println("Drag Over is valid move");
+                                }
+
                             }
                         }
+                        //If we're in a lightning level
                         if (ourModel.getLevelNum() % 3 == 2) {
-                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
+                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape)
+                                    && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
                                 event.acceptTransferModes(TransferMode.MOVE);
-                                System.out.println("Drag Over is valid move");
+                                if (DEBUG) {
+                                    System.out.println("Drag Over is valid move");
+                                }
                             }
                         }
                         event.consume();
                     }
                 });
-
+                //Entering a drag maneuver for a pane
                 pane.setOnDragEntered(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
+                        //Get information about what's being dragged in
                         Dragboard db = event.getDragboard();
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
@@ -292,12 +258,14 @@ public class LevelViewController implements Initializable {
                             //System.out.println(droppedPiece.uniqueID);
                             for (Square selectedSquare : droppedPiece.squares) {
                                 // Imitate transparency
-                                if((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)){
+                                //If we're hovering over a tile that doesn't exist
+                                if((!ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists())){
                                     getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
                                         (droppedPiece.getColor().getRed()*255)/2 + ", " +
                                         (droppedPiece.getColor().getGreen()*255)/4 + ", " +
                                         (droppedPiece.getColor().getBlue()*255)/3 + ")"); // Set color to mimic transparency
                                 }
+                                //If we're hovering over a normal pane
                                 else{
                                     getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView).setStyle("-fx-background-color: rgb(" +
                                             (droppedPiece.getColor().getRed()*255)*1.25 + ", " +
@@ -305,9 +273,7 @@ public class LevelViewController implements Initializable {
                                             (droppedPiece.getColor().getBlue()*255)*1.25 + ")"); // Set color to mimic transparency
                                 }
                             }
-                            //System.out.println("Drag Entered is valid move");
                         }
-
                         event.consume();
                     }
                 });
@@ -325,28 +291,35 @@ public class LevelViewController implements Initializable {
                             for (Square selectedSquare : droppedPiece.squares) {
                                 //Get the board's view
                                 Pane pane = (Pane) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                //
+                                //If we had a piece here
                                 if ((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getCovered() > -1)) {
+                                    //Try to get the piece from the ID and set the color
                                     try {
                                         pane.setStyle("-fx-background-color: rgb(" +
                                             ourModel.getBoard().getPieceFromID(ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
-                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getRed()*255 + ", " +
+                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getRed() * 255 + ", " +
                                             ourModel.getBoard().getPieceFromID(ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
-                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getGreen()*255 + ", " +
+                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getGreen() * 255 + ", " +
                                             ourModel.getBoard().getPieceFromID(ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1),
-                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getBlue()*255 + ")");
-                                    } catch (PieceNotFoundException e) {
+                                                    currentColumn + selectedSquare.getRelCol()).getCovered()).getColor().getBlue() * 255 + ")");
+                                    }
+                                    catch (PieceNotFoundException e) {
                                         e.printStackTrace();
                                     }
                                 }
-                                else if ((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == true)) {
-                                    if((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint() == true)){
+                                //If we're in a part of the board that actually exists (not a black tile)
+                                else if (ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists()) {
+                                    //Check if we have to set it back to a hint
+                                    if (ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getHint()){
                                         pane.setStyle("-fx-background-color: orange");
                                     }
-                                    else{
+                                    //otherwise, it's an empty white tile
+                                    else {
                                         pane.setStyle("-fx-background-color: white");
                                     }
-                                } else if ((ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists() == false)) {
+                                }
+                                //If we're in a black tile
+                                else if (!ourModel.getBoard().getBoardTile(currentRow + (selectedSquare.getRelRow() * -1), currentColumn + selectedSquare.getRelCol()).getExists()) {
                                     pane.setStyle("-fx-background-color: black");
                                 }
                                 event.consume();
@@ -354,48 +327,52 @@ public class LevelViewController implements Initializable {
                         }
                     }
                 });
-
+                //When the drag is dropped and a piece can be placed
                 pane.setOnDragDropped(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
+                        //Get information about the dragboard
                         Dragboard db = event.getDragboard();
                         boolean success = false;
                         int currentRow = GridPane.getRowIndex(pane);
                         int currentColumn = GridPane.getColumnIndex(pane);
 
                         Piece droppedPiece = (Piece) db.getContent(pieceShape);
-                        //If we have a piece with us
+                        //If we have a piece with us, and we're in puzzle level
                         if (ourModel.getLevelNum() % 3 == 1) {
-                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                            }
+//                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
+//                            }
                             Color color = droppedPiece.getColor();
+                            //Iterate over the pieces
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                                 makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
-                                makeMovable(tilePane, droppedPiece, currentRow, currentColumn);
+                                makeMovable(tilePane, droppedPiece, currentRow, currentColumn); //Make them movable and deletable
                             }
-                            ourModel.getBoard().removePiece(droppedPiece.getUniqueID());
+                            ourModel.getBoard().removePiece(droppedPiece.getUniqueID()); //Remove the piece from the bullpen
                             decreaseMovesCount();
-                            ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                            ourModel.getBoard().printBoardAsDebug();
+                            ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn); //Add the piece to the board
+                            if (DEBUG) {
+                                ourModel.getBoard().printBoardAsDebug();
+                            }
                             // Only place if it's a valid move
                             success = true;
                             ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
                             bullpenView.getChildren().remove(selectedGroup); // Remove view
                             redrawBullpen();
-                            //numberOfPiecesDrawn--;
                             try {
                                 updateStars();
-                            } catch (FileNotFoundException e) {
+                            }
+                            catch (FileNotFoundException e) {
                                 e.printStackTrace();
                             }
                         }
+                        //If we have a Lightning Level
                         if (ourModel.getLevelNum() % 3 == 2) {
-                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidLightningMove(droppedPiece, currentRow, currentColumn)) {
-                            }
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                             }
+                            //Add piece to the board
                             ourModel.getBoard().addPieceLightning(droppedPiece, currentRow, currentColumn);
                             ourModel.getBoard().printBoardAsDebug();
                             // Only place if it's a valid move
@@ -403,7 +380,6 @@ public class LevelViewController implements Initializable {
                             ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
                             bullpenView.getChildren().remove(selectedGroup); // Remove view
                             redrawBullpen();
-
 
                             // add a random Piece back to the bullpen
                             // pick one of the random hexominos
@@ -418,7 +394,6 @@ public class LevelViewController implements Initializable {
                             bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
                             bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
                             gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
-
                             currentPiece.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                                 public void handle(MouseEvent event) {
                                     if (selectedPiece == ourPiece) {
@@ -447,9 +422,8 @@ public class LevelViewController implements Initializable {
                                 e.printStackTrace();
                             }
                         }
+                        //If we have a Release Level
                         if (ourModel.getLevelNum() % 3 == 0) {
-                            if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && ourModel.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
-                            }
                             Color color = droppedPiece.getColor();
                             for (Square selectedSquare : droppedPiece.squares) {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
@@ -478,19 +452,20 @@ public class LevelViewController implements Initializable {
             }
 
         }
-
         // Set constraints (size of the cells for pieces)
         for (int i = 0; i < gridW; i++) {
             ColumnConstraints column = new ColumnConstraints(squareWidth * 6);
             bullpenView.getColumnConstraints().add(column);
         }
-
         for (int i = 0; i < gridH; i++) {
             RowConstraints row = new RowConstraints(squareWidth * 6);
             bullpenView.getRowConstraints().add(row);
         }
     }
 
+    /**
+     * Redraws the bullpen for when a piece is added or removed from the bullpen
+     */
     public void redrawBullpen(){
         ArrayList<Piece> pieces = ourModel.getBullpen().getPieces();
         ArrayList<Piece> pieceCopy = new ArrayList<Piece>(); // Pieces are copied here
@@ -507,16 +482,6 @@ public class LevelViewController implements Initializable {
         for(Piece p: pieceCopy){
             final Piece pieceToDraw = p;
             final PieceGroup currentPiece = new PieceGroup(p);
-            //final Group bullpenViewGroup = new Group(); // Bullpen view group
-
-            /*
-            // Draw each square and add it to the bullpen group
-            for (Square selectedSquare : p.squares) {
-                Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-                selectedRectangle.setFill(p.getColor());
-                bullpenViewGroup.getChildren().add(selectedRectangle);
-            }
-            */
 
             // Add the actual piece object to the bullpen
             ourModel.getBullpen().addPiece(p);
@@ -550,14 +515,22 @@ public class LevelViewController implements Initializable {
         }
     }
 
+    /**
+     * Makes a GridSquare deletable from the board
+     * @param node Node to make deletable
+     * @param piece Associated piece
+     * @param row a row location to make deletable, not changing
+     * @param column a column location to make deletable, not changing
+     */
     private void makeDeletable(final Node node, final Piece piece, final int row, final int column) {
         node.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 MouseButton button = event.getButton();
-                if(button==MouseButton.PRIMARY){
+                if(button == MouseButton.PRIMARY){
                     // do nothing
-                }else if(button==MouseButton.SECONDARY){
+                }
+                else if(button == MouseButton.SECONDARY){
                     ourModel.getBoard().removePiece(piece.getUniqueID());
                     System.out.println("Make deletable column" + column);
                     System.out.println("Make deletable row:" + row);
@@ -568,21 +541,26 @@ public class LevelViewController implements Initializable {
                         if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getCovered() > -1)) {
                             tilePaneToClear.setStyle("-fx-background-color: #28a2db");
                         }
-                        else if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == true)) {
-                            if((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint() == true)){
+                        //If what we're dragging over exists and isn't covered
+                        else if (ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists()) {
+                            //If we have a hint on that tile
+                            if (ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getHint()){
                                 tilePaneToClear.setStyle("-fx-background-color: orange");
                             }
+                            //If it's a regular tile
                             else{
                                 tilePaneToClear.setStyle("-fx-background-color: white");
                             }
-                        } else if ((ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists() == false)) {
+                        }
+                        //It's a black tile
+                        else if (!ourModel.getBoard().getBoardTile(row + (squareToRemove.getRelRow() * -1), column + squareToRemove.getRelCol()).getExists()) {
                             tilePaneToClear.setStyle("-fx-background-color: black");
                         }
                         tilePaneToClear.setOnDragDetected(null);
                         tilePaneToClear.setOnDragDone(null);
                     }
 
-                    // Add piece to bullpen
+                    // Add piece back to bullpen
                     ourModel.getBullpen().addPiece(piece);
 
                     // Add view to bullpen view
@@ -592,10 +570,10 @@ public class LevelViewController implements Initializable {
                     bullpenView.setHalignment(currentPiece.getGroup(), HPos.CENTER);
                     bullpenView.setValignment(currentPiece.getGroup(), VPos.CENTER);
                     gridH = (ourModel.getBullpen().getPieces().size() + 2 - 1) / 2;
-
+                    //Change effects and lighting levels
                     currentPiece.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                         public void handle(MouseEvent event) {
-                            if (selectedPiece ==currentPiece.getPiece()) {
+                            if (selectedPiece == currentPiece.getPiece()) {
                                 selectedPiece = null;
                                 currentPiece.getGroup().setEffect(null);
                             }
@@ -616,7 +594,6 @@ public class LevelViewController implements Initializable {
                     //Increment pieces drawn
                     numberOfPiecesDrawn++;
                     decreaseMovesCount();
-
                 }
                 else if(button==MouseButton.MIDDLE){
                     // do nothing
@@ -626,7 +603,15 @@ public class LevelViewController implements Initializable {
         });
     }
 
+    /**
+     * Makes a GridSquare movable on the board
+     * @param tilePane GridSquare to make movable
+     * @param droppedPiece Associated piece
+     * @param currentRow a row location to make movable, not changing
+     * @param currentColumn a column location to make movable, not changing
+     */
     private void makeMovable(final GridSquare tilePane, final Piece droppedPiece, final int currentRow, final int currentColumn){
+        //When a drag is detected
         tilePane.setOnDragDetected(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -638,11 +623,13 @@ public class LevelViewController implements Initializable {
                 droppedPiece.flipPieceVert();
                 content.put(pieceShape, droppedPiece); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
                 db.setContent(content);
-                System.out.println("Drag Detected");
+                if (DEBUG) {
+                    System.out.println("Drag Detected");
+                }
                 event.consume();
             }
         });
-
+        //When a drag is completed
         tilePane.setOnDragDone(new EventHandler<DragEvent>() {
             public void handle(DragEvent event) {
                 /* the drag and drop gesture ended */
@@ -654,24 +641,30 @@ public class LevelViewController implements Initializable {
                             (squareToRemove.getRelRow()*-1), currentColumn + squareToRemove.getRelCol(), boardView);
                             tilePaneToClear.setOnDragDetected(null);
                             tilePaneToClear.setOnDragDone(null);
-
+                            //If the piece is covered
                             if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getCovered() > -1){
                                tilePaneToClear.setStyle("-fx-background-color: #28a2db");
                             }
-                            else if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists() == true){
-                                if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getHint() == true){
+                            //If the piece exists, but is not covered
+                            else if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists()){
+                                //If it's a hint tile
+                                if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getHint()) {
                                     tilePaneToClear.setStyle("-fx-background-color: orange");
                                 }
-                            else{
-                                tilePaneToClear.setStyle("-fx-background-color: white");
+                                //If it's a regular piece
+                                else{
+                                    tilePaneToClear.setStyle("-fx-background-color: white");
+                                }
+                            }
+                            //If the piece does not exist
+                            else if(!ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists()){
+                                tilePaneToClear.setStyle("-fx-background-color: black");
                             }
                         }
-                        else if(ourModel.getTile(currentRow + (squareToRemove.getRelRow() * -1), currentColumn + squareToRemove.getRelCol()).getExists() == false){
-                            tilePaneToClear.setStyle("-fx-background-color: black");
-                        }
-                        }
                     }
-                System.out.println("Drag Done");
+                if (DEBUG){
+                    System.out.println("Drag Done");
+                }
                 event.consume();
                 }
             });
@@ -679,9 +672,7 @@ public class LevelViewController implements Initializable {
 
     /**
      * Gets a node by row and column
-     * http://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column
-     *
-     *
+     * http://stackoverflow.com/questions/20825935/javafx-get-node-by-row-and-column used as source
      * @param row row of the desired node
      * @param column column of the desired node
      * @param gridPane gridpane to search for the node
@@ -701,7 +692,6 @@ public class LevelViewController implements Initializable {
 
     /**
      * Sets the level number when loading a level
-     *
      * @param level level number to be set
      */
     public void setLevelNumber(int level) {
@@ -709,15 +699,11 @@ public class LevelViewController implements Initializable {
     }
 
     /**
-     * Parses the level
-     *
-     * TODO: Use some set of globals or way to pass values into a level
-     *
+     * Parses the level and sets up certain elements together
      * @param levelNum level number to load
      * @throws IOException
      */
     public void loadLevel(int levelNum) throws IOException {
-
         // Variables for level information
         // NOTE: will most likely be moved to more global variables
         int lvNum = 0;
@@ -788,21 +774,21 @@ public class LevelViewController implements Initializable {
                         case 2: // Metric for time
                             metric = Integer.parseInt(dataLine);
                             switch (lvNum % 3) {
-                                case 1:
+                                case 1: //Puzzle Level Instantiation
                                     ((PuzzleLevelModel) ourModel).setTotalMoves(metric);
                                     limitLabel.setText(Integer.toString(metric));
                                     break;
-                                case 2:
+                                case 2: //Lightning Level Instantiation
                                     ((LightningLevelModel) ourModel).setAllowedTime(metric);
                                     limitLabel.setText(Integer.toString(metric));
                                     startCountDown();
                                     break;
-                                case 3:
+                                default:
                                     limitLabel.setText(null);
                                     break;
                             }
                             break;
-                        case 3: // Pieces
+                        case 3: // Parsing pieces
                             int pieceID = Integer.parseInt(dataLine);
                             final Piece ourPiece = new PieceFactory().getPiece(pieceID);
                             ourModel.getBullpen().addPiece(ourPiece);
@@ -839,8 +825,7 @@ public class LevelViewController implements Initializable {
 
                             break;
 
-                        case 4: // Tiles
-
+                        case 4: // Parsing tiles
                             tiles.add(dataLine); //Add elements to tile lines
                             String tileLines[] = dataLine.split(" "); //Split data along spaces
                             int[] tileInts = new int[tileLines.length]; //Size the tile ints properly
@@ -849,7 +834,9 @@ public class LevelViewController implements Initializable {
                                 tileInts[i] = Integer.parseInt(tileLines[i]); //Parse the tiles as ints
                             }
                             //Set values
-                            System.out.println("We have the board elements");
+                            if (DEBUG){
+                                System.out.println("We have the board elements");
+                            }
                             ArrayList<Pane> tempPaneLine = new ArrayList<>();
                             for (int i = 0; i < columns; i++){ //Iterate over all of the array elemnts
                                 int offset; //For appropriate tile elements
@@ -979,34 +966,7 @@ public class LevelViewController implements Initializable {
         }
         catch (FileNotFoundException e) {
         }
-//        catch (NullPointerException e){
-//        }
-        /* Copied from builder, must be adapted
-        // Add the release tiles to the board and draw them
-        for(int i = 0; i < 6; i++){
-            if(usedSlots[i]){ // Add red tile
-                boardController.getColorNumTiles(Color.RED).add(redTile[i]); // Add tile
-                ((GridSquare)redPane[i]).setNumber(i+1); // Set label
-                boardController.getColorNumPanes(Color.RED).add((GridSquare)redPane[i]); // Add pane
-                boardController.updateColorNums(boardController.getColorNumTiles(Color.RED), // Update color
-                        boardController.getColorNumPanes(Color.RED));
-            }
-            if(usedSlots[i+6]){ // Add green tile
-                boardController.getColorNumTiles(Color.GREEN).add(greenTile[i]); // Add tile
-                ((GridSquare)greenPane[i]).setNumber(i+1); // Set label
-                boardController.getColorNumPanes(Color.GREEN).add((GridSquare)greenPane[i]); // Add pane
-                boardController.updateColorNums(boardController.getColorNumTiles(Color.GREEN), // Update color
-                        boardController.getColorNumPanes(Color.GREEN));
-            }
-            if(usedSlots[i+12]){ // Add yellow tile
-                boardController.getColorNumTiles(Color.YELLOW).add(yellowTile[i]); // Add tile
-                ((GridSquare)yellowPane[i]).setNumber(i+1); // Set label
-                boardController.getColorNumPanes(Color.YELLOW).add((GridSquare)yellowPane[i]); // Add pane
-                boardController.updateColorNums(boardController.getColorNumTiles(Color.YELLOW), // Update color
-                        boardController.getColorNumPanes(Color.YELLOW));
-            }
-        }
-        */
+
         if (! (menu.getMaxStars(ourModel.getLevelNum()) > 0)) {//if the player has never achieved at least one star
             forwardLevel.setManaged(false); //hide the forwardlevelbutton
             forwardLevel.setVisible(false);
@@ -1076,22 +1036,19 @@ public class LevelViewController implements Initializable {
         ((PuzzleLevelModel)ourModel).setMovesUsed(movesUsed++);
     }
 
+    /**
+     * Update the stars of the game.
+     * @throws FileNotFoundException if it can't find its resources
+     */
     private void updateStars() throws FileNotFoundException {
-        System.out.println("update stars in levelviewcontroller");
-        if(frozenStars) return; //if the stars are frozen (prevented from changing) exit the function
-        System.out.println("more update stars in levelviewcontroller");
-        if (ourModel.getLevelNum() % 3 == 1) {
-            ((PuzzleLevelModel)ourModel).updateStars();
+        if (DEBUG){
+            System.out.println("update stars in levelviewcontroller");
         }
-
-        if (ourModel.getLevelNum() % 3 == 2) {
-            ((LightningLevelModel)ourModel).updateStars();
+        if (frozenStars) return; //if the stars are frozen (prevented from changing) exit the function
+        if (DEBUG) {
+            System.out.println("more update stars in levelviewcontroller");
         }
-
-        if (ourModel.getLevelNum() % 3 == 0) {
-            System.out.println("update stars in levelviewcontroller got called for release");
-            ((ReleaseLevelModel)ourModel).updateStars();
-        }
+        ourModel.updateStars();
         if(ourModel.getMaxStars()> menu.getMaxStars(ourModel.getLevelNum())){//update max stars for game menu
             menu.setMaxStars(ourModel.getLevelNum(), ourModel.getMaxStars());
         }
@@ -1120,12 +1077,12 @@ public class LevelViewController implements Initializable {
                 thirdStar.setImage(fullStar);
                 break;
         }
-        //!!! needs to be fixed
-        if(menu.getMaxStars(ourModel.getLevelNum())>0 && ourModel.getLevelNum()<15){//if the play
+
+        if(menu.getMaxStars(ourModel.getLevelNum()) > 0 && ourModel.getLevelNum() < 15){//if the play
             forwardLevel.setManaged(true);
             forwardLevel.setVisible(true);
         }
-        if(ourModel.getMaxStars()>0){
+        if(ourModel.getMaxStars() > 0){
             if(ourModel.getLevelNum()+1>menu.getUnlocked()){ //if the next level is unlocked and the number is greater than the current
                 menu.setUnlocked(ourModel.getLevelNum()+1);  //max unlocked level, then correctly set the max unlocked level
             }
@@ -1170,27 +1127,37 @@ public class LevelViewController implements Initializable {
             System.out.println("couldnt load level");
         }
     }
-    public void setMenu(GameMenu gm){
-        menu=gm;
+
+    /**
+     * Sets the GameMenu of this object
+     * @param menu new game menu
+     */
+    public void setMenu(GameMenu menu){
+        this.menu = menu;
     }
 
+    /**
+     * Handles Reset Button Actions
+     */
     @FXML
     public void handleResetButtonAction(){
         try {
-            if(ourModel.getLevelNum()%3==2){
+            //Cancel the timer if we've got a LightningLevel
+            if (ourModel.getLevelNum() % 3 == 2){
                 timer.cancel();
             }
             ourModel.getBullpen().clearPieces();
             ourModel.getBoard().clearBoard();
             bullpenView.getChildren().clear();
-            numberOfPiecesDrawn= 0;
+            numberOfPiecesDrawn = 0;
             loadLevel(ourModel.getLevelNum());
             updateStars();
-            frozenStars=false;
+            frozenStars = false;
 
 
-        } catch (Exception e) {
-            System.out.println("couldnt reset level");
+        }
+        catch (Exception e) {
+            System.out.println("Could not reset level.");
         }
     }
 

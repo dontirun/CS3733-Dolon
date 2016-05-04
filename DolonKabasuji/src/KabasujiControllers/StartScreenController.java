@@ -19,32 +19,21 @@ import java.io.IOException;
 
 
 /**
- * Created by Arthur on 4/10/2016.
+ * @author Arthur Dooner, ajdooner@wpi.edu
+ * @author Arun Donti, andonti@wpi.edu
+ * @author Robyn Domanico, rdomanico@wpi.edu
+ * Connects the starting menu and settings to the controller and the LevelView
  */
 public class StartScreenController {
     @FXML
-    Button startKButton;
+    Button startKButton, decrementLevel, incrementLevel, aboutKButton;
     @FXML
-    Label name;
+    Label name, levelNumberLabel;
     @FXML
-    Label levelNumberLabel;
-    @FXML
-    Button decrementLevel;
-    @FXML
-    Button incrementLevel;
-    @FXML
-    Button aboutKButton;
-    @FXML
-    ImageView leftArrow;
-    @FXML
-    ImageView rightArrow;
-    @FXML
-    ImageView lockIcon;
-
+    ImageView leftArrow, rightArrow, lockIcon;
 
     // this might need to change
     static GameMenu menu;
-
 
     /**
      * Constructor
@@ -53,28 +42,25 @@ public class StartScreenController {
     }
 
     /**
-     * Is run every time the view loads
+     * Initializes the StartScreenController.
      */
     @FXML
     public void initialize() throws IOException {
         if (menu == null) {
             menu = new GameMenu();
         }
-
         // Initializes level accessibility on load
         if (menu.getLevelNumber() > menu.getUnlocked()) {
             lockIcon.setVisible(true);
         } else {
             lockIcon.setVisible(false);
         }
-
         levelNumberLabel.setText(Integer.toString(menu.getLevelNumber()));
     }
 
 
     /**
      * Handles the actions of different buttons on the start screen
-     *
      * @param event action event
      * @throws IOException
      */
@@ -104,8 +90,7 @@ public class StartScreenController {
 
 
     /**
-     * Handles the start button being pressed
-     *
+     * Handles the start button being pressed.
      * @throws IOException
      */
     public void handleStartKButton() throws IOException {
@@ -159,7 +144,7 @@ public class StartScreenController {
     }
 
     /**
-     * Handles the level number being decremented
+     * Handles the level number being decremented.
      */
     public void handleDecrementLevel() {
         menu.decrementLevelNumber();
@@ -174,7 +159,7 @@ public class StartScreenController {
     }
 
     /**
-     * Handles the level number being incremented
+     * Handles the level number being incremented.
      */
     public void handleIncrementLevel() {
         menu.incrementLevelNumber();
@@ -189,8 +174,7 @@ public class StartScreenController {
     }
 
     /**
-     * Handles the about button being pressed
-     *
+     * Handles the about button being pressed.
      * @throws IOException
      */
     public void handleAboutKButton() throws IOException {
