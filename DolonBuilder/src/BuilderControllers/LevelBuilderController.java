@@ -7,9 +7,6 @@ import BuilderModel.Piece;
 import BuilderModel.ReleaseTile;
 import BuilderModel.Square;
 import BuilderModel.Tile;
-import KabasujiModel.LightningLevelModel;
-import KabasujiModel.PuzzleLevelModel;
-import KabasujiModel.ReleaseLevelModel;
 import PieceFactory.*;
 import UndoActionManager.*;
 import javafx.beans.value.ChangeListener;
@@ -119,8 +116,23 @@ public class LevelBuilderController implements Initializable {
     int columns = 12;
     Stack<IAction> undoHistory;
     Stack<IAction> redoHistory;
+
+    public int getNumberOfBullpenPieces() {
+        return numberOfBullpenPieces;
+    }
+
+    public void setNumberOfBullpenPieces(int numberOfBullpenPieces) {
+        this.numberOfBullpenPieces = numberOfBullpenPieces;
+    }
+
     int numberOfBullpenPieces;
     int gridW = 2;
+
+
+    public void setGridH(int gridH) {
+        this.gridH = gridH;
+    }
+
     int gridH;
     private final static double RectangleSize = 45.83333333;
     Piece selectedPiece; // should adapt to use piece group
@@ -318,6 +330,7 @@ public class LevelBuilderController implements Initializable {
                         if (selectedPiece == pieceToDraw) {
                             selectedPiece = null;
                             bullpenViewGroup.getGroup().setEffect(null);
+                            System.out.println("unique id of selected piece"+selectedPiece.getUniqueID());
                         }
                         else {
                             if (selectedPiece != null) {
@@ -420,6 +433,7 @@ public class LevelBuilderController implements Initializable {
                     if (selectedPiece == pieceToDraw) {
                         selectedPiece = null;
                         bullpenViewGroup.getGroup().setEffect(null);
+                        System.out.println("unique id of selected piece"+selectedPiece.getUniqueID());
                     }
                     else {
                         if (selectedPiece != null) {
@@ -450,12 +464,19 @@ public class LevelBuilderController implements Initializable {
         if (selectedPiece == null) {
             return;
         }
-
-        // Remove piece
-        bullpenView.getChildren().remove(selectedGroup);
-        level.getBullpen().removePiece(selectedPiece.getUniqueID());
-
-        deletePieceFromBullpen();
+//
+//        // Remove piece
+//        bullpenView.getChildren().remove(selectedGroup);
+//        level.getBullpen().removePiece(selectedPiece.getUniqueID());
+//
+//        deletePieceFromBullpen();
+        LevelBuilderController lbc = this;
+        DeletePieceAction dpa = new DeletePieceAction(selectedPiece, selectedGroup, bullpenView, lbc, level);
+        if (dpa.doAction()) {
+            System.out.println("delete action performed");
+            undoHistory.push(dpa);
+            redoHistory.clear();
+        }
 
     }
 
@@ -467,6 +488,9 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
+        if (selectedPiece == null) {
+            return;
+        }
         // if flip horizontal button is pressed
         if (event.getSource() == rotateLeftButton) {
             RotatePieceAction rpa = new RotatePieceAction( selectedPiece,selectedGroup, 'l', RectangleSize);
@@ -495,6 +519,9 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleFlipPieceButtonAction (ActionEvent event) throws IOException {
+        if (selectedPiece == null) {
+            return;
+        }
                 // if flip horizontal button is pressed
         if (event.getSource() == flipHorizontalButton) {
             FlipPieceAction fpa = new FlipPieceAction( selectedPiece,selectedGroup, 'h', RectangleSize);
@@ -1136,7 +1163,7 @@ public class LevelBuilderController implements Initializable {
                         }
                     }
                 });
-
+                final LevelBuilderController lbc = this;
                 pane.setOnDragDropped(new EventHandler<DragEvent>() {
                     public void handle(DragEvent event) {
                         Dragboard db = event.getDragboard();
@@ -1150,24 +1177,31 @@ public class LevelBuilderController implements Initializable {
                         System.out.println("is valid move "+ level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn));
 
                         if (event.getGestureSource() != pane && event.getDragboard().hasContent(pieceShape) && level.getBoard().isValidMove(droppedPiece, currentRow, currentColumn)) {
+//
+//                            Color color = droppedPiece.getColor();
+//                            for (Square selectedSquare : droppedPiece.squares) {
+//                                GridSquare tilePane = (GridSquare)getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
+//                                makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
+//                                makeMovable(tilePane, droppedPiece, currentRow, currentColumn);
+//                            }
+//                            level.getBoard().removePiece(droppedPiece.getUniqueID());
+//                            level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
+//                            level.getBoard().printBoardAsDebug();
+//                            // Only place if it's a valid move
+//                            success = true;
+//                            level.getBullpen().removePiece(droppedPiece.getUniqueID());
+//                            // Remove view from bullpen
+//                            bullpenView.getChildren().remove(selectedGroup);
+//                            // Redraw bullpen
+//                            deletePieceFromBullpen();
+//
 
-                            Color color = droppedPiece.getColor();
-                            for (Square selectedSquare : droppedPiece.squares) {
-                                GridSquare tilePane = (GridSquare)getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
-                                makeDeletable(tilePane, droppedPiece, currentRow, currentColumn);
-                                makeMovable(tilePane, droppedPiece, currentRow, currentColumn);
+                            DragPieceAction dpa = new DragPieceAction(level, droppedPiece,bullpenView, selectedGroup, lbc, boardView, currentRow, currentColumn, success);
+                            if(dpa.doAction()){
+                                System.out.println("drag piece action performed");
+                                undoHistory.push(dpa);
+                                redoHistory.clear();
                             }
-                            level.getBoard().removePiece(droppedPiece.getUniqueID());
-                            level.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                            level.getBoard().printBoardAsDebug();
-                            // Only place if it's a valid move
-                            success = true;
-                            level.getBullpen().removePiece(droppedPiece.getUniqueID());
-                            // Remove view from bullpen
-                            bullpenView.getChildren().remove(selectedGroup);
-                            // Redraw bullpen
-                            deletePieceFromBullpen();
-
                         }
                         event.setDropCompleted(success);
                         placed = event.isDropCompleted();
@@ -1179,7 +1213,7 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
-    private void makeMovable(final GridSquare tilePane, final Piece droppedPiece, final int currentRow, final int currentColumn) {
+    public void makeMovable(final GridSquare tilePane, final Piece droppedPiece, final int currentRow, final int currentColumn) {
         tilePane.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 /* drag was detected, start a drag-and-drop gesture*/
@@ -1230,7 +1264,8 @@ public class LevelBuilderController implements Initializable {
         });
     }
 
-    private void makeDeletable(final Node node, final Piece piece, final int row, final int column){
+    public void makeDeletable(final Node node, final Piece piece, final int row, final int column){
+
         node.setOnMouseClicked(new EventHandler<MouseEvent>(){
 
             public void handle(MouseEvent event){
@@ -1419,6 +1454,7 @@ public class LevelBuilderController implements Initializable {
                     if (selectedPiece == pieceToDraw) {
                         selectedPiece = null;
                         bullpenViewGroup.getGroup().setEffect(null);
+                        System.out.println("unique id of selected piece"+selectedPiece.getUniqueID());
                     }
                     else {
                         if (selectedPiece != null) {
