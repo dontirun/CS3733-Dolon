@@ -11,9 +11,7 @@ import KabasujiModel.LightningLevelModel;
 import KabasujiModel.PuzzleLevelModel;
 import KabasujiModel.ReleaseLevelModel;
 import PieceFactory.*;
-import UndoActionManager.AddPieceAction;
-import UndoActionManager.IAction;
-import UndoActionManager.ResizeReleaseAction;
+import UndoActionManager.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
@@ -285,7 +283,8 @@ public class LevelBuilderController implements Initializable {
 
                 for (Square selectedSquare : pieceToDraw.squares) {
 
-                    Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
+                    Rectangle selectedRectangle = drawPieceRectangle
+                            (selectedSquare);
                     Rectangle rectangleCopy = drawPieceRectangle(selectedSquare);
                     selectedRectangle.setFill(pieceToDraw.getColor());
                     rectangleCopy.setFill(pieceToDraw.getColor());
@@ -293,11 +292,13 @@ public class LevelBuilderController implements Initializable {
                     pieceSelectorGroup.getGroup().getChildren().add(selectedRectangle);
                     bullpenViewGroup.getGroup().getChildren().add(rectangleCopy);
                 }
-
+                LevelBuilderController lbc = this;
                 // when piece is clicked on add it to bullpen
                 pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {
-                        AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen());
+                        //AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen());
+                        AddPieceAction action = new AddPieceAction(pieceToDraw, selectedGroup, level.getBullpen(), bullpenView, lbc); // Create action
+
                         if(action.doAction()){
                             undoHistory.push(action); // Push to undo stack
                             redoHistory.clear(); // Clear redo history
@@ -405,7 +406,8 @@ public class LevelBuilderController implements Initializable {
             }*/
 
             // Add the actual piece object to the bullpen
-            AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen()); // Create action
+            AddPieceAction action = new AddPieceAction(pieceToDraw, selectedGroup, level.getBullpen(), bullpenView, this); // Create action
+            //AddPieceAction action = new AddPieceAction(this);
             action.doAction(); // Do action- add to bullpen
             bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
             bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));
@@ -437,7 +439,7 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
-
+    @FXML
     /**
      * Handles deleting a piece from the bullpen
      *
@@ -465,26 +467,24 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleRotatePieceButtonAction (ActionEvent event) throws IOException {
-        if(selectedPiece == null){
-            return;
-        }
-
-        // if rotate left button is pressed
+        // if flip horizontal button is pressed
         if (event.getSource() == rotateLeftButton) {
-            selectedPiece.rotatePieceLeft();
+            RotatePieceAction rpa = new RotatePieceAction( selectedPiece,selectedGroup, 'l', RectangleSize);
+            if (rpa.doAction()) {
+                System.out.println("rotate action performed");
+                undoHistory.push(rpa);
+                redoHistory.clear();
+            }
         }
 
-        // if rotate right button is pressed
+        // if flip vertical button is pressed
         if (event.getSource() == rotateRightButton) {
-            selectedPiece.rotatePieceRight();
-        }
-
-        // clears the squares in the group and adds in the repositioned ones
-        selectedGroup.getChildren().clear();
-        for (Square selectedSquare : selectedPiece.squares) {
-            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-            selectedRectangle.setFill(selectedPiece.getColor());
-            selectedGroup.getChildren().add(selectedRectangle);
+            RotatePieceAction rpa = new RotatePieceAction( selectedPiece,selectedGroup, 'r', RectangleSize);
+            if (rpa.doAction()) {
+                System.out.println("rotate action performed");
+                undoHistory.push(rpa);
+                redoHistory.clear();
+            }
         }
     }
 
@@ -495,27 +495,24 @@ public class LevelBuilderController implements Initializable {
      * @throws IOException
      */
     public void handleFlipPieceButtonAction (ActionEvent event) throws IOException {
-        if(selectedPiece == null){
-            return;
-        }
-
-        // if flip horizontal button is pressed
+                // if flip horizontal button is pressed
         if (event.getSource() == flipHorizontalButton) {
-            selectedPiece.flipPieceHoriz();
+            FlipPieceAction fpa = new FlipPieceAction( selectedPiece,selectedGroup, 'h', RectangleSize);
+            if (fpa.doAction()) {
+                System.out.println("flip action performed");
+                undoHistory.push(fpa);
+                redoHistory.clear();
+            }
         }
 
         // if flip vertical button is pressed
         if (event.getSource() == flipVerticalButton) {
-            // highlighting the border of the selected button
-            selectedPiece.flipPieceVert();
-        }
-
-        // clears the squares in the group and adds in the repositioned ones
-        selectedGroup.getChildren().clear();
-        for (Square selectedSquare : selectedPiece.squares) {
-            Rectangle selectedRectangle = drawPieceRectangle(selectedSquare);
-            selectedRectangle.setFill(selectedPiece.getColor());
-            selectedGroup.getChildren().add(selectedRectangle);
+            FlipPieceAction fpa = new FlipPieceAction( selectedPiece,selectedGroup, 'v', RectangleSize);
+            if (fpa.doAction()) {
+                System.out.println("flip action performed");
+                undoHistory.push(fpa);
+                redoHistory.clear();
+            }
         }
     }
 
@@ -1408,7 +1405,8 @@ public class LevelBuilderController implements Initializable {
             }
 
             // Add the actual piece object to the bullpen
-            AddPieceAction action = new AddPieceAction(pieceToDraw, level.getBullpen()); // Create action
+            AddPieceAction action = new AddPieceAction(pieceToDraw, selectedGroup, level.getBullpen(), bullpenView, this); // Create action
+            // Create action
             action.doAction(); // Do action- add to bullpen
             bullpenView.add(bullpenViewGroup.getGroup(), numberOfBullpenPieces % 2, numberOfBullpenPieces / 2);
             bullpenView.setMargin(bullpenViewGroup.getGroup(), new Insets(10, 10, 10, 10));

@@ -1,10 +1,14 @@
 package UndoActionManager;
 
 import BuilderControllers.GridSquare;
+import BuilderControllers.LevelBuilderController;
 import BuilderModel.Bullpen;
 import BuilderModel.Piece;
+import BuilderModel.PieceGroup;
 import BuilderModel.ReleaseTile;
+import javafx.scene.Group;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
 /**
@@ -14,7 +18,12 @@ import javafx.scene.paint.Color;
  */
 public class AddPieceAction implements IAction{
     Piece piece;
+    Group pieceGroup;
     Bullpen bullpen;
+    GridPane bullpenView;
+    LevelBuilderController lbc;
+
+
 
     /**
      * Adds piece to the bullpen
@@ -22,10 +31,13 @@ public class AddPieceAction implements IAction{
      * @param piece piece to be added
      * @param bullpen bullpen for piece to be added to
      */
-    public AddPieceAction(Piece piece, Bullpen bullpen) {
+    public AddPieceAction(Piece piece, Group pieceGroup, Bullpen bullpen, GridPane bullpenView, LevelBuilderController lbc) {
 
         this.piece = piece;
+        this.pieceGroup=pieceGroup;
         this.bullpen = bullpen;
+        this.bullpenView=bullpenView;
+        this.lbc=lbc;
     }
 
     /**
@@ -35,8 +47,11 @@ public class AddPieceAction implements IAction{
      */
     @Override
     public boolean doAction() {
-        bullpen.addPiece(piece);
-        return true;
+        if(isValid()) {
+            bullpen.addPiece(piece);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -46,7 +61,13 @@ public class AddPieceAction implements IAction{
      */
     @Override
     public boolean undoAction() {
-        return false;
+
+        // Remove piece
+        bullpenView.getChildren().remove(pieceGroup);
+        bullpen.removePiece(piece.getUniqueID());
+
+        lbc.deletePieceFromBullpen();
+        return true;
     }
 
     /**
@@ -56,7 +77,7 @@ public class AddPieceAction implements IAction{
      */
     @Override
     public boolean redoAction() {
-        return false;
+        return doAction();
     }
 
 
@@ -67,6 +88,6 @@ public class AddPieceAction implements IAction{
      */
     @Override
     public boolean isValid() {
-        return false;
+        return true;
     }
 }
