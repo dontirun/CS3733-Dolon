@@ -5,10 +5,14 @@ import BuilderModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 13.
  */
 public class Hex13 extends Piece{
 
+    /**
+     * Constructor for Hex13.
+     */
     public Hex13(){
         super(13);
         construct();

@@ -9,16 +9,18 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @author Walter Ho, who@wpi.edu
+ * Starts the game and loads the opening scene
+ */
 public class KabasujiMain extends Application {
 
-    LevelModel currentLevelModel;
     GameMenu currentGameMenu;
 
-
-    public KabasujiMain() throws IOException {
-        this.currentGameMenu = new GameMenu();
-    }
     @Override
+    /**
+     * Initializes the stage to start playing Kabasuji, bringing us to the startscreen.fxml
+     */
     public void start(Stage primaryStage) throws Exception{
         this.currentGameMenu = new GameMenu();
         Parent root = FXMLLoader.load(getClass().getResource("/views/startscreen.fxml"));
@@ -27,7 +29,9 @@ public class KabasujiMain extends Application {
         primaryStage.show();
     }
 
-
+    /**
+     * Launches Kabasuji.
+     */
     public static void main(String[] args) {
         launch(args);
     }

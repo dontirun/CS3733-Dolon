@@ -7,7 +7,8 @@ import javafx.application.Preloader.ProgressNotification;
 import javafx.application.Preloader.StateChangeNotification;
 
 /**
- * Created by slafo on 4/13/2016.
+ * @author Stephen Lafortune, srlafortune@wpi.edu
+ * Starts the Preloader scene and shows the progress and change notifications.
  */
 public class KabasujiPreloader extends Preloader {
     ProgressBar bar;

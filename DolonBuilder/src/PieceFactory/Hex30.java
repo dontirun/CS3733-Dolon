@@ -5,10 +5,14 @@ import BuilderModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 30.
  */
 public class Hex30 extends Piece{
 
+    /**
+     * Constructor for Hex30.
+     */
     public Hex30(){
         super(30);
         construct();

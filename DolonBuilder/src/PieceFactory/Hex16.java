@@ -5,10 +5,14 @@ import BuilderModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 16.
  */
 public class Hex16 extends Piece{
 
+    /**
+     * Constructor for Hex16.
+     */
     public Hex16(){
         super(16);
         construct();
@@ -33,7 +37,7 @@ public class Hex16 extends Piece{
         squares.add(s4);
         squares.add(s5);
         squares.add(s6);
-        setColor(Color.VIOLET);
+        setColor(Color.SLATEGRAY);
         // only print this if debug is on
         if (DEBUG == 1 ){
             System.out.println("Creating Piece with ID "+pieceID);

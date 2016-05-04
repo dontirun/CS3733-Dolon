@@ -5,10 +5,14 @@ import BuilderModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 5.
  */
 public class Hex5 extends Piece{
 
+    /**
+     * Constructor for Hex5.
+     */
     public Hex5(){
         super(5);
         construct();

@@ -5,10 +5,14 @@ import KabasujiModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 33.
  */
 public class Hex33 extends Piece{
 
+    /**
+     * Constructor for Hex33.
+     */
     public Hex33(){
         super(33);
         construct();

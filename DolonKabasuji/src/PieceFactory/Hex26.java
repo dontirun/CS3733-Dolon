@@ -5,10 +5,14 @@ import KabasujiModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 26.
  */
 public class Hex26 extends Piece{
 
+    /**
+     * Constructor for Hex26.
+     */
     public Hex26(){
         super(26);
         construct();

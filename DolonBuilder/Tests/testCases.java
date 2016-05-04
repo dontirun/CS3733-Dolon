@@ -1,7 +1,6 @@
 import BuilderControllers.GridSquare;
 import BuilderControllers.LevelBuilderController;
 import BuilderModel.*;
-import PieceFactory.PieceFactory;
 import javafx.geometry.*;
 import javafx.scene.Group;
 import javafx.scene.control.*;

@@ -3,19 +3,20 @@ package PieceFactory;
 import BuilderModel.Piece;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Generates a piece from the requested pieceNum.
  */
 public class PieceFactory {
 
     static int counter = 0;
 
     /**
-     * Gets a piece of the desired number
-     *
-     * @param pieceNum desired piece number
-     * @return the piece
+     * Provides all the hexominos for Kabasuji, each with a unique ID.
+     * @param pieceNum requested unique pieceNum
+     * @return desired Piece based on request.
      */
     public Piece getPiece(int pieceNum){
+        //Counter for unique ID
         counter++;
         Piece tempPiece;
         switch (pieceNum) {

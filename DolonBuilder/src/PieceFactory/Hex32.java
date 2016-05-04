@@ -5,10 +5,14 @@ import BuilderModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 32.
  */
 public class Hex32 extends Piece{
 
+    /**
+     * Constructor for Hex32.
+     */
     public Hex32(){
         super(32);
         construct();

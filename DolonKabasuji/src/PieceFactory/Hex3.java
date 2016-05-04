@@ -5,10 +5,14 @@ import KabasujiModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 3.
  */
 public class Hex3 extends Piece{
 
+    /**
+     * Constructor for Hex3.
+     */
     public Hex3(){
         super(3);
         construct();

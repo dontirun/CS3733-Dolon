@@ -5,10 +5,14 @@ import KabasujiModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 19.
  */
 public class Hex19 extends Piece{
 
+    /**
+     * Constructor for Hex19.
+     */
     public Hex19(){
         super(19);
         construct();

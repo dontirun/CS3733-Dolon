@@ -5,10 +5,14 @@ import KabasujiModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 12.
  */
 public class Hex12 extends Piece{
 
+    /**
+     * Constructor for Hex12.
+     */
     public Hex12(){
         super(12);
         construct();

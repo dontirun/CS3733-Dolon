@@ -5,10 +5,14 @@ import BuilderModel.Square;
 import javafx.scene.paint.Color;
 
 /**
- * Created by Arun on 4/16/2016.
+ * @author Arun Donti, andonti@wpi.edu
+ * Representation of Unique Hexomino 8.
  */
 public class Hex8 extends Piece{
 
+    /**
+     * Constructor for Hex8.
+     */
     public Hex8(){
         super(8);
         construct();
