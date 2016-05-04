@@ -72,7 +72,7 @@ public class GameMenu {
     public void loadGameStats() throws IOException{
         try{
             // Load file
-            FileReader input = new FileReader("../gameProgress.dat"); //Go up a level and find the save game
+            FileReader input = new FileReader("../../gameProgress.dat"); //Go up a level and find the save game
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
             maxStars = new int[15]; //Initialize the number of stars to an int of 15
@@ -105,7 +105,7 @@ public class GameMenu {
         try{
             FileWriter out;
 
-            out = new FileWriter("../gameProgress.dat");
+            out = new FileWriter("../../gameProgress.dat");
 
             // Write first line
             out.write(Integer.toString(levelNumber) + " " + Integer.toString(unlocked));

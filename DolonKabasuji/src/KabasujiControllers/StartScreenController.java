@@ -105,7 +105,7 @@ public class StartScreenController {
             LevelViewController lvController;
             switch (menu.getLevelNumber() % 3) {
                 case 1:
-                    System.out.println("Hi there!");
+                    //System.out.println("Hi there!");
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/puzzleLevel.fxml"));
                     root = (Parent)fxmlLoader.load();
                     // Pass a value to the levelview and load level

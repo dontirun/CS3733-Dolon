@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public abstract class LevelModel {
     int levelNum, maxStars, stars;
-    protected boolean DEBUG = true;
+    protected boolean DEBUG = false;
     private boolean isUnlocked;
     Bullpen bullpen;
     Board board;

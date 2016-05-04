@@ -14,7 +14,7 @@ public abstract class Piece implements Serializable{
     public ArrayList<Square> squares;
     public int pieceID;
     private int uniqueID;
-    public int DEBUG = 1;
+    public int DEBUG = 0;
     private double[] colorVals = {0.157, 0.635, 0.859};
 
     /**

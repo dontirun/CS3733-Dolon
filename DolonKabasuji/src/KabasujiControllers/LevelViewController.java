@@ -374,7 +374,9 @@ public class LevelViewController implements Initializable {
                             }
                             //Add piece to the board
                             ourModel.getBoard().addPieceLightning(droppedPiece, currentRow, currentColumn);
-                            ourModel.getBoard().printBoardAsDebug();
+                            if (DEBUG) {
+                            	ourModel.getBoard().printBoardAsDebug();
+                            }
                             // Only place if it's a valid move
                             success = true;
                             ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
@@ -407,7 +409,9 @@ public class LevelViewController implements Initializable {
                                         }
                                         selectedPiece = ourPiece;
                                         selectedGroup = currentPiece.getGroup();
-                                        System.out.println("piece selected");
+                                        if (DEBUG) {
+                                        	System.out.println("piece selected");
+                                        }
                                         Lighting light = new Lighting();
                                         currentPiece.getGroup().setEffect(light);
                                     }
@@ -429,7 +433,9 @@ public class LevelViewController implements Initializable {
                                 GridSquare tilePane = (GridSquare) getNodeByRowColumnIndex(currentRow + (selectedSquare.getRelRow()*-1), currentColumn + selectedSquare.getRelCol(), boardView);
                             }
                             ourModel.getBoard().addPiece(droppedPiece, currentRow, currentColumn);
-                            ourModel.getBoard().printBoardAsDebug();
+                            if (DEBUG) {
+                            	ourModel.getBoard().printBoardAsDebug();
+                            }
                             // Only place if it's a valid move
                             success = true;
                             ourModel.getBullpen().removePiece(droppedPiece.getUniqueID());
@@ -504,7 +510,9 @@ public class LevelViewController implements Initializable {
                         }
                         selectedPiece = pieceToDraw;
                         selectedGroup = currentPiece.getGroup();
-                        System.out.println("piece selected");
+                        if (DEBUG){
+                            System.out.println("piece selected");
+                        }
                         Lighting light = new Lighting();
                         currentPiece.getGroup().setEffect(light);
                     }
@@ -532,8 +540,11 @@ public class LevelViewController implements Initializable {
                 }
                 else if(button == MouseButton.SECONDARY){
                     ourModel.getBoard().removePiece(piece.getUniqueID());
-                    System.out.println("Make deletable column" + column);
-                    System.out.println("Make deletable row:" + row);
+                    if (DEBUG){
+                    	System.out.println("Make deletable column" + column);
+                        System.out.println("Make deletable row:" + row);
+                    }
+                    
                     piece.flipPieceVert();
                     for (Square squareToRemove : piece.squares) {
                         GridSquare tilePaneToClear = (GridSquare) getNodeByRowColumnIndex(row + (squareToRemove.getRelRow()*-1), column + squareToRemove.getRelCol(), boardView);
@@ -584,7 +595,9 @@ public class LevelViewController implements Initializable {
                                 }
                                 selectedPiece = currentPiece.getPiece();
                                 selectedGroup = currentPiece.getGroup();
-                                System.out.println("piece selected");
+                                if (DEBUG) {
+                                    System.out.println("piece selected");
+                                }
                                 Lighting light = new Lighting();
                                 currentPiece.getGroup().setEffect(light);
                             }
@@ -728,7 +741,7 @@ public class LevelViewController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "../GameLevels/lvl" + levelNum + ".bdsm";
+            String filepath = "../../GameLevels/lvl" + levelNum + ".bdsm";
             FileReader input = new FileReader(filepath); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
@@ -814,7 +827,9 @@ public class LevelViewController implements Initializable {
                                         }
                                         selectedPiece = ourPiece;
                                         selectedGroup = currentPiece.getGroup();
-                                        System.out.println("piece selected");
+                                        if (DEBUG){
+                                        	System.out.println("piece selected");
+                                        }
                                         Lighting light = new Lighting();
                                         currentPiece.getGroup().setEffect(light);
                                     }
@@ -1054,7 +1069,9 @@ public class LevelViewController implements Initializable {
         }
         javafx.scene.image.Image fullStar = new javafx.scene.image.Image("/images/fullStar.png");
         javafx.scene.image.Image emptyStar = new javafx.scene.image.Image("/images/emptyStar.png");
-        System.out.println(ourModel.getStars());
+        if (DEBUG) {
+        	System.out.println(ourModel.getStars());
+        }
         switch (ourModel.getStars()) {
             case 0:
                 firstStar.setImage(emptyStar);
@@ -1101,7 +1118,7 @@ public class LevelViewController implements Initializable {
         try {
             loadLevel(ourModel.getLevelNum() + 1);
         } catch (Exception e) {
-            System.out.println("couldnt load level");
+            System.out.println("Couldn't load level");
         }
         try {
             updateStars();
@@ -1124,7 +1141,7 @@ public class LevelViewController implements Initializable {
             loadLevel(ourModel.getLevelNum() - 1);
             updateStars();
         } catch (Exception e) {
-            System.out.println("couldnt load level");
+            System.out.println("Couldn't load level");
         }
     }
 

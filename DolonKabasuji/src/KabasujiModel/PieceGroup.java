@@ -22,6 +22,7 @@ import static KabasujiControllers.LevelViewController.pieceShape;
  */
 public class PieceGroup {
     private Piece piece;
+    private boolean DEBUG = false;
     private static final double RectangleSize = 45.83333333;
     private final BooleanProperty dragModeActiveProperty = new SimpleBooleanProperty(this, "dragModeActive", true);
     private Group pieceGroup;
@@ -65,7 +66,9 @@ public class PieceGroup {
                 ClipboardContent content = new ClipboardContent();
                 content.put(pieceShape, piece); //CHANGED: NOW HANDS OVER CLIPBOARD CONTENT
                 db.setContent(content);
-                System.out.println("Drag Detected");
+                if (DEBUG){
+                	System.out.println("Drag Detected");
+                }
                 event.consume();
             }
         });
@@ -77,7 +80,9 @@ public class PieceGroup {
                 if (event.getTransferMode() == TransferMode.MOVE) {
                     pieceGroup.setVisible(false);
                 }
-                System.out.println("Drag Done");
+                if (DEBUG){
+                	System.out.println("Drag Done");
+                }
                 event.consume();
             }
         });

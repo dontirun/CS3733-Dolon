@@ -7,6 +7,7 @@ import java.util.ArrayList;
  * Models the Bullpen of pieces users can select from and have access to
  */
 public class Bullpen {
+	private boolean DEBUG = false;
     private ArrayList<Piece> pieces;
 
     /**
@@ -21,7 +22,9 @@ public class Bullpen {
      * @param addedPiece piece to be added
      */
     public void addPiece(Piece addedPiece) {
-        System.out.println(addedPiece.getPieceID());
+        if (DEBUG) {
+        	System.out.println(addedPiece.getPieceID());
+        }
         pieces.add(addedPiece);
     }
 
