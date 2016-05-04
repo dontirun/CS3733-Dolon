@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
+/** Handles the startscreen
  * Created by slafo on 4/10/2016.
  */
 public class StartScreenController {

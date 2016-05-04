@@ -3,7 +3,7 @@ package BuilderModel;
 import java.util.ArrayList;
 import java.util.Queue;
 
-/**
+/** Model for level
  * Created by Walter on 4/16/2016.
  */
 public class LevelModel {
@@ -119,7 +119,7 @@ public class LevelModel {
      *
      * @param row row of tile
      * @param col column of tile
-     * @return tile
+     * @return tile at specified row and column
      */
     public Tile getTile(int row, int col) {
         return field.getBoardTile(row,col);
@@ -134,7 +134,7 @@ public class LevelModel {
         return field.tiles;
     }
 
-    /**
+    /** Gets the board on the level
      * @return returns the board of the level
      */
     public Board getBoard() { return field; }

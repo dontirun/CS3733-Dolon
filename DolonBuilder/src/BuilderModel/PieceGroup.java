@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
 import static BuilderControllers.LevelBuilderController.pieceShape;
 
 
-/**
+/** Wrapper class for piece and group
  * Created by Arthur on 4/25/2016.
  */
 public class PieceGroup {

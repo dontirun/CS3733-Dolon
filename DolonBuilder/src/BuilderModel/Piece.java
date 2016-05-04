@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
+/** Hexonimo piece to be used
  * Created by Arthur on 4/10/2016.
  */
 public abstract class Piece implements Serializable {

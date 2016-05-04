@@ -3,7 +3,7 @@ package BuilderModel;
 
 import java.util.ArrayList;
 
-/**
+/** Model for the bullpen
  * Created by Walter on 4/16/2016.
  */
 public class Bullpen {
@@ -36,7 +36,7 @@ public class Bullpen {
         }
     }
 
-    /**
+    /** Removes piece with specified user id
      * @param uniqueid unique id given to the piece
      * @return true if the piece was successfully removed, otherwise false
      */
@@ -53,7 +53,7 @@ public class Bullpen {
     }
 
 
-    /**
+    /** Gets the piece with the matching id
      * @param desiredPiece piece to be searched for
      * @return piece that was desired
      * @throws PieceNotFoundException

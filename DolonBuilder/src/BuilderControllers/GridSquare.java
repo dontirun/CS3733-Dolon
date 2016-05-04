@@ -6,7 +6,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-/**
+/** Custom node with label and number for release
  * Created by Walter on 4/23/2016.
  */
 public class GridSquare extends Pane{
@@ -38,12 +38,15 @@ public class GridSquare extends Pane{
             numLabel.isVisible();
         }
 
+    /**sets the label to invisible
+     *
+     */
     public void clearNumber() {
         numLabel.setVisible(false);
     }
 
     /**
-     * Gets the number label, unsure why needed
+     * Gets the number label
      *
      * @return label
      */

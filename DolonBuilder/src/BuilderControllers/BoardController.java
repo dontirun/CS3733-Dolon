@@ -10,8 +10,8 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
-/**
- * Created by Walter on 4/23/2016.
+/** Controller for board
+ * Created by Walter Ho (who@wpi.edu) on 4/23/2016.
  */
 public class BoardController {
     public static ArrayList<ReleaseTile> redNumTiles;
@@ -83,57 +83,7 @@ public class BoardController {
 
         }
 
-//    /**
-//     * Handles when the board is clicked and gets the tile located at the click
-//     *
-//     * @param event mouseevent that occurs
-//     */
-//    public void handleBoardClicked(MouseEvent event) {
-//        try {
-//            // if its not an int don't change the board
-//            Integer.parseInt(lbc.levelNumber.getText());
-//        } catch (Exception e) {
-//            return;
-//        }
-//        //get x and y mouse coordinates
-//        double x = event.getX();
-//        double y = event.getY();
-//        //find column and row of tile clicked
-//        int col = (int) (x / 45.8333333);
-//        int row = (int) (y / 45.8333333);
-//
-//        ReleaseTile clickedTile = (ReleaseTile) lbc.level.getTile(row, col);
-//        GridSquare clickedPane = (GridSquare) lbc.tilePanes.get(row).get(col);
-//
-//        if (lbc.color == Color.BLACK || lbc.color == Color.WHITE) {
-//            if (lbc.level.getMode() == "release") {
-//                ReleaseTileAction rta = new ReleaseTileAction(clickedTile, clickedPane, lbc.color);
-//                if (rta.doAction()) {
-//                    System.out.println("tile action performed");
-//                    lbc.undoHistory.push(rta);
-//                    lbc.redoHistory.clear();
-//                }
-//            } else {
-//                TileAction ta = new TileAction(clickedTile, clickedPane, lbc.color);
-//                if (ta.doAction()) {
-//                    System.out.println("tile action performed");
-//                    lbc.undoHistory.push(ta);
-//                    lbc.redoHistory.clear();
-//                }
-//            }
-//        } else {
-//
-//            ColorAction ca = new ColorAction(clickedTile, clickedPane, lbc.color);
-//            if (ca.doAction()) {
-//                System.out.println("color action performed");
-//                lbc.undoHistory.push(ca);
-//                lbc.redoHistory.clear();
-//            }
-//        }
-//
-//        // do nothing
-//
-//    }
+
 
     /**
      * Updates the numbers on the tiles when setting release tile numbers
@@ -161,7 +111,7 @@ public class BoardController {
 
 
     /**
-     * Finds all the tiles of a certain color?
+     * Finds arraylist of tiles for corresponding color
      *
      * @param color color tile nums to be found
      * @return arraylist of specific color tiles
@@ -184,7 +134,7 @@ public class BoardController {
     }
 
     /**
-     * Finds all the panes of a certain color?
+     * Finds arraylist of panes for corresponding color
      *
      * @param color color pane nums to be found
      * @return arraylist of specific color panes

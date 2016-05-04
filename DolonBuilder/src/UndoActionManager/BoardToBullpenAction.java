@@ -11,7 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.layout.GridPane;
 
-/**
+/** Handles moving pieces from bullpen back to board
  * Created by Walter on 5/4/2016.
  */
 public class BoardToBullpenAction implements IAction{
@@ -24,6 +24,16 @@ public class BoardToBullpenAction implements IAction{
     GridPane boardView;
     GridPane bullpenView;
 
+    /**Constructor
+     *
+     * @param level level number of game
+     * @param piece piece being moved
+     * @param lbc level builder controller
+     * @param row row of tile clicked
+     * @param column column of tile clicked
+     * @param boardView view of board
+     * @param bullpenView view of bullpen
+     */
     public BoardToBullpenAction(LevelModel level, Piece piece, LevelBuilderController lbc, int row, int column, GridPane boardView, GridPane bullpenView) {
         this.level = level;
         this.piece = piece;
@@ -35,6 +45,9 @@ public class BoardToBullpenAction implements IAction{
     }
 
     @Override
+    /** moves piece from bullpen to board
+     * @return true if succesful
+     */
     public boolean doAction() {
 
 
@@ -83,16 +96,25 @@ public class BoardToBullpenAction implements IAction{
     }
 
     @Override
+    /** undoes moving piece from bullpen to board
+     * @return true if succesful
+     */
     public boolean undoAction() {
         return false;
     }
 
     @Override
+    /** redoes moving piece from bullpen to board
+     * @return true if succesful
+     */
     public boolean redoAction() {
         return false;
     }
 
     @Override
+    /** checks if move from piece from bullpen to board
+     * @return true if succesful
+     */
     public boolean isValid() {
         return false;
     }

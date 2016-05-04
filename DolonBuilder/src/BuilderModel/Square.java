@@ -2,7 +2,7 @@ package BuilderModel;
 
 import java.io.Serializable;
 
-/**
+/** Model for unit making up Pieces
  * Created by Arthur on 4/10/2016.
  */
 public class Square implements Serializable {

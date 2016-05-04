@@ -1,6 +1,6 @@
 package BuilderModel;
 
-/**
+/** Model for each tile on board
  * Created by Arthur on 4/10/2016.
  */
 public class Tile {
@@ -20,6 +20,7 @@ public class Tile {
     }
     /**
      * Constructor for Tile
+     * @param exists whether the tile is valid for play
      */
     public Tile(boolean exists){
         this.exists = exists;

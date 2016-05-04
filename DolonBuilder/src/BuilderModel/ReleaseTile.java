@@ -2,7 +2,7 @@ package BuilderModel;
 
 import javafx.scene.paint.Color;
 
-/**
+/** Handles tiles for release levels
  * Created by Walter on 4/23/2016.
  */
 public class ReleaseTile extends Tile {

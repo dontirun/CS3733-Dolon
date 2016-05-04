@@ -44,7 +44,11 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-/**
+/**Handles the level
+ * @author Walter
+ * @author Stephen
+ * @author Robyn
+ * @author Arun
  * Created by slafo on 4/10/2016.
  */
 public class LevelBuilderController implements Initializable {
@@ -118,21 +122,11 @@ public class LevelBuilderController implements Initializable {
     Stack<IAction> undoHistory;
     Stack<IAction> redoHistory;
 
-    public int getNumberOfBullpenPieces() {
-        return numberOfBullpenPieces;
-    }
-
-    public void setNumberOfBullpenPieces(int numberOfBullpenPieces) {
-        this.numberOfBullpenPieces = numberOfBullpenPieces;
-    }
-
     int numberOfBullpenPieces;
     int gridW = 2;
 
 
-    public void setGridH(int gridH) {
-        this.gridH = gridH;
-    }
+
 
     int gridH;
     private final static double RectangleSize = 45.83333333;
@@ -186,8 +180,8 @@ public class LevelBuilderController implements Initializable {
 
     }
 
-    /**
-     * unsure what this does, maybe the buttons should have a better name?
+    /** Resets background color for buttons
+     *
      *
      */
     public void resetButtons(){
@@ -1194,6 +1188,13 @@ public class LevelBuilderController implements Initializable {
         }
     }
 
+    /** Makes a piece moveable
+     *
+     * @param tilePane anchor pane of piece
+     * @param droppedPiece piece to be made movable
+     * @param currentRow row of tile
+     * @param currentColumn column of tile
+     */
     public void makeMovable(final GridSquare tilePane, final Piece droppedPiece, final int currentRow, final int currentColumn) {
         tilePane.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
@@ -1245,6 +1246,13 @@ public class LevelBuilderController implements Initializable {
         });
     }
 
+    /** Makes a piece deletable
+     *
+     * @param node node containg piece
+     * @param piece piece to be made deletable
+     * @param row row of piece
+     * @param column column of piece
+     */
     public void makeDeletable(final Node node, final Piece piece, final int row, final int column){
         final LevelBuilderController lbc = this;
         node.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -1743,6 +1751,30 @@ public class LevelBuilderController implements Initializable {
             alert.setHeaderText("Level Missing");
             alert.setContentText("The level you were trying to save to is missing");
         }
+    }
+
+    /**Getter for numberOfBullpenPieces
+     *
+     * @return the number of pieces in teh bullpen
+     */
+    public int getNumberOfBullpenPieces() {
+        return numberOfBullpenPieces;
+    }
+
+    /** Setter for numberOBullpenPieces
+     *
+     * @param numberOfBullpenPieces new number to set as value
+     */
+    public void setNumberOfBullpenPieces(int numberOfBullpenPieces) {
+        this.numberOfBullpenPieces = numberOfBullpenPieces;
+    }
+
+    /**
+     * Setter for gridH
+     * @param gridH new value to be set
+     */
+    public void setGridH(int gridH) {
+        this.gridH = gridH;
     }
 }
 
