@@ -1370,7 +1370,7 @@ public class LevelBuilderController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "../BuilderLevels/lvl" + levelNum + ".bdsm";
+            String filepath = "../../BuilderLevels/lvl" + levelNum + ".bdsm";
             FileReader input = new FileReader(filepath); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
@@ -1625,7 +1625,7 @@ public class LevelBuilderController implements Initializable {
      */
     public void saveLevel(int levelNum) throws FileNotFoundException {
 
-        String filepath = "../BuilderLevels/lvl" + levelNum + ".bdsm";
+        String filepath = "../../BuilderLevels/lvl" + levelNum + ".bdsm";
 
         try{
             FileWriter out;

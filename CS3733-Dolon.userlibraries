@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="org.testfx:testfx-core:4.0.4-alpha">
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/testfx-core-4.0.4-alpha.jar" />
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/guava-18.0.jar" />
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/hamcrest-all-1.3.jar" />
+  </library>
+  <library name="org.testfx:testfx-junit:4.0.4-alpha">
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/testfx-junit-4.0.4-alpha.jar" />
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/testfx-core-4.0.4-alpha.jar" />
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/guava-18.0.jar" />
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/hamcrest-all-1.3.jar" />
+    <archive path="C:/Users/Shund/Desktop/test/CS3733-Dolon/lib/junit-4.12.jar" />
+  </library>
+</eclipse-userlibraries>
+
