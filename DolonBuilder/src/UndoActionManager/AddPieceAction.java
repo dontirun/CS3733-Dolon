@@ -2,10 +2,7 @@ package UndoActionManager;
 
 import BuilderControllers.GridSquare;
 import BuilderControllers.LevelBuilderController;
-import BuilderModel.Bullpen;
-import BuilderModel.Piece;
-import BuilderModel.PieceGroup;
-import BuilderModel.ReleaseTile;
+import BuilderModel.*;
 import javafx.scene.Group;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -19,25 +16,24 @@ import javafx.scene.paint.Color;
 public class AddPieceAction implements IAction{
     Piece piece;
     Group pieceGroup;
-    Bullpen bullpen;
+
     GridPane bullpenView;
     LevelBuilderController lbc;
-
+    LevelModel level;
 
 
     /**
      * Adds piece to the bullpen
      *
      * @param piece piece to be added
-     * @param bullpen bullpen for piece to be added to
      */
-    public AddPieceAction(Piece piece, Group pieceGroup, Bullpen bullpen, GridPane bullpenView, LevelBuilderController lbc) {
+    public AddPieceAction(Piece piece, Group pieceGroup, GridPane bullpenView, LevelBuilderController lbc, LevelModel level) {
 
         this.piece = piece;
         this.pieceGroup=pieceGroup;
-        this.bullpen = bullpen;
         this.bullpenView=bullpenView;
         this.lbc=lbc;
+        this.level = level;
     }
 
     /**
@@ -48,7 +44,7 @@ public class AddPieceAction implements IAction{
     @Override
     public boolean doAction() {
         if(isValid()) {
-            bullpen.addPiece(piece);
+            level.getBullpen().addPiece(piece);
             return true;
         }
         return false;
@@ -62,10 +58,11 @@ public class AddPieceAction implements IAction{
     @Override
     public boolean undoAction() {
         // Remove piece
-        bullpen.removePiece(piece.getUniqueID());
-        System.out.println("unique id" + piece.getUniqueID());
+        level.getBullpen().removePiece(piece.getUniqueID());
         bullpenView.getChildren().remove(piece);
         lbc.deletePieceFromBullpen();
+        level.getBullpen().printBullpen();
+        System.out.println("Size of bullpen" + bullpenView.getChildren().toString());
         return true;
     }
 
