@@ -17,7 +17,7 @@ import static BuilderControllers.BoardController.*;
 
 
 
-/**
+/** Handles adding a release number to a tile
  * Created by Walter on 4/16/2016.
  */
 public class ColorAction implements IAction {
@@ -37,9 +37,9 @@ public class ColorAction implements IAction {
     /**
      * Constructor for the action
      *
-     * @param tile
-     * @param pane
-     * @param color
+     * @param tile the tile being affected
+     * @param pane the pane being affected
+     * @param color the color of the release number to be added
      */
     public ColorAction(ReleaseTile tile, GridSquare pane, Color color) {
         this.tile = tile;
@@ -52,7 +52,7 @@ public class ColorAction implements IAction {
 
     /**
      * Complete a color action and change the color of the tile
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean doAction() {
@@ -83,7 +83,7 @@ public class ColorAction implements IAction {
     /**
      * Undo changing the color of a tile
      *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean undoAction() {
@@ -117,7 +117,7 @@ public class ColorAction implements IAction {
     /**
      * Redo changing the color of a tile
      *
-     * @return
+     * @return true if successful
      */
     @Override
     public boolean redoAction() {
@@ -144,7 +144,7 @@ public class ColorAction implements IAction {
 
     /**
      * Checks if it is valid for a tile to change colors
-     * @return
+     * @return true if valid
      */
     @Override
     public boolean isValid() {

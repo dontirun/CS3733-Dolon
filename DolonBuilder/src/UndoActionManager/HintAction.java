@@ -15,19 +15,18 @@ public class HintAction implements IAction {
     Tile tile;//affected tile
     Pane pane;//affected pane
 
-    /**
+    /**Constructor
      * @param tile tile which corresponds with pane clicked
      * @param pane pane clicked
      */
     public HintAction(Tile tile, Pane pane) {
-
         this.tile = tile;
         this.pane = pane;
     }
 
     @Override
     /** attempt to blackout (invalidate) or whiteout(validate) tile
-     *
+     * @return true if successful
      */
     public boolean doAction() {
         if (isValid()) {
@@ -43,6 +42,7 @@ public class HintAction implements IAction {
     @Override
     /**
      * undoes the action by inverting the validity of a tile and redrawing its pane
+     * @return true if successful
      */
     public boolean undoAction() {
         tile.setHint(!tile.getHint());
@@ -53,6 +53,7 @@ public class HintAction implements IAction {
     @Override
     /**
      * redoes the action by inverting the validity of a tile and redrawing its pane
+     * @return true if successful
      */
     public boolean redoAction() {
         tile.setHint(!tile.getHint());
@@ -63,6 +64,7 @@ public class HintAction implements IAction {
     @Override
     /** returns valid if a whiteout(validate) on a black tile or a blackout(invalidate) on white tile is attempted
      *  actions that dont change the tile are not considered valid
+     * @return true if valid
      */
     public boolean isValid() {
         boolean validation = true;

@@ -7,6 +7,9 @@ import javafx.stage.Stage;
 public class BuilderMain extends Application {
 
     @Override
+    /** Loads startscreen and its title, scene
+     * @param primaryStage top level container
+     */
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("views/startscreen.fxml")); // Load scene
         primaryStage.setTitle("Kabasuji Level Builder Start Screen"); // Title

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import static BuilderControllers.BoardController.*;
 
 
-/**Handles blackout (invalidate) and whiteout (validate) of tiles for release levels
+/**Handles blackout (invalidate) and whiteout (validate) of tiles
  * Handles the removal of numbers on white tiles
  *
  * Created by Walter on 4/24/2016.
