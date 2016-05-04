@@ -40,6 +40,7 @@ public class LevelModel {
     public LevelModel() {
         field = new Board(12,12);
         bullpen = new Bullpen();
+        System.out.println("LevelModel has been constructed");
         // commenting out for now
         /*
         boardTiles = new ReleaseTile[12][12];
@@ -59,6 +60,8 @@ public class LevelModel {
     public LevelModel(String mode){
         field = new Board(12,12);
         bullpen = new Bullpen();
+
+        System.out.println("LevelModel has been constructed 2");
         // commenting out for now
         /*
         if(mode.equals("release")){

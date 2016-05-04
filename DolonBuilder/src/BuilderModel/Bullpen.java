@@ -27,6 +27,16 @@ public class Bullpen {
     }
 
     /**
+     * Prints out the bullpen
+     */
+    public void printBullpen() {
+        System.out.println("this is what's in the bullpen");
+        for (Piece p : pieces) {
+            System.out.println("Unique ID"+p.getUniqueID());
+        }
+    }
+
+    /**
      * @param uniqueid unique id given to the piece
      * @return true if the piece was successfully removed, otherwise false
      */

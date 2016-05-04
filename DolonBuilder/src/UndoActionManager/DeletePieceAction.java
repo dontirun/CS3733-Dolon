@@ -66,7 +66,7 @@ public class DeletePieceAction implements IAction{
      */
     @Override
     public boolean undoAction() {
-        AddPieceAction apa = new AddPieceAction(piece, pieceGroup, level.getBullpen(), bullpenView, lbc );
+        AddPieceAction apa = new AddPieceAction(piece, pieceGroup, bullpenView, lbc, level);
         apa.doAction();
         bullpenView.add(pieceGroup, lbc.getNumberOfBullpenPieces() % 2, lbc.getNumberOfBullpenPieces() / 2);
         bullpenView.setMargin(pieceGroup, new Insets(10, 10, 10, 10));
