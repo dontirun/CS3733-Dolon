@@ -292,7 +292,7 @@ public class LevelBuilderController implements Initializable {
                     pieceSelectorGroup.getGroup().getChildren().add(selectedRectangle);
                     bullpenViewGroup.getGroup().getChildren().add(rectangleCopy);
                 }
-                LevelBuilderController lbc = this;
+               final LevelBuilderController lbc = this;
                 // when piece is clicked on add it to bullpen
                 pieceSelectorGroup.getGroup().setOnMousePressed(new EventHandler<MouseEvent>() {
                     public void handle(MouseEvent event) {

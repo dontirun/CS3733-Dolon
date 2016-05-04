@@ -249,6 +249,18 @@ public class testCases extends ApplicationTest {
         clickOn("#rotateRightButton");
         clickOn("#flipHorizontalButton");
         clickOn("#deletePieceButton");
+
+        // size before moving
+        assertTrue(bullpen.getChildren().size() == 2);
+
+        drag(bullpen.getChildren().get(0)).dropTo(board.getChildren().get(65));
+
+        //size after moving
+        assertTrue(bullpen.getChildren().size() == 1);
+
+        rightClickOn(board.getChildren().get(65));
+
+        // size after piece goes back to the bullpen
         assertTrue(bullpen.getChildren().size() == 2);
 
         // clicking on varying bullpen pieces

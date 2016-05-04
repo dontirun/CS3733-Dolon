@@ -723,7 +723,7 @@ public class LevelViewController implements Initializable {
         int lvNum = 0;
         int metric = 0;
         int count = 0;
-        ArrayList<Integer> pieces = new ArrayList<>();
+        ArrayList<Integer> pieces = new ArrayList<>(); 
         ArrayList<String> tiles = new ArrayList<>();
 
         // Release metrics so that release tiles are added properly
@@ -742,8 +742,8 @@ public class LevelViewController implements Initializable {
         try {
             // Parsing objects
             // Get filepath for the right level, and then load it in
-            String filepath = "/levels/lvl" + levelNum + ".bdsm";
-            FileReader input = new FileReader(getClass().getResource(filepath).getPath()); // Read in file
+            String filepath = "../GameLevels/lvl" + levelNum + ".bdsm";
+            FileReader input = new FileReader(filepath); // Read in file
             BufferedReader buf = new BufferedReader(input);
             String dataLine;
 
