@@ -45,10 +45,14 @@ public class DragPieceAction implements IAction {
         this.currentRow = currentRow;
         this.currentColumn = currentColumn;
         this.success = success;
+
+        int relRow;
+        int relCol;
     }
 
     @Override
     public boolean doAction() {
+
 
         Color color = droppedPiece.getColor();
         for (Square selectedSquare : droppedPiece.squares) {
@@ -68,16 +72,12 @@ public class DragPieceAction implements IAction {
         bullpenView.getChildren().remove(selectedGroup);
         // Redraw bullpen
         lbc.deletePieceFromBullpen();
-        return false;
+        return true;
     }
 
     @Override
     public boolean undoAction() {
-        //MouseButton m = MouseButton.SECONDARY;
 
-        //tilePane.fireEvent(tilePane, new MouseEvent(MouseEvent.MOUSE_CLICKED, MouseButton.SECONDARY));
-        //Event.fireEvent(tilePane, new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.SECONDARY, 1, true, true, true, true, true, true, true, true, true, true, null));
-        /*
         Piece piece = droppedPiece;
         int row = currentRow;
         int column = currentColumn;
@@ -122,14 +122,14 @@ public class DragPieceAction implements IAction {
         lbc.setGridH ((level.getBullpen().getPieces().size() + 2 - 1) / 2);
 
         lbc.setNumberOfBullpenPieces(lbc.getNumberOfBullpenPieces()+1);
-        */
+
 
         return true;
     }
 
     @Override
     public boolean redoAction() {
-        return false;
+        return doAction();
     }
 
     @Override

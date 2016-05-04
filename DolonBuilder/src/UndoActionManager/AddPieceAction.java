@@ -2,7 +2,10 @@ package UndoActionManager;
 
 import BuilderControllers.GridSquare;
 import BuilderControllers.LevelBuilderController;
-import BuilderModel.*;
+import BuilderModel.Bullpen;
+import BuilderModel.Piece;
+import BuilderModel.PieceGroup;
+import BuilderModel.ReleaseTile;
 import javafx.scene.Group;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
@@ -16,24 +19,25 @@ import javafx.scene.paint.Color;
 public class AddPieceAction implements IAction{
     Piece piece;
     Group pieceGroup;
-
+    Bullpen bullpen;
     GridPane bullpenView;
     LevelBuilderController lbc;
-    LevelModel level;
+
 
 
     /**
      * Adds piece to the bullpen
      *
      * @param piece piece to be added
+     * @param bullpen bullpen for piece to be added to
      */
-    public AddPieceAction(Piece piece, Group pieceGroup, GridPane bullpenView, LevelBuilderController lbc, LevelModel level) {
+    public AddPieceAction(Piece piece, Group pieceGroup, Bullpen bullpen, GridPane bullpenView, LevelBuilderController lbc) {
 
         this.piece = piece;
         this.pieceGroup=pieceGroup;
+        this.bullpen = bullpen;
         this.bullpenView=bullpenView;
         this.lbc=lbc;
-        this.level = level;
     }
 
     /**
@@ -44,7 +48,7 @@ public class AddPieceAction implements IAction{
     @Override
     public boolean doAction() {
         if(isValid()) {
-            level.getBullpen().addPiece(piece);
+            bullpen.addPiece(piece);
             return true;
         }
         return false;
@@ -57,12 +61,19 @@ public class AddPieceAction implements IAction{
      */
     @Override
     public boolean undoAction() {
+//        bullpenView.getChildren().remove(selectedGroup);
+//        level.getBullpen().removePiece(selectedPiece.getUniqueID());
+//
+//        deletePieceFromBullpen();
         // Remove piece
-        level.getBullpen().removePiece(piece.getUniqueID());
-        bullpenView.getChildren().remove(piece);
+        bullpenView.getChildren().remove(pieceGroup);
+        bullpen.removePiece(piece.getUniqueID());
+
+
+
         lbc.deletePieceFromBullpen();
-        level.getBullpen().printBullpen();
-        System.out.println("Size of bullpen" + bullpenView.getChildren().toString());
+
+
         return true;
     }
 
