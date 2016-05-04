@@ -92,6 +92,8 @@ public class PieceGroup {
      * @param node
      * @return Group
      */
+
+    /*
     private Group makeDraggable(final Group node) {
         final DragContext dragContext = new DragContext();
         final Group wrapGroup = node;
@@ -145,6 +147,7 @@ public class PieceGroup {
 
         return wrapGroup;
     }
+    */
 
     /**
      * Returns the view of the piece

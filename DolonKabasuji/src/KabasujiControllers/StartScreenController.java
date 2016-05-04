@@ -2,9 +2,12 @@ package KabasujiControllers;
 
 import KabasujiModel.GameMenu;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.*;
 import javafx.fxml.*;
 import javafx.fxml.FXML;
@@ -191,11 +194,25 @@ public class StartScreenController {
      * @throws IOException
      */
     public void handleAboutKButton() throws IOException {
-        Stage stage;
+        final Stage stage;
         Parent root;
         stage = new Stage();
         root = FXMLLoader.load(getClass().getResource("/views/about.fxml")); // Get other FXML document
-        stage.setScene(new Scene(root));
+        Scene temp =new Scene(root);
+
+        temp.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>
+                () {
+
+            @Override
+            public void handle(KeyEvent t) {
+                if(t.getCode()== KeyCode.ESCAPE)
+                {
+                    stage.close();
+                }
+            }
+        });
+
+        stage.setScene(temp);
         stage.setTitle("About Kabasuji");
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initOwner(aboutKButton.getScene().getWindow());
